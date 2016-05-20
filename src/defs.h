@@ -1,6 +1,3 @@
-//
-// Created by Harry on 20/05/2016.
-//
 /*
 #ifndef ARM11_19_DEFS_H
 #define ARM11_19_DEFS_H
