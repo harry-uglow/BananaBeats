@@ -5,4 +5,6 @@
 
 #endif //ARM11_19_EXECUTEINSTRUCTIONS_H
 
-void multiply(arm_t * arm);
+void multiply(arm_t *arm);
+void branch(arm_t *arm);
+

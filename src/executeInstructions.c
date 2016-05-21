@@ -3,7 +3,7 @@
 
 
 // Multiply instruction
-void multiply(arm_t * arm) {
+void multiply(arm_t *arm) {
     int result;
 
     // Check condition is satisfied by CPSR register
@@ -33,4 +33,17 @@ void multiply(arm_t * arm) {
     }
 
 
+}
+
+
+
+// Branch instruction 
+void branch(arm_t *arm) {
+
+	// (2's complement) 24 bit offset in branch instruction shifted left 2 bits & sign extended to 32 bits
+    int32_t branchOffset = (arm->instruction->offset) << 2;
+
+	// Offset is added to the PC register
+    (arm->registers[15]) += branchOffset;
+    
 }
