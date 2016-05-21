@@ -35,7 +35,7 @@ typedef struct Instruction {
 } instr_t;
 
 typedef struct ARM {
-    int8_t *memory;
+    int32_t *memory;
     int32_t *registers;
     instr_t *instruction;
 } arm_t;
