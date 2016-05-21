@@ -1,6 +1,8 @@
+#include "defs.h"
+
 #ifndef ARM11_19_EXECUTEINSTRUCTIONS_H
 #define ARM11_19_EXECUTEINSTRUCTIONS_H
 
 #endif //ARM11_19_EXECUTEINSTRUCTIONS_H
 
-void multiply();
+void multiply(arm_t * arm);
