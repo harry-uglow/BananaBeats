@@ -4,19 +4,24 @@
 
 \begin{document}
 
-\title{ARM Checkpoint... }
-\author{TODO}
+\title{ARM Checkpoint}
+\author{Group 19: Harry Uglow, Shayan Khaksar-Ghalati, Maurice Yap and Joshua Cooper}
 
 \maketitle
 
 \section{Group Organisation}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-culpa qui officia deserunt mollit anim id est laborum.
+It was decided that Harry would be the leader of this group.\\
+
+We first discussed the design and construction of the main \textit{emulate} function in a meeting on Friday afternoon. Together as a group, we coded the main structure of the emulator, which involved creating structs (in \texttt{structs.h}) to represent our registers and memory, as well as instructions. Instructions would be handled by functions in the \texttt{executeInstructions.c} file.\\
+
+We decided to split up the implementations of these functions by assigning each person an instruction type to concentrate on over the weekend. Because there was an imbalance in the amount of work each person needed to do, those with less work helped those with more work to do to implement their functions. The instruction types were distributed as follows:\\
+\begin{itemize}
+\item Harry - Single Data Transfer
+\item Shayan - Branch
+\item Maurice - Multiply
+\item Joshua - Data Processing
+\end{itemize}
 
 \section{Implementation Strategies}
 
