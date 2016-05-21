@@ -4,6 +4,7 @@
 
 #endif //ARM11_19_DEFS_H
 */
+#include <stdint.h>
 #define MEM_SIZE 65536
 #define WORD_LENGTH 32
 #define OFFSET 4
