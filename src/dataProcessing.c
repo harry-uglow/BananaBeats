@@ -40,7 +40,7 @@ struct Instruction {
 // Function to calculate operand2
 int32_t getOperand2(void) {
 
-    if (setI == 1) {
+    if (setI) {
 
         // Zero-extend to 32 bits
         int32_t immConst = (0x000000FF & op2);
