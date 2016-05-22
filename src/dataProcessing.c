@@ -38,7 +38,7 @@ struct Instruction {
 
 
 // Function to calculate operand2
-int32_t getOperand2(void) {
+int32_t getOperand2(arm_t *state) {
 
     if (setI) {
 
@@ -53,67 +53,39 @@ int32_t getOperand2(void) {
         return rotatedInt;
 
     } else {
+        // The code in these brackets has been temporarily duplicated in
+        // pipeline.c. I will resolve this. -HARRY 22/05/16 15:24
 
         // Get register Rm
-        int *rm = (0x00F & op2);
+        int rm = (0xF & op2);
         // Get shift value
         int shift = ((0xFF0 & op2) >> 4);
         // Get shift type
         int shiftType = ((0x06 & shift) >> 1);
 
         // get value of int in rm
-        int32_t rmVal = *rm;
+        int32_t rmVal = state->registers[rm];
 
         int32_t shiftedVal = 0;
 
         // Check if bit 4 is == 1 or == 0
-        if ((0x01 & shift) == 0) {
+        if (0x1 & shift) {
+            int rs = (0xF0 & shift) >> 4;
+            int rsVal = state->registers[rs];
+            int amount = (0xFF & rsVal);
+            shiftedVal = executeShift(rmVal, shiftType,  amount);
+        } else {
             int amount = (0xF8 & shift) >> 3;
             shiftedVal = executeShift(rmVal, shiftType, amount);
-        } else {
-            int *rs = (0xF0 & shift) >> 4;
-            int rsVal = *rs;
-            int amount = (0x000F & rsVal);
-            shiftedVal = executeShift(rmVal, shiftType,  amount);
         }
     }
     return shiftedVal;
 }
 
 
-// Function to execute the shift dependent upon the type
-int32_t executeShift(int32_t value, int shiftType, int amount) {
-    int32_t shiftedValue = 0;
-
-    switch (shiftType) {
-        // logical shift left
-        case 0:
-            shiftedValue = value << amount;
-            break;
-
-        // logical shift right
-        case 1:
-            shiftedValue = (int)((unsigned int) value >> amount);
-            break;
-
-        // arithmetic shift right
-        case 2:
-            shiftedValue = value >> amount;
-            break;
-
-        // rotate right
-        case 3:
-            shiftedValue = (value >> amount) | (value << (32 - amount));
-                
-    }
-    return shiftedValue;
-}
-
-
 // Function to execute the data processing instruction providing cond is valid
 void executeDPI(void) {
     int32_t operand1 = *rn;
-    int32_t operand2 = getOperand2;
     switch (opCode) {
         case 0: // AND
             *rd = (operand1 & operand2);

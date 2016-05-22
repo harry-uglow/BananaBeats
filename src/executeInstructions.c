@@ -35,6 +35,25 @@ void multiply(arm_t *arm) {
 
 }
 
+void singleDataTransfer(arm_t *arm) {
+    instr_t ins = arm->instruction;
+    if(ins->setI) {
+
+    } else {
+        // Offset is an unsigned 12-bit immediate offset.
+        uint32_t offset = ins->offset;
+        uint32_t memAddr = arm->registers[ins->Rn];
+        if(ins->setP) {
+            // Pre-indexing mode
+            if(ins->setU) {
+                memAddr += offset;
+            } else {
+                memAddr -= offset;
+            }
+        }
+    }
+} //TODO: Complete this. -HARRY 22-05-16 15:27
+
 
 
 // Branch instruction 
