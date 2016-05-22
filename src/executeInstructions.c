@@ -45,5 +45,8 @@ void branch(arm_t *arm) {
 
 	// Offset is added to the PC register
     (arm->registers[15]) += branchOffset;
+
+    // PC has changed and previously fetched instruction is no longer valid so the pipeline is cleared.
+    (arm->fetched) = 0;
     
 }
