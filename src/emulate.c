@@ -8,10 +8,10 @@ void printFinalState(arm_t state);
 
 
 int main(int argc, char **argv) {
-
+	
 	arm_t arm;
 	
-	// Reading file input for the program	
+	// Reading file input 	
 	FILE *finput = fopen(argv[1],"rb");
 
 	if(finput == NULL) {
@@ -19,19 +19,34 @@ int main(int argc, char **argv) {
 	    return 0;
 	}
 	
-	while(fscanf(finput, "%i", (int *) arm.memory) != EOF) {
-	    continue;
+	// Loop to read binary file, one byte at a time,
+	// and copy the bytes into processor's memory until
+	// there are no more bytes left to read in the file
+	int8_t byteInput;
+	int memPos = 0;
+	while(1) {
+		int in = fread(byteInput,sizeof(int8_t),1,finput);
+	   	if(in != 1) {
+			break;
+		} 
+		arm.memory[memPos] = byteInput;
+		memPos++;
 	}
 
 	fclose(finput);
 	// Finished reading file input	
 	
 
-	printFinalState(arm);	
 
 	
 
-	 return EXIT_SUCCESS;
+
+	
+
+	printFinalState(arm);	
+
+
+	return EXIT_SUCCESS;
 
 }
 
