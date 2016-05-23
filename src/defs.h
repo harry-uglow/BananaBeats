@@ -4,9 +4,11 @@
 
 #include <stdint.h>
 #define MEM_SIZE 65536
-#define WORD_LENGTH 32
-
+#define WORD_LENGTH 4
 #define OFFSET 4
+#define REG_PC 15
+#define REG_CPSR 16
+
 
 typedef enum insType {
     DATA_PROCESS,
