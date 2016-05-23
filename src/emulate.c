@@ -47,18 +47,28 @@ void printFinalState(arm_t state) {
     int pc   = state.registers[REG_PC];
     int cpsr = state.registers[REG_CPSR];
 
-    for(int i = 0; i < 13; i++) {
-    	printf("$%i  :          %d (0x%x)\n", i, state.registers[i], (unsigned int)  state.registers[i]); 
+	// Print out contents of registers 0-9
+    for(int i = 0; i < 10; i++) {
+    	printf("$%i  :%12d (0x%08x)\n", i, state.registers[i], (unsigned int)  state.registers[i]); 
     }
-    printf("PC  :          %d (0x%08x)\n", pc, (unsigned int) pc);
-    printf("CPSR:          %d (0x%08x)\n", cpsr, (unsigned int) cpsr);
-    printf("Non-zero memory:\n");
+	
+	// Print out contents of registers 10-12
+	for(int j = 0; j < 13; j++) {
+		printf("$%i :%12d (0x%08x)\n", j, state.registers[j], (unsigned int) state.registers[j]);
+	}
 
-    int j = 0;
+	// Print out contents of PC and CPSR
+    printf("PC  :%12d (0x%08x)\n", pc, (unsigned int) pc);
+    printf("CPSR:%12d (0x%08x)\n", cpsr, (unsigned int) cpsr);
+    
+	// Print out non-zero contents of memory
+	printf("Non-zero memory:\n");
 
-	while(state.memory[j*4] != 0) {
-    	printf("0x%08x: 0x%08x\n", j*4, (state.memory[j*4]));
-        j++;
+    int k = 0;
+
+	while(state.memory[k*4] != 0) {
+    	printf("0x%08x: 0x%08x\n", k*4, (state.memory[k*4]));
+        k++;
 	}
 
 }
