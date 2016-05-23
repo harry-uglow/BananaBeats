@@ -32,6 +32,59 @@ static int32_t executeShift(int32_t value, int shiftType, int amount) {
     return shiftedValue;
 }
 
+static int checkCond(int cond, int NZCV){
+    int passesCond = 0;
+    switch (cond){
+        case 0 :
+            // Equal
+            if(0x4 & NZCV) {
+                passesCond = 1;
+            }
+            break;
+        case 1 :
+            // Not equal
+            if(!(0x4 & NZCV)) {
+                passesCond = 1;
+            }
+            break;
+        case 10 :
+            // Greater or equal
+            if((9 == (0x9 & NZCV)) || !(0x9 & NZCV)) {
+                passesCond = 1;
+            }
+            break;
+        case 11 :
+            // Less than
+            if((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV))) {
+                passesCond = 1;
+            }
+            break;
+        case 12 :
+            // Greater than
+            if(!(0x4 & NZCV) && ((9 == (0x9 & NZCV)) || !(0x9 & NZCV))) {
+                passesCond = 1;
+            }
+            break;
+        case 13 :
+            // Less than or equal
+            if((0x4 & NZCV) || ((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV)))) {
+                passesCond = 1;
+            }
+            break;
+        case 14 :
+            // Always
+            passesCond = 1;
+            break;
+    }
+    return passesCond;
+}
+
+void fetch(arm_t *state) {
+    int32_t pc = state->registers[REG_PC];
+    int32_t *wordSizedMem = (int32_t *)state->memory;
+    state->fetched = wordSizedMem[pc / WORD_LENGTH];
+}
+
 void decode(arm_t *state) {
     instr_t *toDecode = state->instruction;
     int32_t fetched = state->fetched;
@@ -116,11 +169,20 @@ void decode(arm_t *state) {
         // Bitwise rotate right by 'rotation'
         toDecode->op2 = (immConst >> rotation) | (immConst << (32 - rotation));
     }
-    return;
 }
 
-void fetch(arm_t *state) {
-    int32_t pc = state->registers[REG_PC];
-    int32_t *wordSizedMem = (int32_t *)state->memory;
-    state->fetched = wordSizedMem[pc / WORD_LENGTH];
+void execute(arm_t *state) {
+    int NZCV = (0xF0000000 & state->registers[REG_CPSR]);
+    if(checkCond(state->instruction->cond, NCZV)) {
+        insType type = state->instruction->type;
+        if(type == DATA_PROCESS) {
+            dataProcess(state);
+        } else if(type == MULTIPLY) {
+            multiply(state);
+        } else if(type == DATA_TRANSFER) {
+            singleDataTransfer(state);
+        } else if(type == BRANCH) {
+            branch(state);
+        }
+    }
 }
