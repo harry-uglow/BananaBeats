@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 void decode(arm_t *state) {
-    instr_t toDecode = state->instruction;
+    instr_t *toDecode = state->instruction;
     int32_t fetched = state->fetched;
 
     // Sections of the instruction to be used as variables are selected and set
@@ -48,44 +48,49 @@ void decode(arm_t *state) {
                 toDecode->type = MULTIPLY;
                 // In this case Rd and Rn must be swapped
                 int32_t tmp = toDecode->Rd;
-                toDecode->Rd = toDecode->Rn
+                toDecode->Rd = toDecode->Rn;
                 toDecode->Rn = tmp;
             } else {
                 toDecode->type = DATA_PROCESS;
             }
     }
 
-    //TODO: Beyond this point. -HARRY 22/05/16 15:23
     if(DATA_PROCESS == toDecode->type && !toDecode->setI ||
             DATA_TRANSFER == toDecode->type && toDecode->setI) {
-        // Get register Rm
-        int rm = (0xF & fetched);
-        // Get shift value
-        int shift = ((0xFF0 & fetched) >> 4);
-        // Get shift type
-        int shiftType = ((0x06 & shift) >> 1);
+        // Operand 2 is a register
+
+        if (toDecode->isRsShift) {
+            // Shift by register
+            int rsVal = state->registers[rs];
+            int amount = (0xFF & rsVal);
+        } else {
+            // Shift by constant
+            int amount = (0xF80 & fetched) >> 3;
+        }
 
         // get value of int in rm
         int32_t rmVal = state->registers[rm];
+        toDecode->op2 = executeShift(rmVal, shiftType, amount);
+        toDecode->offset = toDecode->op2;
+    } else if(DATA_TRANSFER == toDecode->type) {
+        // Offset is a 12 bit immediate offset.
 
-        int32_t shiftedVal = 0;
+        toDecode->offset = 0x00000FFF & fetched;
+    } else if(DATA_PROCESS == toDecode->type) {
+        // Operand 2 is an immediate value
 
-        // Check if bit 4 is set
-        if (0x1 & shift) {
-            int rs = (0xF0 & shift) >> 4;
-            int rsVal = state->registers[rs];
-            int amount = (0xFF & rsVal);
-            shiftedVal = executeShift(rmVal, shiftType,  amount);
-        } else {
-            int amount = (0xF8 & shift) >> 3;
-            shiftedVal = executeShift(rmVal, shiftType, amount);
-        }
+        int32_t immConst = (0x000000FF & fetched);
+        // Calculate the rotation
+        int rotation = 2 * ((0x00000F00 & fetched) >> 8);
+
+        // Bitwise rotate right by 'rotation'
+        toDecode->op2 = (immConst >> rotation) | (immConst << (32 - rotation));
     }
     return;
 }
 
 // Function to execute the shift dependent upon the type
-int32_t executeShift(int32_t value, int shiftType, int amount) {
+static int32_t executeShift(int32_t value, int shiftType, int amount) {
     int32_t shiftedValue = 0;
 
     switch (shiftType) {

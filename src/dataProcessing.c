@@ -2,90 +2,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
-
-enum insType {
-        DATA_PROCESS,
-        MULTIPLY,
-        DATA_TRANSFER,
-        BRANCH
-};
-
-struct ARM {
-        int8_t *memory;
-        int32_t *registers;
-        struct Instruction *instruction;
-};
-
-struct Instruction {
-        int cond;
-        int setI;
-        int setP;
-        int setU;
-        int setA;
-        int setS;
-        int setL;
-        int opCode;     // <----- added opCode
-        int32_t Rn;
-        int32_t Rd;
-        int32_t Rs;
-        int32_t Rm;
-        int32_t offset;
-        int32_t op2;
-        enum insType type;
-
-} ;
-
-
-
-// Function to calculate operand2
-int32_t getOperand2(arm_t *state) {
-
-    if (setI) {
-
-        // Zero-extend to 32 bits
-        int32_t immConst = (0x000000FF & op2);
-        // Calculate the rotation
-        int rotation = 2 * ((0xF00 & op2) >> 8);
-
-        // Bitwise rotate right by 'rotation'
-        int32_t rotatedInt = (immConst >> rotation) | (immConst << (32 - rotation));
-
-        return rotatedInt;
-
-    } else {
-        // The code in these brackets has been temporarily duplicated in
-        // pipeline.c. I will resolve this. -HARRY 22/05/16 15:24
-
-        // Get register Rm
-        int rm = (0xF & op2);
-        // Get shift value
-        int shift = ((0xFF0 & op2) >> 4);
-        // Get shift type
-        int shiftType = ((0x06 & shift) >> 1);
-
-        // get value of int in rm
-        int32_t rmVal = state->registers[rm];
-
-        int32_t shiftedVal = 0;
-
-        // Check if bit 4 is == 1 or == 0
-        if (0x1 & shift) {
-            int rs = (0xF0 & shift) >> 4;
-            int rsVal = state->registers[rs];
-            int amount = (0xFF & rsVal);
-            shiftedVal = executeShift(rmVal, shiftType,  amount);
-        } else {
-            int amount = (0xF8 & shift) >> 3;
-            shiftedVal = executeShift(rmVal, shiftType, amount);
-        }
-    }
-    return shiftedVal;
-}
+#include "defs.h"
 
 
 // Function to execute the data processing instruction providing cond is valid
-void executeDPI(void) {
-    int32_t operand1 = *rn;
+void executeDPI(arm_t *state) {
+    instr_t *instr = state->instruction;
+    int32_t operand1 = state->registers[instr->Rn];
+    int32_t operand2 = instr->op2;
     switch (opCode) {
         case 0: // AND
             *rd = (operand1 & operand2);
