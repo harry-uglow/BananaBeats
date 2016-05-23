@@ -1,24 +1,58 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "defs.h"
+
+void printFinalState(arm_t state);
+
 
 int main(int argc, char **argv) {
 
+	arm_t arm;
+	
+	// Reading file input for the program	
+	FILE *fp = fopen(argv[1],"r");
+
+		// Code to be written
+
+	fclose(fp);
+	// Finished reading file input	
+	
+
+	printFinalState(arm);	
+
+	
+
+	
+
+	
 
 
-	printf("Registers:\n");
-	for(int i = 0; i < 13; i++) {
-		printf("$%i  :          %d (0x%x)\n", i, arm->registers[i]); 
-	}
-	printf("PC  :          %d (0x%x)\n", arm->registers[15]);
-	printf("CPSR:          %d (0x%x)\n", arm->registers[16]);
-	printf("Non-zero memory:\n);
-
-	int i = 0;
-
-	while(arm->memory[i*4] != 0) {
-		printf("0x%i: 0x%x\n", i*4, arm->memory[i*4]);
-		i++;	
-	}
 	
   return EXIT_SUCCESS;
+}
+
+
+
+
+
+void printFinalState(arm_t state) {
+	
+	printf("Registers:\n");
+
+        int pc   = state.registers[REG_PC];
+        int cpsr = state.registers[REG_CPSR];
+
+        for(int i = 0; i < 13; i++) {
+                printf("$%i  :          %d (0x%x)\n", i, state.registers[i], (unsigned int)  state.registers[i]); 
+        }
+        printf("PC  :          %d (0x%08x)\n", pc, (unsigned int) pc);
+        printf("CPSR:          %d (0x%08x)\n", cpsr, (unsigned int) cpsr);
+        printf("Non-zero memory:\n");
+
+        int j = 0;
+
+        while(state.memory[j*4] != 0) {
+                printf("0x%08x: 0x%08x\n", j*4, (state.memory[j*4]));
+                j++;
+        }
 }
