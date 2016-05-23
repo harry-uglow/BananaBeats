@@ -8,7 +8,7 @@
 
 #define OFFSET 4
 
-enum insType {
+typedef enum insType {
     DATA_PROCESS,
     MULTIPLY,
     DATA_TRANSFER,
