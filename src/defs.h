@@ -12,7 +12,8 @@ typedef enum insType {
     DATA_PROCESS,
     MULTIPLY,
     DATA_TRANSFER,
-    BRANCH
+    BRANCH,
+    HALT
 } ins_t;
 
 typedef struct Instruction {
