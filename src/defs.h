@@ -43,7 +43,7 @@ typedef struct Instruction {
 
 typedef struct ARM {
     int8_t *memory;
-    int32_t *registers;
+    int32_t registers[NUMBER_OF_REGISTERS];
     instr_t *instruction;
     int32_t fetched;
 	int isFetched;

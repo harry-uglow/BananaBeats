@@ -5,9 +5,6 @@
 
 #define TRUE 1
 
-int8_t *memory;
-int32_t *registers;
-
 int32_t executeShift(int32_t value, int shiftType, int amount) {
     int32_t shiftedValue = 0;
 
@@ -142,33 +139,39 @@ int readFile(arm_t *state, char **argv) {
 int initialiseProcessor(arm_t *state) {
 
         // Assign memory array onto heap
-    memory = calloc(MEM_SIZE, sizeof(int8_t));
-    if (memory == NULL) {
-        printf("Failed to create memory array on heap");
-        return 0;
-    }
+    //int8_t *memory =
+//    if (memory == NULL) {
+//        printf("Failed to create memory array on heap");
+//        return 0;
+//    }
 
     // Assign registers array onto heap
-    registers = calloc(NUMBER_OF_REGISTERS, sizeof(int32_t));
-    if (registers == NULL) {
-        printf("Failed to create registers array on heap");
-        return 0;
-    }
+     //int32_t *registers =
+
+
+//    if (registers == NULL) {
+//        printf("Failed to create registers array on heap");
+//        return 0;
+//    }
 
     // Point the arm state to register and memory arrays on the heap
-    state->memory = memory;
-    state->registers = registers;
+    state->memory = (int8_t*)calloc(MEM_SIZE, sizeof(int8_t));
+    for (int i = 0; i < NUMBER_OF_REGISTERS; ++i) {
+        state->registers[i] = 0;
+    }
+    state->isDecoded = 0;
+    state->isFetched = 0;
 
     return 1;
 }
 
 void removeArraysFromHeap(arm_t *state) {
     // Clear memory and register arrays
-    if (memory != NULL) {
-        free(memory);
-    }
-    if (registers != NULL) {
-        free(registers);
-    }
+//    if (memory != NULL) {
+//        free(memory);
+//    }
+//    if (registers != NULL) {
+//        free(registers);
+//    }
 }
              

@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 
 int iteratePipeline(arm_t *state) {
 	if(state->isDecoded) {
-	if(state->instruction->type == HALT) {
+	    if(state->instruction->type == HALT) {
 			return 0;
 		}
 		execute(state);
