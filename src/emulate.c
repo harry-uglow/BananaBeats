@@ -10,6 +10,14 @@ void printFinalState(arm_t state);
 int main(int argc, char **argv) {
 	
 	arm_t arm;
+
+    int8_t memory[MEM_SIZE]; // Create memory array
+    arm.memory = memory; // Point the arm state to this array
+
+    int32_t registers[17]; // Create registers array
+    arm.registers = registers; // Point the arm state to this array
+
+
 	
 	// Reading file input 	
 	FILE *finput = fopen(argv[1],"rb");
@@ -18,30 +26,24 @@ int main(int argc, char **argv) {
 	    printf("Could not open %s", argv[1]);
 	    return 0;
 	}
+
 	
 	// Loop to read binary file, one byte at a time,
 	// and copy the bytes into processor's memory until
 	// there are no more bytes left to read in the file
-	int8_t byteInput;
+	int8_t byteInput; // Temporary byte variable which stores the read byte on each iteration of the loop
+    int8_t *pByteInput = &byteInput;
 	int memPos = 0;
 	while(1) {
-		int in = fread(byteInput,sizeof(int8_t),1,finput);
+		int in = fread(pByteInput,sizeof(int8_t),1,finput);
 	   	if(in != 1) {
 			break;
-		} 
+		}
 		arm.memory[memPos] = byteInput;
 		memPos++;
 	}
-
 	fclose(finput);
 	// Finished reading file input	
-	
-
-
-	
-
-
-	
 
 	printFinalState(arm);	
 
