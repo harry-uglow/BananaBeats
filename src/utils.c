@@ -138,24 +138,13 @@ int readFile(arm_t *state, char **argv) {
 
 int initialiseProcessor(arm_t *state) {
 
-        // Assign memory array onto heap
-    //int8_t *memory =
-//    if (memory == NULL) {
-//        printf("Failed to create memory array on heap");
-//        return 0;
-//    }
-
-    // Assign registers array onto heap
-     //int32_t *registers =
-
-
-//    if (registers == NULL) {
-//        printf("Failed to create registers array on heap");
-//        return 0;
-//    }
-
-    // Point the arm state to register and memory arrays on the heap
+    // Assign memory array onto heap
     state->memory = (int8_t*)calloc(MEM_SIZE, sizeof(int8_t));
+ 
+    if (state->memory == NULL) {
+        printf("Failed to create memory array on heap");
+        return 0;
+    }
     for (int i = 0; i < NUMBER_OF_REGISTERS; ++i) {
         state->registers[i] = 0;
     }
@@ -164,14 +153,3 @@ int initialiseProcessor(arm_t *state) {
 
     return 1;
 }
-
-void removeArraysFromHeap(arm_t *state) {
-    // Clear memory and register arrays
-//    if (memory != NULL) {
-//        free(memory);
-//    }
-//    if (registers != NULL) {
-//        free(registers);
-//    }
-}
-             

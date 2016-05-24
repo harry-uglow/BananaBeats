@@ -6,6 +6,5 @@ int checkCond(int cond, int NZCV);
 int initialiseProcessor(arm_t *state);
 int readFile(arm_t *state, char **argv);
 void printFinalState(arm_t *state);
-void removeArraysFromHeap(arm_t *state);
 
 #endif //ARM11_19_UTILS_H
