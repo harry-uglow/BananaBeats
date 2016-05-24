@@ -107,12 +107,12 @@ void dataProcessing(arm_t *arm) {
         arm->registers[REG_CPSR] |= cBit;
         
         // Z bit set if result is all zeros
-        if ((0x00000000 | destReg) == 0x00000000) {
+        if ((0x00000000 | temp) == 0x00000000) {
             arm->registers[REG_CPSR] |= 1 << 30;
         }
 
         // N bit set to bit 31 of the result
-        int32_t nBit = destReg & 0x80000000;
+        int32_t nBit = temp & 0x80000000;
         arm->registers[REG_CPSR] |= nBit;
 
     }
@@ -160,7 +160,7 @@ void singleDataTransfer(arm_t *arm) {
         offset = executeShift(rmVal, ins->shiftType, ins->shiftAmount);
     } else {
         // Offset is an unsigned 12-bit immediate offset.
-        int32_t offset = ins->offset;
+        offset = ins->offset;
     }
     uint32_t memAddr = arm->registers[ins->Rn];
     if(ins->setP) {
