@@ -16,8 +16,6 @@ int main(int argc, char **argv) {
 
     int32_t registers[17]; // Create registers array
     arm.registers = registers; // Point the arm state to this array
-
-
 	
 	// Reading file input 	
 	FILE *finput = fopen(argv[1],"rb");
@@ -26,7 +24,6 @@ int main(int argc, char **argv) {
 	    printf("Could not open %s", argv[1]);
 	    return 0;
 	}
-
 	
 	// Loop to read binary file, one byte at a time,
 	// and copy the bytes into processor's memory until
@@ -51,11 +48,6 @@ int main(int argc, char **argv) {
 	return EXIT_SUCCESS;
 
 }
-
-
-
-
-
 
 void printFinalState(arm_t state) {
 	
