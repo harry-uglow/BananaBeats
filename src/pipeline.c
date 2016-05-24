@@ -82,11 +82,13 @@ void fetch(arm_t *state) {
     int32_t byte0 = (0xFF000000 & wrongOrder) >> 24;
     state->fetched = byte3 | byte2 | byte1 | byte0;
     state->registers[REG_PC] += WORD_LENGTH;
+    state->isFetched = 1;
 }
 
 void decode(arm_t *state) {
     instr_t *toDecode = state->instruction;
     int32_t fetched = state->fetched;
+    state->isDecoded = 1;
 
     if(!(0xFFFFFFFF & fetched)) {
         toDecode->type = HALT;

@@ -54,26 +54,11 @@ int main(int argc, char **argv) {
 	}
 	fclose(finput);
 	// Finished reading file input
-	
-	
+
 	// Main loop for fetch-decode-execute cycle
-	while(TRUE) {
-	if(arm.isDecoded) {
-		if(arm.instruction->type == HALT) {
-			break;
-		}
-		execute(&arm);
+	while(iteratePipeline(&arm)) {
+		continue;
 	}
-
-    if(arm.isFetched) {
-		decode(&arm);
-	}
-			
-	fetch(&arm);
-
-	}
-
-
 
 	printFinalState(arm);
 
@@ -87,6 +72,20 @@ int main(int argc, char **argv) {
 
 	return EXIT_SUCCESS;
 
+}
+
+int iteratePipeline(arm_t *state) {
+	if(arm.isDecoded) {
+		if(arm.instruction->type == HALT) {
+			return 0;
+		}
+		execute(&arm);
+	}
+	if(arm.isFetched) {
+		decode(&arm);
+	}
+	fetch(&arm);
+	return 1;
 }
 
 void printFinalState(arm_t state) {
