@@ -1,7 +1,6 @@
 #include "pipeline.c"
 #include "emulate.h"
 
-
 int main(int argc, char **argv) {
 	
 	arm_t arm;

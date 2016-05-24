@@ -71,43 +71,57 @@ int checkCond(int cond, int NZCV){
 }
 
 
-void printFinalState(arm_t *state) {
-
-        printf("Registers:\n");
-
-        int pc   = state->registers[REG_PC];
-        int cpsr = state->registers[REG_CPSR];
-
-        // Print out contents of registers 0-9
-        for(int i = 0; i < 10; i++) {
-            printf("$%i  :%12d (0x%08x)\n", i, state->registers[i], state->registers[i]);
-        }
-
-        // Print out contents of registers 10-12
-        for(int j = 10; j < 13; j++) {
-            printf("$%i :%12d (0x%08x)\n", j, state->registers[j], state->registers[j]);
-        }
-
-        // Print out contents of PC and CPSR
-        printf("PC  :%12d (0x%08x)\n", pc, pc);
-        printf("CPSR:%12d (0x%08x)\n", cpsr, cpsr);
-
-        // Print out non-zero contents of memory
-        printf("Non-zero memory:\n");
-
-        int k = 0;
-
-        while(state->memory[k*4] != 0) {
-            printf("0x%08x: 0x%08x\n", k*4, (state->memory[k*4]));
-            k++;
-        }
-
+int32_t reverseByteOrder(int32_t n) {
+    // Little-endian means retrieving multiple bytes from the memory in one go
+    // will retrieve them in the wrong byte order. This function reverses
+    // byte order.
+    int32_t byte3 = (0x000000FF & n) << 24;
+    int32_t byte2 = (0x0000FF00 & n) << 8;
+    int32_t byte1 = (0x00FF0000 & n) >> 8;
+    int32_t byte0 = (0xFF000000 & n) >> 24;
+    return (byte3 | byte2 | byte1 | byte0);
 }
 
 
+void printFinalState(arm_t *state) {
+
+    printf("Registers:\n");
+
+    int pc   = state->registers[REG_PC];
+    int cpsr = state->registers[REG_CPSR];
+
+    // Print out contents of registers 0-9
+    for(int i = 0; i < 10; i++) {
+        printf("$%i  :%12d (0x%08x)\n", i, state->registers[i], state->registers[i]);
+    }
+
+    // Print out contents of registers 10-12
+    for(int j = 10; j < 13; j++) {
+        printf("$%i :%12d (0x%08x)\n", j, state->registers[j], state->registers[j]);
+    }
+
+    // Print out contents of PC and CPSR
+    printf("PC  :%12d (0x%08x)\n", pc, pc);
+    printf("CPSR:%12d (0x%08x)\n", cpsr, cpsr);
+
+    // Print out non-zero contents of memory
+    printf("Non-zero memory:\n");
+
+    int k = 0;
+
+    int32_t *wordSizedMem = (int32_t *)state->memory;
+
+    while(wordSizedMem[k] != 0) {
+        printf("0x%08x: 0x%08x\n", k * WORD_LENGTH,
+               (reverseByteOrder(wordSizedMem[k])));
+        k++;
+    }
+
+}
+
 int readFile(arm_t *state, char **argv) {
 
-        // Reading file input   
+        // Reading file input
         FILE *finput = fopen(argv[1],"rb");
 
         if(finput == NULL) {
@@ -140,7 +154,7 @@ int initialiseProcessor(arm_t *state) {
 
     // Assign memory array onto heap
     state->memory = (int8_t*)calloc(MEM_SIZE, sizeof(int8_t));
- 
+
     if (state->memory == NULL) {
         printf("Failed to create memory array on heap");
         return 0;
@@ -150,6 +164,6 @@ int initialiseProcessor(arm_t *state) {
     }
     state->isDecoded = 0;
     state->isFetched = 0;
-
+    state->instruction = (instr_t *) calloc(1, sizeof(instr_t));
     return 1;
 }
