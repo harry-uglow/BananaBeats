@@ -1,5 +1,6 @@
 
 #include "defs.h"
+#include "executeInstructions.h"
 #include "pipeline.h"
 #include <stdint.h>
 
@@ -37,39 +38,29 @@ static int checkCond(int cond, int NZCV){
     switch (cond){
         case 0 :
             // Equal
-            if(0x4 & NZCV) {
-                passesCond = 1;
-            }
+            passesCond = 0x4 & NZCV;
             break;
         case 1 :
             // Not equal
-            if(!(0x4 & NZCV)) {
-                passesCond = 1;
-            }
+            passesCond = !(0x4 & NZCV);
             break;
         case 10 :
             // Greater or equal
-            if((9 == (0x9 & NZCV)) || !(0x9 & NZCV)) {
-                passesCond = 1;
-            }
+            passesCond = ((9 == (0x9 & NZCV)) || !(0x9 & NZCV));
             break;
         case 11 :
             // Less than
-            if((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV))) {
-                passesCond = 1;
-            }
+            passesCond = ((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV)));
             break;
         case 12 :
             // Greater than
-            if(!(0x4 & NZCV) && ((9 == (0x9 & NZCV)) || !(0x9 & NZCV))) {
-                passesCond = 1;
-            }
+            passesCond = (!(0x4 & NZCV) &&
+                    ((9 == (0x9 & NZCV)) || !(0x9 & NZCV)));
             break;
         case 13 :
             // Less than or equal
-            if((0x4 & NZCV) || ((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV)))) {
-                passesCond = 1;
-            }
+            passesCond = ((0x4 & NZCV) ||
+                    ((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV))));
             break;
         case 14 :
             // Always
@@ -181,8 +172,8 @@ void decode(arm_t *state) {
 
 void execute(arm_t *state) {
     int NZCV = (0xF0000000 & state->registers[REG_CPSR]);
-    if(checkCond(state->instruction->cond, NCZV)) {
-        insType type = state->instruction->type;
+    if(checkCond(state->instruction->cond, NZCV)) {
+        ins_t type = state->instruction->type;
         if(type == DATA_PROCESS) {
             dataProcess(state);
         } else if(type == MULTIPLY) {
