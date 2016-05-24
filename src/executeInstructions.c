@@ -4,8 +4,12 @@
 #include "utils.h"
 
 // Data Processing
+<<<<<<< Updated upstream
 void dataProcessing(arm_t *arm) {
     // get value of Rm / execute shift (shiftType, shiftAmount)
+=======
+oid dataProcessing(arm_t *arm) {
+>>>>>>> Stashed changes
     instr_t *instr = arm->instruction;
     int32_t operand1 = arm->registers[instr->Rn];
     int setI = instr->setI;
@@ -164,16 +168,15 @@ void singleDataTransfer(arm_t *arm) {
         // Offset is an unsigned 12-bit immediate offset.
         int32_t offset = ins->offset;
     }
+    if(!ins->setU) {
+        offset = -offset;
+    }
+
     uint32_t memAddr = arm->registers[ins->Rn];
     if(ins->setP) {
         // Pre-indexing mode
-        if (ins->setU) {
-            memAddr += offset;
-        } else {
-            memAddr -= offset;
-        }
+        memAddr += offset;
     }
-
 
     // Perform the load or store operation
     if(ins->setL) {
@@ -184,11 +187,7 @@ void singleDataTransfer(arm_t *arm) {
 
     if(!ins->setP) {
         // Post-indexing mode
-        if(ins->setU) {
-            arm->registers[ins->Rn] += offset;
-        } else {
-            arm->registers[ins->Rn] -= offset;
-        }
+        arm->registers[ins->Rn] += offset;
     }
 
 }
