@@ -1,4 +1,5 @@
 #include "executeInstructions.h"
+#include "utils.h"
 #include <stdio.h>
 #include "utils.h"
 
@@ -155,8 +156,14 @@ void multiply(arm_t *arm) {
 void singleDataTransfer(arm_t *arm) {
     instr_t *ins = arm->instruction;
 
-    // Offset is an unsigned 12-bit immediate offset.
-    int32_t offset = ins->offset;
+    int32_t offset = 0;
+    if(ins->setI) {
+        int32_t rmVal = arm->registers[ins->Rm];
+        offset = executeShift(rmVal, ins->shiftType, ins->shiftAmount);
+    } else {
+        // Offset is an unsigned 12-bit immediate offset.
+        int32_t offset = ins->offset;
+    }
     uint32_t memAddr = arm->registers[ins->Rn];
     if(ins->setP) {
         // Pre-indexing mode
@@ -166,6 +173,7 @@ void singleDataTransfer(arm_t *arm) {
             memAddr -= offset;
         }
     }
+
 
     // Perform the load or store operation
     if(ins->setL) {
