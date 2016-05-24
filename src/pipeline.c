@@ -1,9 +1,5 @@
-
-#include "defs.h"
-#include "executeInstructions.h"
+#include "executeInstructions.c"
 #include "pipeline.h"
-#include "utils.h"
-#include <stdint.h>
 
 void fetch(arm_t *state) {
     int32_t pc = state->registers[REG_PC];

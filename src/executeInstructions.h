@@ -1,6 +1,5 @@
 #ifndef ARM11_19_EXECUTEINSTRUCTIONS_H
 #define ARM11_19_EXECUTEINSTRUCTIONS_H
-#include "defs.h"
 
 void dataProcessing(arm_t *arm);
 void multiply(arm_t *arm);

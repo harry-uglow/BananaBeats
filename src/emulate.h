@@ -1,0 +1,1 @@
+int iteratePipeline(arm_t *state);
