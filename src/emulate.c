@@ -40,11 +40,7 @@ int main(int argc, char **argv) {
 		memPos++;
 	}
 	fclose(finput);
-	// Finished reading file input	
-
-	
-
-
+	// Finished reading file input
 
 	printFinalState(arm);	
 
