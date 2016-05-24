@@ -82,7 +82,14 @@ static int checkCond(int cond, int NZCV){
 void fetch(arm_t *state) {
     int32_t pc = state->registers[REG_PC];
     int32_t *wordSizedMem = (int32_t *)state->memory;
-    state->fetched = wordSizedMem[pc / WORD_LENGTH];
+    // Little-endian means the bytes of the instruction will be reversed.
+    int32_t wrongOrder = wordSizedMem[pc / WORD_LENGTH];
+    // Reverse the byte order to get the instruction in the right order
+    int32_t byte3 = (0x000000FF & wrongOrder) << 24;
+    int32_t byte2 = (0x0000FF00 & wrongOrder) << 8;
+    int32_t byte1 = (0x00FF0000 & wrongOrder) >> 8;
+    int32_t byte0 = (0xFF000000 & wrongOrder) >> 24;
+    state->fetched = byte3 | byte2 | byte1 | byte0;
     state->registers[REG_PC] += WORD_LENGTH;
 }
 
