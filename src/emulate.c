@@ -12,18 +12,16 @@ int main(int argc, char **argv) {
 	arm_t arm;
 
     // Assign memory array onto heap
-    int sizeOfMemoryArray = sizeof(int8_t) * MEM_SIZE;
-    int8_t *memory = malloc(sizeOfMemoryArray);
+    int8_t *memory = calloc(MEM_SIZE, sizeof(int8_t));
     if (memory == NULL) {
         printf("Failed to create memory array on heap");
         return 0;
     }
 
     // Assign registers array onto heap
-    int sizeOfRegistersArray = sizeof(int32_t) * NUMBER_OF_REGISTERS;
-    int32_t *registers = malloc(sizeOfRegistersArray);
+    int32_t *registers = calloc(NUMBER_OF_REGISTERS, sizeof(int32_t));
     if (registers == NULL) {
-        printf("Failed to create registers array on stack");
+        printf("Failed to create registers array on heap");
         return 0;
     }
 
@@ -58,7 +56,13 @@ int main(int argc, char **argv) {
 
 	printFinalState(arm);
 
-    // TODO: Clear memory and register arrays
+    // Clear memory and register arrays
+    if (memory != NULL) {
+        free(memory);
+    }
+    if (registers != NULL) {
+        free(registers);
+    }
 
 	return EXIT_SUCCESS;
 
