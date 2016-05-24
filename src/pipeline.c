@@ -88,6 +88,11 @@ void decode(arm_t *state) {
     instr_t *toDecode = state->instruction;
     int32_t fetched = state->fetched;
 
+    if(!(0xFFFFFFFF & fetched)) {
+        toDecode->type = HALT;
+        return;
+    }
+
     // Sections of the instruction to be used as variables are selected and set
     // here. Where actual values will matter are required the result is shifted
     // to the end where necessary. In the case of "set" variables, these will
@@ -116,6 +121,7 @@ void decode(arm_t *state) {
     int bits7to4 = (0x000000F0 & fetched) >> 4;
     int multOrData = toDecode->setI | bits7to4;
 
+    // The following switch assumes that input is correctly formed.
     switch (bits2726) {
         case 2 :
             toDecode->type = BRANCH;
