@@ -21,7 +21,9 @@ int main(int argc, char **argv) {
 
 	printFinalState(&arm);
 
-    removeArraysFromHeap(&arm);
+	if(arm.memory != NULL) {
+		free(arm.memory);
+	}  
 
 	return EXIT_SUCCESS;
 
