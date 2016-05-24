@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
 	// and copy the bytes into processor's memory until
 	// there are no more bytes left to read in the file
 	int8_t byteInput; // Temporary byte variable which stores the read byte on each iteration of the loop
-    int8_t *pByteInput = &byteInput;
+ 	int8_t *pByteInput = &byteInput;
 	int memPos = 0;
 	while(1) {
 		int in = fread(pByteInput,sizeof(int8_t),1,finput);
@@ -42,8 +42,11 @@ int main(int argc, char **argv) {
 	fclose(finput);
 	// Finished reading file input	
 
-	printFinalState(arm);	
+	
 
+
+
+	printFinalState(arm);	
 
 	return EXIT_SUCCESS;
 
@@ -58,17 +61,17 @@ void printFinalState(arm_t state) {
 
 	// Print out contents of registers 0-9
     for(int i = 0; i < 10; i++) {
-    	printf("$%i  :%12d (0x%08x)\n", i, state.registers[i], (unsigned int)  state.registers[i]); 
+    	printf("$%i  :%12d (0x%08x)\n", i, state.registers[i], state.registers[i]); 
     }
 	
 	// Print out contents of registers 10-12
-	for(int j = 0; j < 13; j++) {
-		printf("$%i :%12d (0x%08x)\n", j, state.registers[j], (unsigned int) state.registers[j]);
+    for(int j = 0; j < 13; j++) {
+		printf("$%i :%12d (0x%08x)\n", j, state.registers[j], state.registers[j]);
 	}
 
 	// Print out contents of PC and CPSR
-    printf("PC  :%12d (0x%08x)\n", pc, (unsigned int) pc);
-    printf("CPSR:%12d (0x%08x)\n", cpsr, (unsigned int) cpsr);
+    printf("PC  :%12d (0x%08x)\n", pc, pc);
+    printf("CPSR:%12d (0x%08x)\n", cpsr, cpsr);
     
 	// Print out non-zero contents of memory
 	printf("Non-zero memory:\n");
