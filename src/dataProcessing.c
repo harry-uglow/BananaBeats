@@ -6,29 +6,33 @@
 
 
 // Function to execute the data processing instruction providing cond is valid
-void executeDPI(arm_t *state) {
-    instr_t *instr = state->instruction;
-    int32_t operand1 = state->registers[instr->Rn];
+
+void executeDPI(arm_t *arm) {
+    instr_t *instr = arm->instruction;
+    int32_t operand1 = arm->registers[instr->Rn];
     int32_t operand2 = instr->op2;
+    int opCode = instr->opCode;
+    int32_t destReg = instr->Rd;
+
     switch (opCode) {
         case 0: // AND
-            *rd = (operand1 & operand2);
+            destReg = (operand1 & operand2);
             break;
 
         case 1: // EOR
-            *rd = (operand1 ^ operand2);
+            destReg = (operand1 ^ operand2);
             break;
 
         case 2: // Subtract
-            *rd = (operand1 - operand2);
+            destReg = (operand1 - operand2);
             break;
 
         case 3: // Subtract (op2 - rn)
-            *rd = (operand2 - operand1);
+            destReg = (operand2 - operand1);
             break;
 
         case 4: // Addition
-            *rd = (operand1 + operand2);
+            destReg = (operand1 + operand2);
             break;
 
         case 8: // AND but result not written (tst) ???
@@ -44,32 +48,30 @@ void executeDPI(arm_t *state) {
             break;
 
         case 12: // OR (orr)
-            *rd = (operand1 | operand2);
+            destReg = (operand1 | operand2);
             break;
 
         case 13: // Move
-            *rd = operand2;
+            destReg = operand2;
             break;
     }
-}
 
-bool condOk(void) {
-    bool isOk = false;
-    if (cond == 0 || cond == 1) {
-        isOk = true;
-    } else if (cond >= 10 && cond <= 14) {
-        isOk = true;
+
+    // Update the CPSR register
+    if (arm->instruction->setS) {
+        
+        // Z bit set if result is all zeros
+        if ((0x00000000 | destReg) == 0x00000000) {
+            arm->registers[REG_CPSR] |= 1 << 30;
+        }
+
+        // N bit set to bit 31 of the result
+        int32_t nBit = destReg & 0x80000000;
+        arm->registers[REG_CPSR] |= nBit;
+
+
     }
 
-    return isOk;
-}
-
-int main(void) {
-    int instruction = 0;
-    if (condOk) {
-        executeDPI;
-    }
-    return 1;
 }
 
 
