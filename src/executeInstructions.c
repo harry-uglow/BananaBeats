@@ -1,60 +1,110 @@
 #include "utils.c"
 #include "executeInstructions.h"
 
-
 // Data Processing
 void dataProcessing(arm_t *arm) {
+    // get value of Rm / execute shift (shiftType, shiftAmount)
     instr_t *instr = arm->instruction;
     int32_t operand1 = arm->registers[instr->Rn];
-    int32_t operand2 = instr->op2;
+    int setI = instr->setI;
     int opCode = instr->opCode;
     int32_t destReg = instr->Rd;
+    int32_t temp = 0;
+
+    // Calculate operand2
+    int32_t operand2;
+    int carry = 0;
+    if (setI) {
+        operand2 = instr->op2;
+    } else {
+        int32_t rmVal = arm->registers[instr->Rm];
+        int type = instr->shiftType;
+        int amount = instr->shiftAmount;
+        int32_t bitToCarry = 0;
+        // switch on shift type here
+        switch(type) {
+            case 0:
+                bitToCarry = 2 ^ (32 - (amount - 1));
+                carry = (rmVal & bitToCarry) >> (amount - 1);
+                break;
+
+            case 1:
+                bitToCarry = 2 ^ (amount - 1);
+                carry = (rmVal & bitToCarry) >> (amount - 1);
+                break;
+
+            case 2: 
+                bitToCarry = 2 ^ (amount - 1);
+                carry = (rmVal & bitToCarry) >> (amount - 1);
+                break;
+
+            // Case for rotate is unnecessary as rotation has no carry
+        }
+        operand2 = executeShift(rmVal, type, amount);
+    }
+    int64_t op1_64 = operand1;
+    int64_t op2_64 = operand2;
 
     switch (opCode) {
         case 0: // AND
-            destReg = (operand1 & operand2);
+            arm->registers[destReg] = (operand1 & operand2);
+            temp = destReg;
             break;
 
         case 1: // EOR
-            destReg = (operand1 ^ operand2);
+            arm->registers[destReg] = (operand1 ^ operand2);
+            temp = destReg;
             break;
 
         case 2: // Subtract
-            destReg = (operand1 - operand2);
+            arm->registers[destReg] = (operand1 - operand2);
+            temp = destReg;
+            carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
             break;
 
         case 3: // Subtract (op2 - rn)
-            destReg = (operand2 - operand1);
+            arm->registers[destReg] = (operand2 - operand1);
+            temp = destReg;
+            carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
             break;
 
         case 4: // Addition
-            destReg = (operand1 + operand2);
+            arm->registers[destReg] = (operand1 + operand2);
+            temp = destReg;
+            carry = (0x0000000100000000 & (op1_64 + op2_64)) >> 32;
             break;
 
         case 8: // AND but result not written (tst) ???
-            (operand1 & operand2);
+            temp = (operand1 & operand2);
             break;
 
         case 9: // EOR but result not written (teq) ???
-            (operand1 ^ operand2);
+            temp = (operand1 ^ operand2);
             break;
 
         case 10: // Cmp ???
-            (operand1 - operand2);
+            temp = (operand1 - operand2);
+            carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
             break;
-
+            
         case 12: // OR (orr)
-            destReg = (operand1 | operand2);
+            arm->registers[destReg] = (operand1 | operand2);
+            temp = destReg;
             break;
 
         case 13: // Move
-            destReg = operand2;
+            arm->registers[destReg] = operand2;
+            temp = destReg;
             break;
     }
 
 
     // Update the CPSR register
     if (arm->instruction->setS) {
+      
+        // C bit is set depending on the carry out
+        int32_t cBit = carry << 29;
+        arm->registers[REG_CPSR] |= cBit;
         
         // Z bit set if result is all zeros
         if ((0x00000000 | destReg) == 0x00000000) {
