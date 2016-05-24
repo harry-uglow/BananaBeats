@@ -29,6 +29,8 @@ typedef struct Instruction {
     int setL;
     int isRsShift;
     int opCode;
+    int shiftType;
+    int shiftAmount;
     int32_t Rn;
     int32_t Rd;
     int32_t Rs;

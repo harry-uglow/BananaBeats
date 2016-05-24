@@ -48,8 +48,7 @@ void decode(arm_t *state) {
     toDecode->Rd =        (0x0000F000 & fetched) >> 12;
     toDecode->Rs =        (0x00000F00 & fetched) >> 8;
     toDecode->Rm =         0x0000000F & fetched;
-    toDecode->offset = 0x00FFFFFF & fetched;
-    //toDecode->offset = 0x00000FFF & fetched;
+    toDecode->shiftType = (0x00000060 & fetched) >> 5;
 
 
     // Bits 27 through 25 and 7 through 4 can now be used to determine
@@ -62,9 +61,11 @@ void decode(arm_t *state) {
     switch (bits2726) {
         case 2 :
             toDecode->type = BRANCH;
+            toDecode->offset = 0x00FFFFFF & fetched;
             break;
         case 1 :
             toDecode->type = DATA_TRANSFER;
+            toDecode->offset = 0x00000FFF & fetched;
             break;
         default:
             if(9 == multOrData) {
@@ -78,33 +79,19 @@ void decode(arm_t *state) {
             }
     }
 
-    /*
     if((DATA_PROCESS == toDecode->type && !toDecode->setI) ||
             (DATA_TRANSFER == toDecode->type && toDecode->setI)) {
         // Operand 2 is a register
-
-        int amount = 0;
         if (toDecode->isRsShift) {
             // Shift by register
             int rsVal = state->registers[toDecode->Rs];
-            amount = (0xFF & rsVal);
+            toDecode->shiftAmount = (0xFF & rsVal);
         } else {
             // Shift by constant
-            amount = (0xF80 & fetched) >> 3;
+            toDecode->shiftAmount = (0xF80 & fetched) >> 3;
         }
-
-        // get value of int in rm, the shift type and then perform the shift.
-        int32_t rmVal = state->registers[toDecode->Rm];
-        int shiftType = (0x00000060 & fetched) >> 5;
-        toDecode->op2 = executeShift(rmVal, shiftType, amount);
-        toDecode->offset = toDecode->op2;
-    } else if(DATA_TRANSFER == toDecode->type) {
-        // Offset is a 12 bit immediate offset.
-
-        toDecode->offset = 0x00000FFF & fetched;
     } else if(DATA_PROCESS == toDecode->type) {
         // Operand 2 is an immediate value
-
         int32_t immConst = (0x000000FF & fetched);
         // Calculate the rotation
         int rotation = 2 * ((0x00000F00 & fetched) >> 8);
@@ -112,7 +99,6 @@ void decode(arm_t *state) {
         // Bitwise rotate right by 'rotation'
         toDecode->op2 = (immConst >> rotation) | (immConst << (32 - rotation));
     }
-    */
 }
 
 void execute(arm_t *state) {
@@ -120,7 +106,7 @@ void execute(arm_t *state) {
     if(checkCond(state->instruction->cond, NZCV)) {
         ins_t type = state->instruction->type;
         if(type == DATA_PROCESS) {
-            dataProcess(state);
+            dataProcessing(state);
         } else if(type == MULTIPLY) {
             multiply(state);
         } else if(type == DATA_TRANSFER) {
