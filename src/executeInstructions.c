@@ -4,12 +4,8 @@
 #include "utils.h"
 
 // Data Processing
-<<<<<<< Updated upstream
 void dataProcessing(arm_t *arm) {
     // get value of Rm / execute shift (shiftType, shiftAmount)
-=======
-oid dataProcessing(arm_t *arm) {
->>>>>>> Stashed changes
     instr_t *instr = arm->instruction;
     int32_t operand1 = arm->registers[instr->Rn];
     int setI = instr->setI;
