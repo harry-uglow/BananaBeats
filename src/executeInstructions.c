@@ -80,5 +80,8 @@ void branch(arm_t *arm) {
 
     // PC has changed and previously fetched instruction is no longer valid so the pipeline is cleared.
     (arm->fetched) = 0;
-    
+
+	// Clear fetched and decoded parts of pipeline
+	(arm->isFetched) = 0;
+	(arm->isDecoded) = 0;    
 }
