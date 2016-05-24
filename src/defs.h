@@ -8,6 +8,7 @@
 #define OFFSET 4
 #define REG_PC 15
 #define REG_CPSR 16
+#define NUMBER_OF_REGISTERS 17
 
 
 typedef enum insType {

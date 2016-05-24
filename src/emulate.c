@@ -11,12 +11,26 @@ int main(int argc, char **argv) {
 	
 	arm_t arm;
 
-    int8_t memory[MEM_SIZE]; // Create memory array
-    arm.memory = memory; // Point the arm state to this array
+    // Assign memory array onto heap
+    int sizeOfMemoryArray = sizeof(int8_t) * MEM_SIZE;
+    int8_t *memory = malloc(sizeOfMemoryArray);
+    if (memory == NULL) {
+        printf("Failed to create memory array on heap");
+        return 0;
+    }
 
-    int32_t registers[17]; // Create registers array
-    arm.registers = registers; // Point the arm state to this array
-	
+    // Assign registers array onto heap
+    int sizeOfRegistersArray = sizeof(int32_t) * NUMBER_OF_REGISTERS;
+    int32_t *registers = malloc(sizeOfRegistersArray);
+    if (registers == NULL) {
+        printf("Failed to create registers array on stack");
+        return 0;
+    }
+
+    // Point the arm state to register and memory arrays on the heap
+    arm.memory = memory;
+    arm.registers = registers;
+
 	// Reading file input 	
 	FILE *finput = fopen(argv[1],"rb");
 
@@ -42,7 +56,9 @@ int main(int argc, char **argv) {
 	fclose(finput);
 	// Finished reading file input
 
-	printFinalState(arm);	
+	printFinalState(arm);
+
+    // TODO: Clear memory and register arrays
 
 	return EXIT_SUCCESS;
 
