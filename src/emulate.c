@@ -75,16 +75,16 @@ int main(int argc, char **argv) {
 }
 
 int iteratePipeline(arm_t *state) {
-	if(arm.isDecoded) {
-		if(arm.instruction->type == HALT) {
+	if(state->isDecoded) {
+		if(state->instruction->type == HALT) {
 			return 0;
 		}
-		execute(&arm);
+		execute(&state);
 	}
-	if(arm.isFetched) {
-		decode(&arm);
+	if(state->isFetched) {
+		decode(&state);
 	}
-	fetch(&arm);
+	fetch(&state);
 	return 1;
 }
 
