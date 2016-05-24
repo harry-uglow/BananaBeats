@@ -44,5 +44,7 @@ typedef struct ARM {
     int32_t *registers;
     instr_t *instruction;
     int32_t fetched;
+	int isFetched;
+	int isDecoded;
 } arm_t;
 #endif //ARM11_19_DEFS_H

@@ -1,8 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "defs.h"
+#include "pipeline.h"
 
-
+#define TRUE 1
 
 void printFinalState(arm_t state);
 
@@ -43,7 +44,7 @@ int main(int argc, char **argv) {
 	int8_t byteInput; // Temporary byte variable which stores the read byte on each iteration of the loop
  	int8_t *pByteInput = &byteInput;
 	int memPos = 0;
-	while(1) {
+	while(TRUE) {
 		int in = fread(pByteInput,sizeof(int8_t),1,finput);
 	   	if(in != 1) {
 			break;
@@ -53,6 +54,26 @@ int main(int argc, char **argv) {
 	}
 	fclose(finput);
 	// Finished reading file input
+	
+	
+	// Main loop for fetch-decode-execute cycle
+	while(TRUE) {
+	if(arm.isDecoded) {
+		if(arm.instruction->type == HALT) {
+			break;
+		}
+		execute(&arm);
+	}
+
+    if(arm.isFetched) {
+		decode(&arm);
+	}
+			
+	fetch(&arm);
+
+	}
+
+
 
 	printFinalState(arm);
 
