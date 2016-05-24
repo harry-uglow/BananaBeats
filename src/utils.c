@@ -84,7 +84,7 @@ void printFinalState(arm_t *state) {
         }
 
         // Print out contents of registers 10-12
-        for(int j = 0; j < 13; j++) {
+        for(int j = 10; j < 13; j++) {
             printf("$%i :%12d (0x%08x)\n", j, state->registers[j], state->registers[j]);
         }
 
