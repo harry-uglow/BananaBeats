@@ -25,9 +25,24 @@ We decided to split up the implementations of these functions by assigning each 
 After the weekend, we worked to implement the rest of the main functions of the emulator, including file input, decoding instructions and the pipeline.  Harry focused on the pipeline and handling instructions, while Shayan and Maurice worked on the file input.
 
 \subsection{Communication}
-It was agreed that we would all try hard to make all git commit messages as detailed and clear as possible. When not physically working together, Facebook Messenger is our main channel of communication. We use it to dicuss what we each need to do and any bugs and faults which need fixing.
+It was agreed that we would all try hard to make all git commit messages as detailed and clear as possible. When not physically working together, Facebook Messenger is our main channel of communication. We use it to discuss what we each need to do and any bugs and faults which need fixing. We also schedule when we come in to labs to work together.
+
+\subsection{Teamwork}
+One possible area which we could improve on is better understanding of code written by other members. We could achieve this through individually setting time aside to read through other people's code and ensuring that each of our separate tasks are well commented for others to read and make sense of. This would enable us to work more efficiently in the debugging stage. Fortunately, we have worked very well as a team to debug code quickly.\\
+
+We are also very lucky to have an excellent group leader who has made sure that work is distributed evenly and that everyone keeps on track and understands what they need to do.
 
 \section{Implementation Strategies}
+We created the core of the emulator first in the file \texttt{defs.h}. This contained well-defined structures to represent the state of our processor and its inner workings. It was important to do this as it allowed us to complete the implementation of the instruction execution based on this common framework which we all understood.\\
+
+To ensure the readability of our code, we split up each section of the emulator (instruction execution, pipeline, utilities etc.) into separate files which would later be linked to the main \texttt{emulator.c} file through a well organised hierarchy of \texttt{{\#}include} directives.
+
+\subsection{Reusable Code}
+
+% Add stuff here
+
+\subsection{Foreseeable Challenges}
+
 
 
 
