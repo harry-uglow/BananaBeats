@@ -113,6 +113,8 @@ void dataProcessing(arm_t *arm) {
         // Z bit set if result is all zeros
         if ((0x00000000 | temp) == 0x00000000) {
             arm->registers[REG_CPSR] |= (1 << 30);
+        } else {
+            arm->registers[REG_CPSR] &= 0xBFFFFFFF;
         }
 
         // N bit set to bit 31 of the result
