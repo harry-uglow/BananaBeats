@@ -122,11 +122,6 @@ void dataProcessing(arm_t *arm) {
 void multiply(arm_t *arm) {
     int result;
 
-    // Check condition is satisfied by CPSR register
-    if (arm->instruction->cond != arm->registers[16]) {
-        return;
-    }
-
     // Rd = Rm * Rs
     result = arm->registers[arm->instruction->Rm] * arm->registers[arm->instruction->Rs];
     arm->registers[arm->instruction->Rd] = result;
