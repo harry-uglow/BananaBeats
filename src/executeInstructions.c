@@ -180,8 +180,16 @@ void singleDataTransfer(arm_t *arm) {
     } else {
         // Perform the load or store operation
         if (ins->setL) {
-            int32_t *wordSizedMem = (int32_t *)arm->memory;
-            arm->registers[ins->Rd] = wordSizedMem[memAddr / WORD_LENGTH];
+            if((memAddr % WORD_LENGTH) != 0) {
+                int32_t byte0 = arm->memory[memAddr] & 0x000000FF;
+                int32_t byte1 = (arm->memory[memAddr + 1] & 0x000000FF) << 8;
+                int32_t byte2 = (arm->memory[memAddr + 2] & 0x000000FF) << 16;
+                int32_t byte3 = (arm->memory[memAddr + 3] & 0x000000FF) << 24;
+                arm->registers[ins->Rd] = byte3 | byte2 | byte1 | byte0;
+            } else {
+                int32_t *wordSizedMem = (int32_t *) arm->memory;
+                arm->registers[ins->Rd] = wordSizedMem[memAddr / WORD_LENGTH];
+            }
         } else {
             arm->memory[memAddr] = arm->registers[ins->Rd];
         }
