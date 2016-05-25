@@ -91,7 +91,7 @@ void decode(arm_t *state) {
 }
 
 void execute(arm_t *state) {
-    int NZCV = (0xF0000000 & state->registers[REG_CPSR]);
+    int NZCV = (0xF0000000 & state->registers[REG_CPSR]) >> 28;
     if(checkCond(state->instruction->cond, NZCV)) {
         ins_t type = state->instruction->type;
         if(type == DATA_PROCESS) {
