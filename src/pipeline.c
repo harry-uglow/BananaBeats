@@ -77,7 +77,7 @@ void decode(arm_t *state) {
             toDecode->shiftAmount = (0xFF & rsVal);
         } else {
             // Shift by constant
-            toDecode->shiftAmount = (0xF80 & fetched) >> 3;
+            toDecode->shiftAmount = (0xF80 & fetched) >> 7;
         }
     } else if(DATA_PROCESS == toDecode->type) {
         // Operand 2 is an immediate value
