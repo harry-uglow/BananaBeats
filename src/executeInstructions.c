@@ -60,12 +60,15 @@ void dataProcessing(arm_t *arm) {
             arm->registers[destReg] = (operand1 - operand2);
             temp = destReg;
             carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
+            carry = !carry;
+
             break;
 
         case 3: // Subtract (op2 - rn)
             arm->registers[destReg] = (operand2 - operand1);
             temp = destReg;
             carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
+            carry = !carry;
             break;
 
         case 4: // Addition
@@ -74,17 +77,18 @@ void dataProcessing(arm_t *arm) {
             carry = (0x0000000100000000 & (op1_64 + op2_64)) >> 32;
             break;
 
-        case 8: // AND but result not written (tst) ???
+        case 8: // AND but result not written (tst)
             temp = (operand1 & operand2);
             break;
 
-        case 9: // EOR but result not written (teq) ???
+        case 9: // EOR but result not written (teq)
             temp = (operand1 ^ operand2);
             break;
 
-        case 10: // Cmp ???
+        case 10: // Cmp
             temp = (operand1 - operand2);
             carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
+            carry = !carry;
             break;
             
         case 12: // OR (orr)
