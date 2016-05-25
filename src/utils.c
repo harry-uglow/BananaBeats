@@ -109,6 +109,8 @@ void printFinalState(arm_t *state) {
 
     int k = 0;
 
+    int8_t tmp = state->memory[5];
+
     int32_t *wordSizedMem = (int32_t *)state->memory;
 
     while(wordSizedMem[k] != 0) {
