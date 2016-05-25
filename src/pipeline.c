@@ -4,7 +4,7 @@
 void fetch(arm_t *state) {
     int32_t pc = state->registers[REG_PC];
     int32_t *wordSizedMem = (int32_t *)state->memory;
-    state->fetched = reverseByteOrder(wordSizedMem[pc]);
+    state->fetched = wordSizedMem[pc];
     state->registers[REG_PC] += WORD_LENGTH;
     state->isFetched = 1;
 }

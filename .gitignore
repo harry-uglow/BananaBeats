@@ -33,3 +33,7 @@ assemble
 *.nav
 *.toc
 
+#ignore CLion files
+*.idea
+CMakeLists.txt
+
