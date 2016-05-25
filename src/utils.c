@@ -107,14 +107,14 @@ void printFinalState(arm_t *state) {
     // Print out non-zero contents of memory
     printf("Non-zero memory:\n");
 
-    int k = 0;
 
     int32_t *wordSizedMem = (int32_t *)state->memory;
 
-    while(wordSizedMem[k] != 0) {
-        printf("0x%08x: 0x%08x\n", k * WORD_LENGTH,
-               (reverseByteOrder(wordSizedMem[k])));
-        k++;
+    for(int k = 0; k < MEM_SIZE / WORD_LENGTH; k++) {
+        if (wordSizedMem[k] != 0) {
+            printf("0x%08x: 0x%08x\n", k * WORD_LENGTH,
+                   (reverseByteOrder(wordSizedMem[k])));
+        }
     }
 
 }
