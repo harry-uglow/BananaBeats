@@ -171,12 +171,17 @@ void singleDataTransfer(arm_t *arm) {
         }
     }
 
-
-    // Perform the load or store operation
-    if(ins->setL) {
-        arm->registers[ins->Rd] = arm->memory[memAddr];
+    // Only perform valid memory accesses
+    if(memAddr > MEM_SIZE) {
+        printf("Error: Out of bounds memory access at address 0x%08x\n",
+               memAddr);
     } else {
-        arm->memory[memAddr] = arm->registers[ins->Rd];
+        // Perform the load or store operation
+        if (ins->setL) {
+            arm->registers[ins->Rd] = arm->memory[memAddr];
+        } else {
+            arm->memory[memAddr] = arm->registers[ins->Rd];
+        }
     }
 
     if(!ins->setP) {
