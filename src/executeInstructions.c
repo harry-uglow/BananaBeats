@@ -201,6 +201,9 @@ void branch(arm_t *arm) {
 
 	// (2's complement) 24 bit offset in branch instruction shifted left 2 bits & sign extended to 32 bits
     int32_t branchOffset = (arm->instruction->offset) << 2;
+    int32_t topBit = (0x02000000 & branchOffset);
+    int32_t signExtendBits = topBit ? 0xFC000000 : 0;
+    branchOffset |= signExtendBits;
 
 	// Offset is added to the PC register
     (arm->registers[15]) += branchOffset;
