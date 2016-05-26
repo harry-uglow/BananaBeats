@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "utils.h"
 
 int readFile(assIns_t *instructions, char **argv) {
 	// Reading assembly file input
@@ -18,6 +19,7 @@ int readFile(assIns_t *instructions, char **argv) {
 }
 
 int initialiseAssembler(void) {
+	// Allocate memory onto the heap for an array of instructions
 	assIns_t *instructions = malloc(sizeof(assIns_t) * MEM_SIZE);
 	
 	// Check if memory allocation failed
