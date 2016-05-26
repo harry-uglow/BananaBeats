@@ -21,7 +21,7 @@ typedef struct assInstr {
 	char op4[];
 } assIns_t;
 
-// Stucture of type of instructions
+// Structure of type of instructions
 typedef enum executeType {
     DATA_PROCESS,
     MULTIPLY,
@@ -29,6 +29,33 @@ typedef enum executeType {
     BRANCH,
     HALT
 } exec_t;
+
+// Mnemonic enum mapping instructions codes to numbers
+typedef enum mnemonic {
+    ADD,
+    SUB,
+    RSB,
+    AND,
+    EOR,
+    ORR,
+    MOV,
+    TST,
+    TEQ,
+    CMP,
+    MUL,
+    MLA,
+    LDR,
+    STR,
+    BEQ,
+    BNE,
+    BGE,
+    BLT,
+    BGT,
+    BLE,
+    B,
+    LSL,
+    ANDEQ
+} mnemonic_t;
 
 // Structure of instruction format
 typedef struct Instruction {
