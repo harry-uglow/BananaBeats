@@ -57,6 +57,26 @@ typedef enum mnemonic {
     ANDEQ
 } mnemonic_t;
 
+// Constants arising from mnemonic_t
+#define MAX_DATA_PROCESS 9
+#define MIN_MULTIPLY 10
+#define MAX_MULTIPLY 11
+#define MIN_DATA_TRANSFER 12
+#define MAX_DATA_TRANSFER 13
+#define MIN_BRANCH 14
+#define MAX_BRANCH 20
+#define MIN_SPECIAL 21
+
+typedef enum Cond {
+	EQUAL,
+	NOT_EQUAL,
+	G_OR_EQ = 10,
+	LESS_THAN = 11,
+	GRTR_THAN = 12,
+	L_OR_EQ = 13,
+	ALWAYS = 14,
+};
+
 // Structure of instruction format
 typedef struct Instruction {
     int cond;
@@ -77,6 +97,7 @@ typedef struct Instruction {
     int32_t offset;
     int32_t op2;
     exec_t type;
+	mnemonic_t opMnemonic;
 } instr_t;
 
 #endif //ARM11_19_ASSEMBELER_DEFS_H
