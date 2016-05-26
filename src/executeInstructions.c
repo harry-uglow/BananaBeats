@@ -1,7 +1,7 @@
 #include "utils.c"
 #include "executeInstructions.h"
 
-// Data Processing
+
 void dataProcessing(arm_t *arm) {
     // get value of Rm / execute shift (shiftType, shiftAmount)
     instr_t *instr = arm->instruction;
@@ -124,7 +124,7 @@ void dataProcessing(arm_t *arm) {
     }
 }
 
-// Multiply instruction
+
 void multiply(arm_t *arm) {
     int result;
 
@@ -151,6 +151,7 @@ void multiply(arm_t *arm) {
 
 
 }
+
 
 void singleDataTransfer(arm_t *arm) {
     instr_t *ins = arm->instruction;
@@ -207,9 +208,8 @@ void singleDataTransfer(arm_t *arm) {
 }
 
 
-// Branch instruction 
+ 
 void branch(arm_t *arm) {
-
 	// (2's complement) 24 bit offset in branch instruction shifted left 2 bits & sign extended to 32 bits
     int32_t branchOffset = (arm->instruction->offset) << 2;
     int32_t topBit = (0x02000000 & branchOffset);
