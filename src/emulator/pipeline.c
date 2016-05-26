@@ -20,60 +20,52 @@ void decode(arm_t *state) {
     state->isDecoded = 1;
 
     // Check whether the instruction is 'halt' i.e. all bits are 0
-    if(!(0xFFFFFFFF & fetched)) {
+    if(!fetched) {
         toDecode->type = HALT;
         return;
     }
-
     // Sections of the instruction to be used as variables are selected and
     // set here. Where actual values will matter, the result is shifted
     // to the end. In the case of "set" variables, these will
-    // be used as booleans and no shift is required. The exception is "setI"
-    // which is used later in this function to determine instruction type.
-    // N.B. We acknowledge that the bit operations could be seen to be using
-    // "magic" numbers. However, we felt being able to see the number in hex
-    // allows a reader to better understand what the bit operation is doing.
-    toDecode->cond =      (0xF0000000 & fetched) >> 28;
-    toDecode->setI =      (0x02000000 & fetched) >> 20;
-    toDecode->setU =       0x00800000 & fetched;
-    toDecode->setL =       0x00100000 & fetched;
-    toDecode->setP =       0x01000000 & fetched;
-    toDecode->setS = toDecode->setL;
-    toDecode->setA =       0x00200000 & fetched;
-    toDecode->isRsShift =  0x00000010 & fetched;
-    toDecode->opCode =    (0x01E00000 & fetched) >> 21;
-    toDecode->Rn =        (0x000F0000 & fetched) >> 16;
-    toDecode->Rd =        (0x0000F000 & fetched) >> 12;
-    toDecode->Rs =        (0x00000F00 & fetched) >> 8;
-    toDecode->Rm =         0x0000000F & fetched;
-    toDecode->shiftType = (0x00000060 & fetched) >> 5;
+    // be used as booleans and no shift is required.
+    toDecode->cond =      (MASK_COND & fetched) >> COND_LAST;
+    toDecode->setI =       MASK_I_BIT & fetched;
+    toDecode->setP =       MASK_P_BIT & fetched;
+    toDecode->setU =       MASK_U_BIT & fetched;
+    toDecode->setA =       MASK_A_BIT & fetched;
+    toDecode->setS =       MASK_S_BIT & fetched;
+    toDecode->setL =       toDecode->setS;
+    toDecode->isRsShift =  MASK_RS_SHIFT_BIT & fetched;
+    toDecode->opCode =    (MASK_OPCODE & fetched) >> OPCODE_LAST;
+    toDecode->Rn =        (MASK_RN & fetched) >> RN_LAST;
+    toDecode->Rd =        (MASK_RD & fetched) >> RD_LAST;
+    toDecode->Rs =        (MASK_RS & fetched) >> RS_LAST;
+    toDecode->Rm =         MASK_RM & fetched;
+    toDecode->shiftType = (MASK_SHIFT_T & fetched) >> SHIFT_T_LAST;
 
-    // Bits 27 through 25 and 7 through 4 can now be used to determine
-    // which of the instruction types the fetched instruction is.
-    int bits2726 = (0x0C000000 & fetched) >> 26;
-    int bits7to4 = (0x000000F0 & fetched) >> 4;
-    int multOrData = toDecode->setI | bits7to4;
+    // If !(bit 25) and bytes 7 through 4 have pattern 1001
+    int multOrData = MASK_MULT_DATA & fetched;
 
-    // The following switch assumes that input is correctly formed.
-    switch (bits2726) {
-        case 2 :
-            toDecode->type = BRANCH;
-            toDecode->offset = 0x00FFFFFF & fetched;
-            break;
-        case 1 :
-            toDecode->type = DATA_TRANSFER;
-            toDecode->offset = 0x00000FFF & fetched;
-            break;
-        default:
-            if(9 == multOrData) {
-                toDecode->type = MULTIPLY;
-                // In this case Rd and Rn must be swapped
-                int32_t tmp = toDecode->Rd;
-                toDecode->Rd = toDecode->Rn;
-                toDecode->Rn = tmp;
-            } else {
-                toDecode->type = DATA_PROCESS;
-            }
+    if(MASK_BRANCH & fetched) {
+        // If bit 27 is set then we have a Branch Instruction.
+        toDecode->type = BRANCH;
+        toDecode->offset = MASK_OFF_BRCH & fetched;
+    } else if(MASK_SDT & fetched) {
+        // If bit 26 is set then it's a Single Data Transfer.
+        toDecode->type = DATA_TRANSFER;
+        toDecode->offset = MASK_OFF_DATA & fetched;
+    } else if (MULT_ID == multOrData) {
+        // If !(bit 25) and bytes 7 through 4 have pattern 1001 then
+        // it is a Multiply instruction
+        toDecode->type = MULTIPLY;
+        // In this case Rd and Rn must be swapped
+        int tmp = toDecode->Rd;
+        toDecode->Rd = toDecode->Rn;
+        toDecode->Rn = tmp;
+    } else {
+        // Otherwise (assuming correctly formed input), we have a Data
+        // Processing instruction.
+        toDecode->type = DATA_PROCESS;
     }
 
     if((DATA_PROCESS == toDecode->type && !toDecode->setI) ||
@@ -82,24 +74,24 @@ void decode(arm_t *state) {
         if (toDecode->isRsShift) {
             // Shift by register
             int rsVal = state->registers[toDecode->Rs];
-            toDecode->shiftAmount = (0xFF & rsVal);
+            // Shift amount specified by bottom byte of Rs.
+            toDecode->shiftAmount = (MASK_END_BYTE & rsVal);
         } else {
             // Shift by constant
-            toDecode->shiftAmount = (0xF80 & fetched) >> 7;
+            toDecode->shiftAmount = (MASK_SHFT_CONST & fetched)
+                                    >> SHIFT_CONST_LAST;
         }
     } else if(DATA_PROCESS == toDecode->type) {
         // Operand 2 is an immediate value
-        int32_t immConst = (0x000000FF & fetched);
-        // Calculate the rotation
-        int rotation = 2 * ((0x00000F00 & fetched) >> 8);
-        // Bitwise rotate right by 'rotation'
-        toDecode->op2 = (immConst >> rotation) | (immConst << (32 - rotation));
+        toDecode->op2 = (MASK_END_BYTE & fetched);
+        // Calculate the rotation amount
+        toDecode->shiftAmount = 2 * ((MASK_ROTATE & fetched) >> ROT_AMT_LAST);
     }
 }
 
 // Execute the decoded instruction
 void execute(arm_t *state) {
-    int NZCV = (0xF0000000 & state->registers[REG_CPSR]) >> 28;
+    int NZCV = (MASK_NZCV & state->registers[REG_CPSR]) >> CPSR_LAST;
 
     if(checkCond(state->instruction->cond, NZCV)) {
         exec_t type = state->instruction->type;

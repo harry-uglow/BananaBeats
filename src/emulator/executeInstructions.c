@@ -1,7 +1,6 @@
 #include "utils.c"
 #include "executeInstructions.h"
 
-
 void dataProcessing(arm_t *arm) {
     // get value of Rm / execute shift (shiftType, shiftAmount)
     instr_t *ins = arm->instruction;
@@ -15,7 +14,10 @@ void dataProcessing(arm_t *arm) {
     int32_t operand2;
     int carry = 0;
     if (setI) {
-        operand2 = ins->op2;
+        // Operand 2 is an immediate value
+        // Bitwise rotate right by shiftAmount
+        operand2 = (ins->op2 >> ins->shiftAmount) |
+                        (ins->op2 << (BIT_WORD_LENGTH - ins->shiftAmount));
     } else {
         int32_t rmVal = arm->registers[ins->Rm];
         int type = ins->shiftType;
@@ -24,7 +26,7 @@ void dataProcessing(arm_t *arm) {
         // switch on shift type here
         switch(type) {
             case 0:
-                bitToCarry = 2 ^ (32 - (amount - 1));
+                bitToCarry = 2 ^ (BIT_WORD_LENGTH - (amount - 1));
                 carry = (rmVal & bitToCarry) >> (amount - 1);
                 break;
 
@@ -59,7 +61,8 @@ void dataProcessing(arm_t *arm) {
         case 2: // Subtract
             arm->registers[destReg] = (operand1 - operand2);
             temp = destReg;
-            carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
+            carry = (MASK_CARRY_BIT & (op1_64 - op2_64))
+                    >> BIT_WORD_LENGTH;
             carry = !carry;
 
             break;
@@ -67,14 +70,16 @@ void dataProcessing(arm_t *arm) {
         case 3: // Subtract (op2 - rn)
             arm->registers[destReg] = (operand2 - operand1);
             temp = destReg;
-            carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
+            carry = (MASK_CARRY_BIT & (op1_64 - op2_64))
+                    >> BIT_WORD_LENGTH;
             carry = !carry;
             break;
 
         case 4: // Addition
             arm->registers[destReg] = (operand1 + operand2);
             temp = destReg;
-            carry = (0x0000000100000000 & (op1_64 + op2_64)) >> 32;
+            carry = (MASK_CARRY_BIT & (op1_64 + op2_64))
+                    >> BIT_WORD_LENGTH;
             break;
 
         case 8: // AND but result not written (tst)
@@ -87,7 +92,8 @@ void dataProcessing(arm_t *arm) {
 
         case 10: // Cmp
             temp = (operand1 - operand2);
-            carry = (0x0000000100000000 & (op1_64 - op2_64)) >> 32;
+            carry = (MASK_CARRY_BIT & (op1_64 - op2_64))
+                    >> BIT_WORD_LENGTH;
             carry = !carry;
             break;
             
@@ -105,22 +111,21 @@ void dataProcessing(arm_t *arm) {
 
     // Update the CPSR register
     if (arm->instruction->setS) {
-      
-        // C bit is set depending on the carry out
-        int32_t cBit = carry << 29;
-        arm->registers[REG_CPSR] |= cBit;
-        
-        // Z bit set if result is all zeros
-        if ((0x00000000 | temp) == 0x00000000) {
-            arm->registers[REG_CPSR] |= (1 << 30);
-        } else {
-            arm->registers[REG_CPSR] &= 0xBFFFFFFF;
-        }
 
         // N bit set to bit 31 of the result
-        int32_t nBit = temp & 0x80000000;
+        int32_t nBit = temp & MASK_N_BIT;
         arm->registers[REG_CPSR] |= nBit;
 
+        // Z bit set if result is all zeros
+        if (!temp) {
+            arm->registers[REG_CPSR] |= MASK_Z_BIT;
+        } else {
+            arm->registers[REG_CPSR] &= MASK_ALL_BUT_Z;
+        }
+
+        // C bit is set depending on the carry out
+        int32_t cBit = carry << C_BIT;
+        arm->registers[REG_CPSR] |= cBit;
     }
 }
 
@@ -144,7 +149,7 @@ void multiply(arm_t *arm) {
     }
 
     // Update CPSR register
-    int32_t nBit = result & 0x80000000;
+    int32_t nBit = result & MASK_N_BIT;
     arm->registers[REG_CPSR] |= nBit;
 }
 
@@ -178,10 +183,13 @@ void singleDataTransfer(arm_t *arm) {
         // Perform the load or store operation
         if (ins->setL) {
             if((memAddr % WORD_LENGTH) != 0) {
-                int32_t byte0 = arm->memory[memAddr] & 0x000000FF;
-                int32_t byte1 = (arm->memory[memAddr + 1] & 0x000000FF) << 8;
-                int32_t byte2 = (arm->memory[memAddr + 2] & 0x000000FF) << 16;
-                int32_t byte3 = (arm->memory[memAddr + 3] & 0x000000FF) << 24;
+                int32_t byte0 = arm->memory[memAddr] & MASK_END_BYTE;
+                int32_t byte1 = (arm->memory[memAddr + 1] & MASK_END_BYTE)
+                                << BYTE;
+                int32_t byte2 = (arm->memory[memAddr + 2] & MASK_END_BYTE)
+                                << (2 * BYTE);
+                int32_t byte3 = (arm->memory[memAddr + 3] & MASK_END_BYTE)
+                                << (3 * BYTE);
                 arm->registers[ins->Rd] = byte3 | byte2 | byte1 | byte0;
             } else {
                 int32_t *wordSizedMem = (int32_t *) arm->memory;
@@ -208,12 +216,12 @@ void branch(arm_t *arm) {
 	// (2's complement) 24 bit offset in branch instruction
     // shifted left 2 bits & sign extended to 32 bits
     int32_t branchOffset = (arm->instruction->offset) << 2;
-    int32_t topBit = (0x02000000 & branchOffset);
-    int32_t signExtendBits = topBit ? 0xFC000000 : 0;
+    int32_t topBit = (MASK_I_BIT & branchOffset);
+    int32_t signExtendBits = topBit ? MASK_SIGN_EX : 0;
     branchOffset |= signExtendBits;
 
 	// Offset is added to the PC register
-    (arm->registers[15]) += branchOffset;
+    (arm->registers[REG_PC]) += branchOffset;
 
     // PC has changed and previously fetched instruction
     // is no longer valid so the pipeline is cleared.
