@@ -130,9 +130,11 @@ int readFile(arm_t *state, char **argv) {
     	return 0;
 	}
 
-    // Loop to read binary file, one byte at a time and copy the bytes into processor's memory until
-    // there are no more bytes left to read in the file
-    int8_t byteInput; // Temporary byte variable to store read byte on each iteration of the loop
+    // Loop to read binary file, one byte at a time and copy the
+    // bytes into processor's memory until there are no more
+    // bytes left to read in the file. byteInput is a temporary
+    // variable to store read byte on each iteration of the loop.
+    int8_t byteInput;
     int8_t *pByteInput = &byteInput;
     int memPos = 0;
 	while(TRUE) {
