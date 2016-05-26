@@ -1,19 +1,25 @@
 #include "executeInstructions.c"
 #include "pipeline.h"
 
+// Fetch the instruction from the virtual memory
 void fetch(arm_t *state) {
     int32_t pc = state->registers[REG_PC];
+    // Pointer to the 32-bit instruction
     int32_t *wordSizedMem = (int32_t *)state->memory;
+    // Load instruction into the current state
     state->fetched = wordSizedMem[pc / WORD_LENGTH];
+    // Increment program counter register
     state->registers[REG_PC] += WORD_LENGTH;
     state->isFetched = 1;
 }
 
+// Decode the fetched instruction
 void decode(arm_t *state) {
     instr_t *toDecode = state->instruction;
     int32_t fetched = state->fetched;
     state->isDecoded = 1;
 
+    // Check whether the instruction is 'halt' i.e. all bits are 0
     if(!(0xFFFFFFFF & fetched)) {
         toDecode->type = HALT;
         return;
@@ -84,14 +90,15 @@ void decode(arm_t *state) {
         int32_t immConst = (0x000000FF & fetched);
         // Calculate the rotation
         int rotation = 2 * ((0x00000F00 & fetched) >> 8);
-
         // Bitwise rotate right by 'rotation'
         toDecode->op2 = (immConst >> rotation) | (immConst << (32 - rotation));
     }
 }
 
+// Execute the decoded instruction
 void execute(arm_t *state) {
     int NZCV = (0xF0000000 & state->registers[REG_CPSR]) >> 28;
+
     if(checkCond(state->instruction->cond, NZCV)) {
         ins_t type = state->instruction->type;
         if(type == DATA_PROCESS) {
