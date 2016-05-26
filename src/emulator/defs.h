@@ -28,9 +28,8 @@
 #define ROT_AMT_LAST 8
 #define RS_SHIFT_BIT 4
 #define SHIFT_CONST_LAST 7
+
 // Mask macros for decode()
-
-
 #define MASK_I_BIT	 	  0x02000000
 #define MASK_P_BIT	 	  0x01000000
 #define MASK_U_BIT	   	  0x00800000
@@ -54,7 +53,6 @@
 #define MASK_END_BYTE     0x000000FF
 #define MASK_SHIFT_T  	  0x00000060
 #define MASK_RM		      0x0000000F
-
 #define MULT_ID 0xF0
 
 // Used in executeInstructions.c
