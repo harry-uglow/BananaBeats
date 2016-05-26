@@ -144,15 +144,8 @@ void multiply(arm_t *arm) {
     }
 
     // Update CPSR register
-    if (8000000 & result) {
-        // Set bit 31 of CPSR register
-        arm->registers[REG_CPSR] |= 1 << 31;
-    } else {
-        // Clear bit 31 of CPSR register
-        arm->registers[REG_CPSR] &= ~(1 << 31);
-    }
-
-
+    int32_t nBit = temp & 0x80000000;
+    arm->registers[REG_CPSR] |= nBit;
 }
 
 void singleDataTransfer(arm_t *arm) {
@@ -206,7 +199,6 @@ void singleDataTransfer(arm_t *arm) {
             arm->registers[ins->Rn] -= offset;
         }
     }
-
 }
 
 
