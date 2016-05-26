@@ -43,7 +43,6 @@ typedef struct Instruction {
     int32_t offset;
     int32_t op2;
     exec_t type;
-
 } instr_t;
 
 
