@@ -92,12 +92,14 @@ void printFinalState(arm_t *state) {
 
     // Print out contents of registers 0-9
     for(int i = 0; i < 10; i++) {
-        printf("$%i  :%12d (0x%08x)\n", i, state->registers[i], state->registers[i]);
+        printf("$%i  :%12d (0x%08x)\n", i, state->registers[i],
+               state->registers[i]);
     }
 
     // Print out contents of registers 10-12
     for(int j = 10; j < 13; j++) {
-        printf("$%i :%12d (0x%08x)\n", j, state->registers[j], state->registers[j]);
+        printf("$%i :%12d (0x%08x)\n", j, state->registers[j],
+               state->registers[j]);
     }
 
     // Print out contents of PC and CPSR
@@ -128,8 +130,7 @@ int readFile(arm_t *state, char **argv) {
     	return 0;
 	}
 
-    // Loop to read binary file, one byte at a time 
-	// and copy the bytes into processor's memory until
+    // Loop to read binary file, one byte at a time and copy the bytes into processor's memory until
     // there are no more bytes left to read in the file
     int8_t byteInput; // Temporary byte variable to store read byte on each iteration of the loop
     int8_t *pByteInput = &byteInput;

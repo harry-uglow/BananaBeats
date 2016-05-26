@@ -4,8 +4,8 @@
 int main(int argc, char **argv) {
 	arm_t arm;
 
-    // Initialise the processor by assigning memory for registers and memory
-    // and initlailise everything to zero as required
+    // Initialise the processor by assigning space for registers and
+	// memory on the heap and initialise everything to zero as required
     if (!initialiseProcessor(&arm)) {
         return EXIT_FAILURE;
     }

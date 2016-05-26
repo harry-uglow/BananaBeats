@@ -25,11 +25,14 @@ void decode(arm_t *state) {
         return;
     }
 
-    // Sections of the instruction to be used as variables are selected and set
-    // here. Where actual values will matter are required the result is shifted
-    // to the end where necessary. In the case of "set" variables, these will
+    // Sections of the instruction to be used as variables are selected and
+    // set here. Where actual values will matter, the result is shifted
+    // to the end. In the case of "set" variables, these will
     // be used as booleans and no shift is required. The exception is "setI"
     // which is used later in this function to determine instruction type.
+    // N.B. We acknowledge that the bit operations could be seen to be using
+    // "magic" numbers. However, we felt being able to see the number in hex
+    // allows a reader to better understand what the bit operation is doing.
     toDecode->cond =      (0xF0000000 & fetched) >> 28;
     toDecode->setI =      (0x02000000 & fetched) >> 20;
     toDecode->setU =       0x00800000 & fetched;

@@ -144,7 +144,7 @@ void multiply(arm_t *arm) {
     }
 
     // Update CPSR register
-    int32_t nBit = temp & 0x80000000;
+    int32_t nBit = result & 0x80000000;
     arm->registers[REG_CPSR] |= nBit;
 }
 
@@ -205,7 +205,8 @@ void singleDataTransfer(arm_t *arm) {
 
  
 void branch(arm_t *arm) {
-	// (2's complement) 24 bit offset in branch instruction shifted left 2 bits & sign extended to 32 bits
+	// (2's complement) 24 bit offset in branch instruction
+    // shifted left 2 bits & sign extended to 32 bits
     int32_t branchOffset = (arm->instruction->offset) << 2;
     int32_t topBit = (0x02000000 & branchOffset);
     int32_t signExtendBits = topBit ? 0xFC000000 : 0;
@@ -214,7 +215,8 @@ void branch(arm_t *arm) {
 	// Offset is added to the PC register
     (arm->registers[15]) += branchOffset;
 
-    // PC has changed and previously fetched instruction is no longer valid so the pipeline is cleared.
+    // PC has changed and previously fetched instruction
+    // is no longer valid so the pipeline is cleared.
     (arm->fetched) = 0;
 
 	// Clear fetched and decoded parts of pipeline
