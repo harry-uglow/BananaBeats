@@ -124,7 +124,7 @@ int readFile(arm_t *state, char **argv) {
 
 	// Check if file cannot be opened
 	if(finput == NULL) {
-		printf("Could not open %s", argv[1]);
+		printf("Could not open %s\n", argv[1]);
     	return 0;
 	}
 
@@ -153,7 +153,7 @@ int initialiseProcessor(arm_t *state) {
 	
 	// Check for failure of memory allocation
     if (state->memory == NULL) {
-        printf("Failed to create memory array on heap");
+        printf("Failed to create memory array on heap\n");
         return 0;
     }
 	
