@@ -13,14 +13,14 @@
 #define NUMBER_OF_REGISTERS 17
 
 
-// INSTRUCTIONS
-typedef enum insType {
+// INSTRUCTION TYPES
+typedef enum executeType {
     DATA_PROCESS,
     MULTIPLY,
     DATA_TRANSFER,
     BRANCH,
     HALT
-} ins_t;
+} exec_t;
 
 
 // INSTRUCTION FORMAT BITS
@@ -36,13 +36,13 @@ typedef struct Instruction {
     int opCode;
     int shiftType;
     int shiftAmount;
-    int32_t Rn;
-    int32_t Rd;
-    int32_t Rs;
-    int32_t Rm;
+    int Rn;
+    int Rd;
+    int Rs;
+    int Rm;
     int32_t offset;
     int32_t op2;
-    ins_t type;
+    exec_t type;
 
 } instr_t;
 
