@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+
+// CONSTANTS
 #define MEM_SIZE 65536
 #define WORD_LENGTH 4
 #define OFFSET 4
@@ -11,6 +13,7 @@
 #define NUMBER_OF_REGISTERS 17
 
 
+// INSTRUCTIONS
 typedef enum insType {
     DATA_PROCESS,
     MULTIPLY,
@@ -19,6 +22,8 @@ typedef enum insType {
     HALT
 } ins_t;
 
+
+// INSTRUCTION FORMAT BITS
 typedef struct Instruction {
     int cond;
     int setI;
@@ -41,6 +46,8 @@ typedef struct Instruction {
 
 } instr_t;
 
+
+// STATE OF PROCESSOR
 typedef struct ARM {
     int8_t *memory;
     int32_t registers[NUMBER_OF_REGISTERS];
@@ -49,4 +56,5 @@ typedef struct ARM {
 	int isFetched;
 	int isDecoded;
 } arm_t;
+
 #endif //ARM11_19_DEFS_H
