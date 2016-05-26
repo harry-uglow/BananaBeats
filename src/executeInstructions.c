@@ -4,22 +4,22 @@
 
 void dataProcessing(arm_t *arm) {
     // get value of Rm / execute shift (shiftType, shiftAmount)
-    instr_t *instr = arm->instruction;
-    int32_t operand1 = arm->registers[instr->Rn];
-    int setI = instr->setI;
-    int opCode = instr->opCode;
-    int32_t destReg = instr->Rd;
+    instr_t *ins = arm->instruction;
+    int32_t operand1 = arm->registers[ins->Rn];
+    int setI = ins->setI;
+    int opCode = ins->opCode;
+    int32_t destReg = ins->Rd;
     int32_t temp = 0;
 
     // Calculate operand2
     int32_t operand2;
     int carry = 0;
     if (setI) {
-        operand2 = instr->op2;
+        operand2 = ins->op2;
     } else {
-        int32_t rmVal = arm->registers[instr->Rm];
-        int type = instr->shiftType;
-        int amount = instr->shiftAmount;
+        int32_t rmVal = arm->registers[ins->Rm];
+        int type = ins->shiftType;
+        int amount = ins->shiftAmount;
         int32_t bitToCarry = 0;
         // switch on shift type here
         switch(type) {
@@ -127,26 +127,29 @@ void dataProcessing(arm_t *arm) {
 
 void multiply(arm_t *arm) {
     int result;
+    instr_t *ins = arm->instruction;
 
     // Rd = Rm * Rs
-    result = arm->registers[arm->instruction->Rm] * arm->registers[arm->instruction->Rs];
-    arm->registers[arm->instruction->Rd] = result;
+    result = arm->registers[ins->Rm] * arm->registers[ins->Rs];
+    arm->registers[ins->Rd] = result;
 
     // Accumulate: Rd = Rm * Rs + Rn
-    if (arm->instruction->setA) {
-        arm->registers[arm->instruction->Rd] += arm->registers[arm->instruction->Rn];
+    if (ins->setA) {
+        arm->registers[ins->Rd] += arm->registers[ins->Rn];
     }
 
     // Consider bit 'S' and return if it isn't set
-    if (!arm->instruction->setS) {
+    if (!ins->setS) {
         return;
     }
 
     // Update CPSR register
     if (8000000 & result) {
-        arm->registers[REG_CPSR] |= 1 << 31; // Set bit 31 of CPSR register
+        // Set bit 31 of CPSR register
+        arm->registers[REG_CPSR] |= 1 << 31;
     } else {
-        arm->registers[REG_CPSR] &= ~(1 << 31); // Clear bit 31 of CPSR register
+        // Clear bit 31 of CPSR register
+        arm->registers[REG_CPSR] &= ~(1 << 31);
     }
 
 
