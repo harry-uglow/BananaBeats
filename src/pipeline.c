@@ -45,7 +45,6 @@ void decode(arm_t *state) {
     toDecode->Rm =         0x0000000F & fetched;
     toDecode->shiftType = (0x00000060 & fetched) >> 5;
 
-
     // Bits 27 through 25 and 7 through 4 can now be used to determine
     // which of the instruction types the fetched instruction is.
     int bits2726 = (0x0C000000 & fetched) >> 26;
