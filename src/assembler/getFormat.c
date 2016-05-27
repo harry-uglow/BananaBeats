@@ -5,10 +5,21 @@
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
 instr_t getFormat(assInstr_t *ins) {
-    mnemonic_t mnemonic = mnemonicStringToEnum(ins->mnemonic);
     // Initialise instr_t for output later.
     instr_t out;
+    out.opMnemonic = mnemonicStringToEnum(ins->mnemonic);
+
     setCond(out);
+
+    // S is set for tst, teq and cmp instructions
+    if (out.opMnemonic == TST || out.opMnemonic == TEQ ||
+            out.opMnemonic == CMP) {
+        out.setS = 1;
+    }
+    // Not supporting optional case for now
+    out.setI = 1;
+
+    out.opCode = out.opMnemonic;
     // TODO : Continue implementation of getFormat()
 }
 
