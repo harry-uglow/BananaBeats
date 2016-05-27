@@ -97,9 +97,3 @@ int SymbolTable_get(char *key, struct SymbolTable symbolTable) {
     }
     return 0; // Assuming the input is well-formed, code should not reach here
 }
-
-int main() {
-    printf("test\n");
-    // TODO: Test this
-    return EXIT_SUCCESS;
-}
