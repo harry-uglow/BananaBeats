@@ -62,6 +62,19 @@ typedef enum mnemonic {
     ANDEQ
 } mnemonic_t;
 
+typedef enum OpCodes {
+	AND,
+	EOR,
+	SUB,
+	RSB,
+	ADD,
+	TST = 8,
+	TEQ = 9,
+	CMP = 10,
+	ORR = 12,
+	MOV = 13
+} opCode_t;
+
 // Constants arising from mnemonic_t
 #define MAX_DATA_PROCESS 9
 #define MIN_MULTIPLY 10
@@ -92,14 +105,14 @@ typedef struct Instruction {
     int setS;
     int setL;
     int isRsShift;
-    int opCode;
     int shiftType;
-    int shiftAmount;
-    int Rn;
-    int Rd;
-    int Rs;
-    int Rm;
-    int32_t offset;
+	int shiftAmount;
+	int Rn;
+	int Rd;
+	int Rs;
+	int Rm;
+	opCode_t opCode;
+	int32_t offset;
     int32_t op2;
     exec_t type;
 	mnemonic_t opMnemonic;
