@@ -12,6 +12,11 @@
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
 
+// EncodeConsts
+#define MULTP_REDEFINED_BITS 0x00000090
+#define SDT_PREDEFINED_BITS 0x04000000
+#define BRANCH_PREDEFINED_BITS 0x0C000000
+
 // Structure of assembly instruction
 typedef struct assInstr {
 	char mnemonic[];

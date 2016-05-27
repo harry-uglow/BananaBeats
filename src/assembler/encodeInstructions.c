@@ -40,7 +40,7 @@ int32_t encodeMultiply(instr_t *instr) {
     binaryInstr |= Rd << 16;
     binaryInstr |= Rn << 12;
     binaryInstr |= Rs << 8;
-    binaryInstr |= 9 << 4;    // Magic Number?
+    binaryInstr |= MULT_PREDEFINED_BITS;    
     binaryInstr |= Rm;
 
     return binaryInstr;
@@ -60,7 +60,7 @@ int32_t encodeSingleDataTransfer(instr_t *instr) {
     // Build the instruction via accumulation and bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= cond << 28;
-    binaryInstr |= 1 << 26;  // Magic Number?
+    binaryInstr |= SDT_PREDEFINED_BITS;
     binaryInstr |= setI << 25;
     binaryInstr |= setP << 24;
     binaryInstr |= setU << 23;
@@ -80,7 +80,7 @@ int32_t encodeBranch(instr_t *instr) {
     // Build the instruction via accumulation and bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= cond << 28;
-    binaryInstr |= 12 << 24;  // Magic Number?
+    binaryInstr |= BRANCH_PREDEFINED_BITS;
     binaryInstr |= offset;
 
     return binaryInstr;
