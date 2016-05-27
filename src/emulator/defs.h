@@ -15,18 +15,18 @@
 #define BYTE 8
 
 // Useful bit numbers
-#define N_BIT		 31
-#define Z_BIT		 30
-#define C_BIT		 29
-#define CPSR_LAST 	 28
-#define COND_LAST 	 28
-#define OPCODE_LAST  21
-#define RN_LAST 	 16
-#define RD_LAST 	 12
-#define RS_LAST 	 8
-#define SHIFT_T_LAST 5
-#define ROT_AMT_LAST 8
-#define RS_SHIFT_BIT 4
+#define N_BIT		 	31
+#define Z_BIT		 	30
+#define C_BIT		 	29
+#define CPSR_LAST 	 	28
+#define COND_LAST 	 	28
+#define OPCODE_LAST  	21
+#define RN_LAST 	 	16
+#define RD_LAST 	 	12
+#define RS_LAST 	  	 8
+#define SHIFT_T_LAST  	 5
+#define ROT_AMT_LAST 	 8
+#define RS_SHIFT_BIT     4
 #define SHIFT_CONST_LAST 7
 
 // Mask macros for decode()
@@ -53,7 +53,7 @@
 #define MASK_END_BYTE     0x000000FF
 #define MASK_SHIFT_T  	  0x00000060
 #define MASK_RM		      0x0000000F
-#define MULT_ID 0xF0
+#define MULT_ID 		  0x00000090
 
 // Used in executeInstructions.c
 #define MASK_CARRY_BIT 0x100000000
