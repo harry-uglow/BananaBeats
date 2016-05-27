@@ -1,5 +1,6 @@
 /*
- * Implementation of a symbol table using a linked list of key-value pairs
+ * Implementation of a symbol table using a linked list of key-value pairs,
+ * where the key is a string
  */
 
 #include "symbolTable.h"
@@ -9,14 +10,14 @@
 
 struct SymbolTableNode {
     char *label; // 'Key' of the symbol table, the label
-    int address; // 'Value' of the symbol table, the memory address
+    void *value; // 'Value' of the symbol table. Pointer to a value
 
     struct SymbolTableNode *pNextNode; // The next node (node linked to)
 };
 
-struct SymbolTable {
+typedef struct SymbolTable {
     struct SymbolTableNode *pFirstNode;
-};
+} symbolTable_t;
 
 // Create new symbol table
 struct SymbolTable *SymbolTable_new(void) {
@@ -50,6 +51,8 @@ void SymbolTable_delete(struct SymbolTable *symbolTable) {
 
     while (pCurrent != NULL) {
         pNext = pCurrent->pNextNode; // Update next node
+        free(pCurrent->value);
+        free(pCurrent->label);
         free(pCurrent); // Free the node itself
         pCurrent = pNext;
     }
@@ -57,11 +60,11 @@ void SymbolTable_delete(struct SymbolTable *symbolTable) {
     free(symbolTable); // Free the table
 }
 
-// Add matching label and address to symbol table
-void SymbolTable_put(char *newLabel, int newAddress,
+// Add matching label and value to symbol table
+void SymbolTable_put(char *newLabel, void *newValue,
                      struct SymbolTable *symbolTable) {
     // Make sure no arguments are null
-    if (newLabel == NULL || symbolTable == NULL) {
+    if (newLabel == NULL || newValue == NULL || symbolTable == NULL) {
         printf("Error: null argument. Did not add entry to symbol table\n");
         return;
     }
@@ -77,21 +80,21 @@ void SymbolTable_put(char *newLabel, int newAddress,
 
     // Assign the key and value of the new node
     newNode->label = newLabel;
-    newNode->address = newAddress;
+    newNode->value = newValue;
 
     // Node links to current head of symbol table
     newNode->pNextNode = symbolTable->pFirstNode;
     symbolTable->pFirstNode = newNode; // Make new node the head of the table
 }
 
-// Find address from given label
-int SymbolTable_get(char *key, struct SymbolTable symbolTable) {
+// Find value from given label
+void *SymbolTable_get(char *key, struct SymbolTable symbolTable) {
     struct SymbolTableNode *pCurrent = symbolTable.pFirstNode;
 
-    // Loop to traverse through table until address value is found
+    // Loop to traverse through table until value value is found
     while (pCurrent != NULL) {
         if (!strcmp(pCurrent->label, key)) {
-            return pCurrent->address;
+            return pCurrent->value;
         }
         pCurrent = pCurrent->pNextNode; // Update to next node
     }
