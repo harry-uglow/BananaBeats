@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "utils.h"
+#include "defs.h"
 
 int readFile(assIns_t *instructions, char **argv) {
 	// Open file to read frmo
@@ -7,7 +8,7 @@ int readFile(assIns_t *instructions, char **argv) {
 	
 	// Check if assembly file cannot be opened
 	if (finput == NULL) {
-		printf("Could not open %s\n", argv[1]);
+		printf("Could not open file %s\n", argv[1]);
 		return 0;
 	}
 	
@@ -29,13 +30,25 @@ int initialiseAssembler(assIns_t *instructions) {
 	}
  	
 	// TODO: Finish complete initialisation of assembler 
+	
+	return 1;
 }
 
 int writeToBinaryFile(int8_t *binInstructions, char **argv) {
 	// Open file to write to
-	FILE *foutput = fopen(argv[2]
+	FILE *foutput = fopen(argv[2], "w");
+
+	// Check if file cannot be opened
+	if(foutput == NULL) {
+		printf("Could not open file %s\n", argv[2]);
+		return 0;
+	}
+	
+	// TODO: Complete writing to binary file
+
+	// Finished writing to output of binary file
+	fclose(foutput); 
+	return 1;
 }
 
-int clearHeap(assIns_t *instructions) {
-	free(instructions);
-}
+
