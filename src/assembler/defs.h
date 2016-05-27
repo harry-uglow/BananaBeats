@@ -12,10 +12,24 @@
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
 
-// EncodeConsts
-#define MULTP_REDEFINED_BITS 0x00000090
+// Encode Bit Shift Amounts
+#define COND_BITS 28
+#define I_BIT 25
+#define P_BIT 24
+#define U_BIT 23
+#define A_BIT 21
+#define OPCODE_BITS 21
+#define S_BIT 20
+#define L_BIT 20
+#define RN_BITS 16
+#define RD_BITS 12
+#define RS_BITS 8
+
+// Encode Constant Bits
+#define MULT_PREDEFINED_BITS 0x00000090
 #define SDT_PREDEFINED_BITS 0x04000000
 #define BRANCH_PREDEFINED_BITS 0x0C000000
+#define HALT_PREDEFINED_INSTRUCTION 0x00000000
 
 // Structure of assembly instruction
 typedef struct assInstr {
