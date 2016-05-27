@@ -54,7 +54,7 @@ void decode(arm_t *state) {
         // If bit 26 is set then it's a Single Data Transfer.
         toDecode->type = DATA_TRANSFER;
         toDecode->offset = MASK_OFF_DATA & fetched;
-    } else if (MULT_ID == multOrData) {
+    } else if(MULT_ID == multOrData) {
         // If !(bit 25) and bytes 7 through 4 have pattern 1001 then
         // it is a Multiply instruction
         toDecode->type = MULTIPLY;

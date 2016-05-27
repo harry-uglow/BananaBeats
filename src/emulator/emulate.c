@@ -6,12 +6,12 @@ int main(int argc, char **argv) {
 
     // Initialise the processor by assigning space for registers and
 	// memory on the heap and initialise everything to zero as required
-    if (!initialiseProcessor(&arm)) {
+    if(!initialiseProcessor(&arm)) {
         return EXIT_FAILURE;
     }
 
     // Read the input file and load it into memory
-    if (!readFile(&arm, argv)) {
+    if(!readFile(&arm, argv)) {
         return EXIT_FAILURE;
     }
 

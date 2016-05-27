@@ -1,25 +1,40 @@
 #include "getFormat.h"
 #include "defs.h"
 #include <stdint.h>
+#include <string.h>
+
+void setCond(instr_t *ins);
+void getFormDatProc(instr_t *ins);
+void getFormMult(instr_t *ins);
+void getFormDatTran(instr_t *ins);
+void getFormBranch(instr_t *ins);
 
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
-instr_t getFormat(assInstr_t *ins) {
+instr_t getFormat(assInstr_t *assIns) {
     // Initialise instr_t for output later.
     instr_t out;
-    out.opMnemonic = mnemonicStringToEnum(ins->mnemonic);
+    out.opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
 
     setCond(out);
 
-    // S is set for tst, teq and cmp instructions
-    if (out.opMnemonic == TST || out.opMnemonic == TEQ ||
-            out.opMnemonic == CMP) {
-        out.setS = 1;
+    if(out.opMnemonic <= MAX_DATA_PROCESS) {
+        out.type == DATA_PROCESS;
+        getFormDatProc(&out, assIns);
+    } else if(out.opMnemonic <= MAX_MULTIPLY) {
+        out.type == MULTIPLY;
+        getFormMult(&out, assIns);
+    } else if(out.opMnemonic <= MAX_DATA_TRANSFER) {
+        out.type == DATA_TRANSFER;
+        getFormDatTran(&out, assIns);
+    } else if(out.opMnemonic <= MAX_BRANCH) {
+        out.type == BRANCH;
+        getFormBranch(&out, assIns);
+    } else {
+        out.type == HALT;
     }
-    // Not supporting optional case for now
-    out.setI = 1;
 
-    out.opCode = out.opMnemonic;
+
     // TODO : Continue implementation of getFormat()
 }
 
@@ -35,33 +50,39 @@ mnemonic_t mnemonicStringToEnum(char mnemonic[]) {
 }
 
 void setCond(instr_t *ins) {
-    if (ins->opMnemonic < MIN_BRANCH || B == ins->opMnemonic
-        || LSL == ins->opMnemonic) {
+    if (ins->opMnemonic <= MIN_BRANCH) {
         ins->cond = ALWAYS;
     } else {
-        switch (ins->opMnemonic) {
-            case BEQ :
-            case ANDEQ:
-                ins->cond = EQUAL;
-                break;
-            case BNE :
-                ins->cond = NOT_EQUAL;
-                break;
-            case BGE :
-                ins->cond = G_OR_EQ;
-                break;
-            case BLT :
-                ins->cond = LESS_THAN;
-                break;
-            case BGT :
-                ins->cond = GRTR_THAN;
-                break;
-            case BLE :
-                ins->cond = L_OR_EQ;
-                break;
-            default:
-                //error
-                break;
-        }
+        ins->cond = ins->opMnemonic - BRANCH_OFFSET;
     }
+}
+
+void getFormDatProc(instr_t *ins, assIns_t assIns) {
+    // Not supporting optional case for now
+    ins->setI = 1;
+
+    // The opMnemonic enum is organised such that the numerical values are
+    // equal to the opCode values, allowing for this simple code.
+    ins->opCode = ins->opMnemonic;
+
+    // S is set for tst, teq and cmp instructions
+    if (ins->opMnemonic == TST || ins->opMnemonic == TEQ ||
+        ins->opMnemonic == CMP) {
+        ins->setS = 1;
+    }
+
+    //Reg Rn
+    sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", ins->Rn);
+}
+
+void getFormMult(instr_t *ins, assIns_t assIns) {
+
+}
+
+void getFormDatTran(instr_t *ins, assIns_t assIns){
+
+}
+
+void getFormBranch(instr_t *ins, assIns_t assIns){
+
 }

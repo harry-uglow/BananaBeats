@@ -11,6 +11,7 @@
 #define REG_PC 15
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
+#define REG_DELIMITER "r"
 
 // EncodeConsts
 #define MULTP_REDEFINED_BITS 0x00000090
@@ -37,53 +38,40 @@ typedef enum executeType {
 
 // Mnemonic enum mapping instructions codes to numbers
 typedef enum mnemonic {
-    ADD,
-    SUB,
-    RSB,
-    AND,
-    EOR,
-    ORR,
-    MOV,
-    TST,
-    TEQ,
-    CMP,
-    MUL,
-    MLA,
-    LDR,
-    STR,
-    BEQ,
-    BNE,
-    BGE,
-    BLT,
-    BGT,
-    BLE,
-    B,
-    LSL,
-    ANDEQ
-} mnemonic_t;
-
-typedef enum OpCodes {
 	AND,
 	EOR,
 	SUB,
 	RSB,
 	ADD,
 	TST = 8,
-	TEQ = 9,
-	CMP = 10,
+	CMP = 9,
+	TEQ = 10,
 	ORR = 12,
-	MOV = 13
-} opCode_t;
+	MOV = 13,
+	LSL,
+	MUL,
+	MLA,
+	LDR,
+	STR,
+	B,
+	BEQ,
+	BNE,
+	BGE = 30,
+	BLT = 31,
+	BGT = 32,
+	BLE = 33,
+	ANDEQ
+} mnemonic_t;
 
 // Constants arising from mnemonic_t
-#define MAX_DATA_PROCESS 9
-#define MIN_MULTIPLY 10
-#define MAX_MULTIPLY 11
-#define MIN_DATA_TRANSFER 12
-#define MAX_DATA_TRANSFER 13
-#define MIN_BRANCH 14
-#define MAX_BRANCH 20
-#define MIN_SPECIAL 21
+#define MAX_DATA_PROCESS 14
+#define MIN_MULTIPLY 15
+#define MAX_MULTIPLY 16
+#define MIN_DATA_TRANSFER 17
+#define MAX_DATA_TRANSFER 18
+#define MIN_BRANCH 19
+#define MAX_BRANCH 25
+#define BRANCH_OFFSET 20
 
 typedef enum Cond {
 	EQUAL,
@@ -111,7 +99,7 @@ typedef struct Instruction {
 	int Rd;
 	int Rs;
 	int Rm;
-	opCode_t opCode;
+	int opCode;
 	int32_t offset;
     int32_t op2;
     exec_t type;
