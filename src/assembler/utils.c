@@ -2,7 +2,7 @@
 #include "utils.h"
 
 int readFile(assIns_t *instructions, char **argv) {
-	// Reading assembly file input
+	// Open file to read frmo
 	FILE *finput = fopen(argv[1],"r");
 	
 	// Check if assembly file cannot be opened
@@ -18,9 +18,9 @@ int readFile(assIns_t *instructions, char **argv) {
 	return 1;
 }
 
-int initialiseAssembler(void) {
+int initialiseAssembler(assIns_t *instructions) {
 	// Allocate memory onto the heap for an array of instructions
-	assIns_t *instructions = malloc(sizeof(assIns_t) * MEM_SIZE);
+	instructions = malloc(sizeof(assIns_t) * MEM_SIZE);
 	
 	// Check if memory allocation failed
 	if(instructions == NULL) {
@@ -29,4 +29,13 @@ int initialiseAssembler(void) {
 	}
  	
 	// TODO: Finish complete initialisation of assembler 
+}
+
+int writeToBinaryFile(int8_t *binInstructions, char **argv) {
+	// Open file to write to
+	FILE *foutput = fopen(argv[2]
+}
+
+int clearHeap(assIns_t *instructions) {
+	free(instructions);
 }
