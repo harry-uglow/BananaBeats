@@ -5,6 +5,8 @@
 #ifndef ARM11_19_GETFORMAT_H
 #define ARM11_19_GETFORMAT_H
 
-    instr_t getFormat(assInstr_t);
+#include "defs.h"
+
+    instr_t getFormat(assIns_t *assIns);
 
 #endif //ARM11_19_GETFORMAT_H

@@ -13,6 +13,7 @@
 #define NUMBER_OF_REGISTERS 17
 #define REG_DELIMITER "r"
 #define CONST_DELIMITER "#"
+#define MAX_MOV_LDR 0x100
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
