@@ -4,8 +4,6 @@
 #include <string.h>
 #include <stdio.h>
 
-<<<<<<< HEAD
-=======
 mnemonic_t mnemonicStringToEnum(char mnemonic[4]);
 void setCond(instr_t *ins);
 void getFormDatProc(instr_t *ins, assIns_t *assIns);
@@ -13,7 +11,6 @@ void getFormMult(instr_t *ins, assIns_t *assIns);
 void getFormDatTran(instr_t *ins, assIns_t *assIns);
 void getFormBranch(instr_t *ins, assIns_t *assIns);
 
->>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
 instr_t getFormat(assIns_t *assIns) {
