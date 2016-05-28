@@ -2,7 +2,18 @@
 #include "defs.h"
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
+<<<<<<< HEAD
+=======
+mnemonic_t mnemonicStringToEnum(char mnemonic[4]);
+void setCond(instr_t *ins);
+void getFormDatProc(instr_t *ins, assIns_t *assIns);
+void getFormMult(instr_t *ins, assIns_t *assIns);
+void getFormDatTran(instr_t *ins, assIns_t *assIns);
+void getFormBranch(instr_t *ins, assIns_t *assIns);
+
+>>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
 instr_t getFormat(assIns_t *assIns) {
@@ -10,29 +21,29 @@ instr_t getFormat(assIns_t *assIns) {
     instr_t out;
     out.opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
 
-    setCond(out);
+    setCond(&out);
 
     if(out.opMnemonic <= MAX_DATA_PROCESS) {
-        out.type == DATA_PROCESS;
+        out.type = DATA_PROCESS;
         getFormDatProc(&out, assIns);
     } else if(out.opMnemonic <= MAX_MULTIPLY) {
-        out.type == MULTIPLY;
+        out.type = MULTIPLY;
         getFormMult(&out, assIns);
     } else if(out.opMnemonic <= MAX_DATA_TRANSFER) {
-        out.type == DATA_TRANSFER;
+        out.type = DATA_TRANSFER;
         getFormDatTran(&out, assIns);
     } else if(out.opMnemonic <= MAX_BRANCH) {
-        out.type == BRANCH;
+        out.type = BRANCH;
         getFormBranch(&out, assIns);
     } else {
-        out.type == HALT;
+        out.type = HALT;
     }
 
 
     // TODO : Continue implementation of getFormat()
 }
 
-mnemonic_t mnemonicStringToEnum(char mnemonic[]) {
+mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
     return ADD;
     /*For this function I intend to have an ordered table mapping
       a mnemonic's string representation to its mnemonic_t enum representation.
@@ -68,22 +79,25 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
 
     // S is set for tst, teq and cmp instructions
     if (ins->opMnemonic == TST || ins->opMnemonic == TEQ ||
-        lins->opMnemonic == CMP) {
+        ins->opMnemonic == CMP) {
         ins->setS = 1;
+<<<<<<< HEAD
 
+=======
+    }
+>>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
     // Set up safely allocated pointers for use in sscanf
     int *Rn = malloc(sizeof(int *));
     int *Rd = malloc(sizeof(int *));
     int *Rm = malloc(sizeof(int *));
-    int *immVal = malloc(sizeof(int *));
-    int *shiftAmt = malloc(sizeof(int *));
 
     // Switch to handle the different ways the operands are represented for
     // different functions.
     switch(ins->opMnemonic) {
-        case TST :
-        case TEQ :
         case CMP :
+        case TEQ :
+        case TST :
+
             // S is set for tst, teq and cmp instructions
             ins->setS = 1;
             // op1 and op2 specify registers Rn and Rm respectively.
@@ -95,8 +109,10 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             if(assIns->op2[0] == '#') {
                 // MOV currently doesn't work for constants > 0xFF
                 ins->setI = 1;
+                int *immVal = malloc(sizeof(int *));
                 sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", immVal);
-            } else if(assIns->op2 == 'r'){
+                ins->immVal = *immVal;
+            } else if(assIns->op2[0] == 'r'){
                 sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rm);
             }
             // Not sure if this is required or not
@@ -106,7 +122,9 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             break;
         case LSL :
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
+            int *shiftAmt = malloc(sizeof(int *));
             sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", shiftAmt);
+            ins->shiftAmount = *shiftAmt;
         default:
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
@@ -115,13 +133,16 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     }
 
     // Assign values from the pointers assigned to in the above switch().
-    ins->Rn = Rn;
-    ins->Rm = Rm;
-    ins->Rd = Rd;
-    ins->immVal = immVal;
+    ins->Rn = *Rn;
+    ins->Rm = *Rm;
+    ins->Rd = *Rd;
 }
 
+<<<<<<< HEAD
 void getFormMult(instr_t *ins, assIns_t assIns) {
+=======
+void getFormMult(instr_t *ins, assIns_t *assIns) {
+>>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
     // Set A bit
     if (ins->opMnemonic == MUL) {
         ins->setA = 0;
@@ -135,10 +156,29 @@ void getFormMult(instr_t *ins, assIns_t assIns) {
     // TODO: Implementing the formatting for the registers
 }
 
+<<<<<<< HEAD
 void getFormDatTran(instr_t *ins, assIns_t assIns) {
+=======
+void getFormDatTran(instr_t *ins, assIns_t *assIns){
+    int *Rd = malloc(sizeof(int *));
+    sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
+    ins->Rd = *Rd;
+    if(ins->opMnemonic == LDR) {
+        ins->setL = 1;
+        if(assIns->op2[0] == '=') {
+>>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
 
+        }
+    } else {
+        ins->setL = 0;
+    }
 }
 
+<<<<<<< HEAD
 void getFormBranch(instr_t *ins, assIns_t assIns) {
+=======
+void getFormBranch(instr_t *ins, assIns_t *assIns){
+>>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
 
 }
+
