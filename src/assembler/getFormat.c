@@ -58,21 +58,53 @@ void setCond(instr_t *ins) {
 }
 
 void getFormDatProc(instr_t *ins, assIns_t assIns) {
-    // Not supporting optional case for now
-    ins->setI = 1;
+    // I will not be set unless otherwise specified.
+    ins->setI = 0;
+    // Not supporting optional case for now means that bit 4 will be 0,
+    // the shiftType is irrelevant and the shift amount should be 0.
+    ins->isRsShift = 0;
+    ins->shiftType = 0;
+    ins->shiftAmount = 0;
+    // S is 0 unless otherwise specifed.
+    ins->setS = 0;
 
     // The opMnemonic enum is organised such that the numerical values are
     // equal to the opCode values, allowing for this simple code.
     ins->opCode = ins->opMnemonic;
 
-    // S is set for tst, teq and cmp instructions
-    if (ins->opMnemonic == TST || ins->opMnemonic == TEQ ||
-        ins->opMnemonic == CMP) {
-        ins->setS = 1;
-    }
+    // Set up safely allocated pointers for use in sscanf
+    int *Rn = malloc(sizeof(int *));
+    int *Rd = malloc(sizeof(int *));
+    int *Rm = malloc(sizeof(int *));
+    int *immVal = malloc(sizeof(int *));
 
-    //Reg Rn
-    sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", ins->Rn);
+    switch(ins->opMnemonic) {
+        case TST :
+        case TEQ :
+        case CMP :
+            // S is set for tst, teq and cmp instructions
+            ins->setS = 1;
+            // op1 and op2 specify registers Rn and Rm respectively.
+            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
+            sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", Rm);
+            break;
+        case MOV :
+            ins->setI = 1;
+            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
+            sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", immVal);
+            break;
+        default:
+            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
+            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
+            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rm);
+            break;
+            // TODO : Add functionality for "lsl". That instruction won't work.
+    }
+    // Assign values from the pointers assigned to in the above switch().
+    ins->Rn = Rn;
+    ins->Rm = Rm;
+    ins->Rd = Rd;
+    ins->immVal = immVal;
 }
 
 void getFormMult(instr_t *ins, assIns_t assIns) {

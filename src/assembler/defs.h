@@ -12,6 +12,7 @@
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
 #define REG_DELIMITER "r"
+#define CONST_DELIMITER "#"
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
@@ -114,6 +115,7 @@ typedef struct Instruction {
 	int Rs;
 	int Rm;
 	int opCode;
+	int immVal;
 	int32_t offset;
     int32_t op2;
     exec_t type;
