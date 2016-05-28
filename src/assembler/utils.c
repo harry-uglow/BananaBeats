@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "utils.h"
 #include "defs.h"
 
@@ -21,7 +22,7 @@ int readFile(assIns_t *instructions, char **argv) {
 
 int initialiseAssembler(assIns_t *instructions) {
 	// Allocate memory onto the heap for an array of instructions
-	instructions = malloc(sizeof(assIns_t) * MEM_SIZE);
+	instructions = calloc(MEM_SIZE, sizeof(assIns_t));
 	
 	// Check if memory allocation failed
 	if(instructions == NULL) {
