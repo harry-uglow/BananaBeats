@@ -1,5 +1,4 @@
-#include "pipeline.c"
-#include "emulate.h"
+#include "emulator/pipeline.c"
 
 int main(int argc, char **argv) {
 	arm_t arm;
@@ -30,25 +29,4 @@ int main(int argc, char **argv) {
 
 	return EXIT_SUCCESS;
 }
-
-// One iteration of the pipeline cycle
-int iteratePipeline(arm_t *state) {
-    // Execute if the instruction has been decoded
-	if(state->isDecoded) {
-	    if(state->instruction->type == HALT) {
-			return 0;
-		}
-		execute(state);
-	}
-
-    // Decode if the instruction has been fetched
-	if(state->isFetched) {
-		decode(state);
-	}
-
-    // Fetch the next instruction
-	fetch(state);
-	return 1;
-}
-
 
