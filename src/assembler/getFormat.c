@@ -57,7 +57,7 @@ void setCond(instr_t *ins) {
     }
 }
 
-void getFormDatProc(instr_t *ins, assIns_t assIns) {
+void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     // I will not be set unless otherwise specified.
     ins->setI = 0;
     // Not supporting optional case for now means that bit 4 will be 0,
@@ -77,7 +77,10 @@ void getFormDatProc(instr_t *ins, assIns_t assIns) {
     int *Rd = malloc(sizeof(int *));
     int *Rm = malloc(sizeof(int *));
     int *immVal = malloc(sizeof(int *));
+    int *shiftAmt = malloc(sizeof(int *));
 
+    // Switch to handle the different ways the operands are represented for
+    // different functions.
     switch(ins->opMnemonic) {
         case TST :
         case TEQ :
@@ -89,16 +92,27 @@ void getFormDatProc(instr_t *ins, assIns_t assIns) {
             sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", Rm);
             break;
         case MOV :
-            ins->setI = 1;
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
-            sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", immVal);
+            if(assIns->op2[0] == '#') {
+                // MOV currently doesn't work for constants > 0xFF
+                ins->setI = 1;
+                sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", immVal);
+            } else if(assIns->op2 == 'r'){
+                sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rm);
+            }
+            // Not sure if this is required or not
+            //else {
+            //    printf("Badly formed instruction");
+            // }
             break;
+        case LSL :
+            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
+            sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", shiftAmt);
         default:
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rm);
             break;
-            // TODO : Add functionality for "lsl". That instruction won't work.
     }
     // Assign values from the pointers assigned to in the above switch().
     ins->Rn = Rn;
