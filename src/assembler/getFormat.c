@@ -67,7 +67,7 @@ void getFormDatProc(instr_t *ins, assIns_t assIns) {
 
     // S is set for tst, teq and cmp instructions
     if (ins->opMnemonic == TST || ins->opMnemonic == TEQ ||
-        ins->opMnemonic == CMP) {
+        lins->opMnemonic == CMP) {
         ins->setS = 1;
     }
 
@@ -76,7 +76,20 @@ void getFormDatProc(instr_t *ins, assIns_t assIns) {
 }
 
 void getFormMult(instr_t *ins, assIns_t assIns) {
+    // Set the Cond
+    ins->cond = 14;    // MAGIC NUMBER TO BE DEALT WITH
 
+    // Set A bit
+    if (ins->opMnemonic == MUL) {
+        ins->setA = 0;
+    } else {
+        ins->setA = 1;
+    }
+
+    // Set S bit
+    ins->setS = 0;
+
+    // TODO: Implementing the formatting for the registers
 }
 
 void getFormDatTran(instr_t *ins, assIns_t assIns){
