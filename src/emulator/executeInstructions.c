@@ -165,7 +165,7 @@ void singleDataTransfer(arm_t *arm) {
         // Offset is an unsigned 12-bit immediate offset.
         offset = ins->offset;
     }
-    uint32_t memAddr = arm->registers[ins->Rn];
+    int32_t memAddr = arm->registers[ins->Rn];
     if(ins->setP) {
         // Pre-indexing mode
         if (ins->setU) {
