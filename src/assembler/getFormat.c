@@ -74,6 +74,11 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     // equal to the opCode values, allowing for this simple code.
     ins->opCode = ins->opMnemonic;
 
+    // S is set for tst, teq and cmp instructions
+    if (ins->opMnemonic == TST || ins->opMnemonic == TEQ ||
+        ins->opMnemonic == CMP) {
+        ins->setS = 1;
+    }
     // Set up safely allocated pointers for use in sscanf
     int *Rn = malloc(sizeof(int *));
     int *Rd = malloc(sizeof(int *));
@@ -126,7 +131,17 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
 }
 
 void getFormMult(instr_t *ins, assIns_t *assIns) {
+    // Set A bit
+    if (ins->opMnemonic == MUL) {
+        ins->setA = 0;
+    } else {
+        ins->setA = 1;
+    }
 
+    // Set S bit
+    ins->setS = 0;
+
+    // TODO: Implementing the formatting for the registers
 }
 
 void getFormDatTran(instr_t *ins, assIns_t *assIns){
@@ -146,3 +161,4 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
 void getFormBranch(instr_t *ins, assIns_t *assIns){
 
 }
+
