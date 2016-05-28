@@ -113,7 +113,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             // Not sure if this is required or not
             //else {
             //    printf("Badly formed instruction");
-            // }
+            //}
             break;
         case LSL :
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
@@ -122,8 +122,8 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             ins->shiftAmount = *shiftAmt;
         default:
             sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
-            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
-            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rm);
+            sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", Rn);
+            sscanf(strtok(assIns->op3, REG_DELIMITER), "%i", Rm);
             break;
     }
 
@@ -167,10 +167,32 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
     if(ins->opMnemonic == LDR) {
         ins->setL = 1;
         if(assIns->op2[0] == '=') {
-
+            int *expression = malloc(sizeof(int *));
+            sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", expression);
+            if(*expression <= MAX_MOV_LDR) {
+                // Change <=expression> to <#expression> and use mov instead
+                assIns->op2[0] = CONST_DELIMITER[0];
+                assIns_t treatAsMov = {"mov", assIns->op1, assIns->op2};
+                ins->opMnemonic = MOV;
+                getFormDatProc(ins, &treatAsMov);
+                return;
+            }
+            ins->SDTExpression = *expression;
+            ins->Rn = REG_PC;
+            // encode() is expected to put the SDTExpression in four bytes at
+            // the end of the program and then calculate the offset from the PC
+            // to the address of this expression
         }
     } else {
         ins->setL = 0;
+    }
+    char part1[50];
+    char part2[50];
+    sscanf(strtok(assIns->op2, ","), "%s%s", part1, part2);
+    if(part2[0] == '\0') {
+        int *Rn = malloc(sizeof(int *));
+        sscanf(assIns->op2, "%u", Rn);
+        ins->Rn = *Rn;
     }
 }
 

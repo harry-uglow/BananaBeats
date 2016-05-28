@@ -13,7 +13,7 @@
 #define NUMBER_OF_REGISTERS 17
 #define REG_DELIMITER "r"
 #define CONST_DELIMITER "#"
-#define MAX_MOV_LDR 0x100
+#define MAX_MOV_LDR 0xFF
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
@@ -121,6 +121,7 @@ typedef struct Instruction {
     int32_t op2;
     exec_t type;
 	mnemonic_t opMnemonic;
+	int32_t SDTExpression;
 } instr_t;
 
 #endif //ARM11_19_ASSEMBELER_DEFS_H
