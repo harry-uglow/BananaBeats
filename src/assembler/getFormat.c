@@ -1,5 +1,6 @@
 #include "getFormat.h"
 #include "defs.h"
+#include "symbolTable.h"
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
@@ -132,7 +133,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     ins->Rd = *Rd;
 }
 
-void getFormMult(instr_t *ins, assIns_t assIns) {
+void getFormMult(instr_t *ins, assIns_t *assIns) {
     // Set A bit
     if (ins->opMnemonic == MUL) {
         ins->setA = 0;
@@ -143,9 +144,22 @@ void getFormMult(instr_t *ins, assIns_t assIns) {
     // Set S bit
     ins->setS = 0;
 
-    // TODO: Implementing the formatting for the registers
-}
+    // Initialise registers to make sure memory access is valid
+    int *Rd = malloc(sizeof(int *));
+    int *Rm = malloc(sizeof(int *));
+    int *Rs = malloc(sizeof(int *));
+    int *Rn = malloc(sizeof(int *));
 
+
+    sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
+    sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", Rm);
+    sscanf(strtok(assIns->op3, REG_DELIMITER), "%i", Rs);
+
+    if (ins->opMnemonic == MLA) {
+        sscanf(strtok(assIns->op4, REG_DELIMITER), "%i", Rn);
+    }
+
+}
 void getFormDatTran(instr_t *ins, assIns_t *assIns){
     int *Rd = malloc(sizeof(int *));
     sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
@@ -160,6 +174,9 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
     }
 }
 
-void getFormBranch(instr_t *ins, assIns_t assIns) {
+void getFormBranch(instr_t *ins, assIns_t *assIns) {
+
+    // TODO: set the offset to the number of lines between the current
+    // instruction and the label it references
 
 }

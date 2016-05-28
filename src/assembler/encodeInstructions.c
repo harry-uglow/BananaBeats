@@ -7,7 +7,25 @@ int32_t encodeDataProcessing(instr_t *instr) {
     int setS = instr->setS;
     int Rn = instr->Rn;
     int Rd = instr->Rd;
-    int operand2 = instr->op2;
+    int operand2 = 0;
+
+    // Calculate shift
+    if (setI) {
+        operand2 = instr->immVal;
+        operand2 |= (instr->shiftAmount) << 8;   // Magic Number
+    } else {
+        int shift = instr->isRsShift;
+        shift |= (instr->shiftType) << 1;
+        operand2 = instr->Rm;
+        if (instr->isRsShift) {
+            // Shift by Rs
+            shift |= (instr->Rs) << 4;
+        } else {
+            // Shift by constant
+            shift |= (instr->shiftAmount) << 3;
+        }
+        operand2 |= shift << 4;
+    }
 
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
