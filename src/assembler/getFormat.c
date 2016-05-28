@@ -159,6 +159,10 @@ void getFormMult(instr_t *ins, assIns_t *assIns) {
         sscanf(strtok(assIns->op4, REG_DELIMITER), "%i", Rn);
     }
 
+    ins->Rd = *Rd;
+    ins->Rm = *Rm;
+    ins->Rs = *Rs;
+    ins->Rn = *Rn;
 }
 void getFormDatTran(instr_t *ins, assIns_t *assIns){
     int *Rd = malloc(sizeof(int *));
