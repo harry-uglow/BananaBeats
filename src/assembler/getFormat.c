@@ -81,11 +81,8 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     if (ins->opMnemonic == TST || ins->opMnemonic == TEQ ||
         ins->opMnemonic == CMP) {
         ins->setS = 1;
-<<<<<<< HEAD
-
-=======
     }
->>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
+    
     // Set up safely allocated pointers for use in sscanf
     int *Rn = malloc(sizeof(int *));
     int *Rd = malloc(sizeof(int *));
@@ -138,11 +135,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     ins->Rd = *Rd;
 }
 
-<<<<<<< HEAD
 void getFormMult(instr_t *ins, assIns_t assIns) {
-=======
-void getFormMult(instr_t *ins, assIns_t *assIns) {
->>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
     // Set A bit
     if (ins->opMnemonic == MUL) {
         ins->setA = 0;
@@ -156,9 +149,6 @@ void getFormMult(instr_t *ins, assIns_t *assIns) {
     // TODO: Implementing the formatting for the registers
 }
 
-<<<<<<< HEAD
-void getFormDatTran(instr_t *ins, assIns_t assIns) {
-=======
 void getFormDatTran(instr_t *ins, assIns_t *assIns){
     int *Rd = malloc(sizeof(int *));
     sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
@@ -166,7 +156,6 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
     if(ins->opMnemonic == LDR) {
         ins->setL = 1;
         if(assIns->op2[0] == '=') {
->>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
 
         }
     } else {
@@ -174,11 +163,6 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
     }
 }
 
-<<<<<<< HEAD
 void getFormBranch(instr_t *ins, assIns_t assIns) {
-=======
-void getFormBranch(instr_t *ins, assIns_t *assIns){
->>>>>>> 0ecf2ce4a6e21dda81cc966328ce1d2f90f6d283
 
 }
-
