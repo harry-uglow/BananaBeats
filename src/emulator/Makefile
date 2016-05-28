@@ -5,19 +5,21 @@ CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
 
 .PHONY: all clean
 
-all: assemble emulate
+all: emulate
 
-assemble: assemble.o
+#assemble: assemble.o
 
 emulate: emulate.o
 
-emulate.o: pipeline.c emulate.h
+emulate.o: cd emulator; make
 
-pipeline.c: executeInstructions.c pipeline.h
+emulate.o: emulate/pipeline.c emulate/emulate.h
 
-executeInstruction.c: utils.c executeInstructions.h
+emulate/pipeline.c: emulate/executeInstructions.c emulate/pipeline.h
 
-utils.c: defs.h utils.h
+emulate/executeInstructions.c: emulate/utils.c emulate/executeInstructions.h
+
+emulate/utils.c: emulate/defs.h emulate/utils.h
 
 
 
