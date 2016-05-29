@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 
 
 	// Write results of assembler to binary file specified by 2nd argument
-	if(!writeToBinaryFile(binInstructions, argv) {
+	if(!writeToBinaryFile(binInstructions, argv)) {
 		return EXIT_FAILURE;			
 	}
 	
