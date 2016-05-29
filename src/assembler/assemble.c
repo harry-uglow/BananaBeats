@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 	}	
 
 	// Read assembler file input 
-	if(!readFile(instructions, argv[1]) {
+	if(!readFile(instructions, argv[1])) {
 		return EXIT_FAILURE;
 	}	
 
