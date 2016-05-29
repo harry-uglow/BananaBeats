@@ -12,19 +12,19 @@ int32_t encodeDataProcessing(instr_t *instr) {
     // Calculate shift
     if (setI) {
         operand2 = instr->immVal;
-        operand2 |= (instr->shiftAmount) << 8;   // Magic Number
+        operand2 |= (instr->shiftAmount) << IMMVAL_SHIFTAMOUNT_BITS;
     } else {
         int shift = instr->isRsShift;
-        shift |= (instr->shiftType) << 1;
+        shift |= (instr->shiftType) << SHIFT_TYPE_BITS;
         operand2 = instr->Rm;
         if (instr->isRsShift) {
             // Shift by Rs
-            shift |= (instr->Rs) << 4;
+            shift |= (instr->Rs) << SHIFT_RS_BITS;
         } else {
             // Shift by constant
-            shift |= (instr->shiftAmount) << 3;
+            shift |= (instr->shiftAmount) << REG_SHIFTAMOUNT_BITS;
         }
-        operand2 |= shift << 4;
+        operand2 |= shift << SHIFT_BITS;
     }
 
     // Build the instruction via bit operations

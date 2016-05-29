@@ -27,6 +27,11 @@
 #define RN_BITS 16
 #define RD_BITS 12
 #define RS_BITS 8
+#define IMMVAL_SHIFTAMOUNT_BITS 8
+#define REG_SHIFTAMOUNT_BITS 3
+#define SHIFT_RS_BITS 4
+#define SHIFT_BITS 4
+#define SHIFT_TYPE_BITS 1
 
 // Encode Constant Bits
 #define MULT_PREDEFINED_BITS 0x00000090
