@@ -17,6 +17,7 @@
 #define SDT_OP2_SPLIT ","
 #define MOV_MNEMONIC "mov"
 #define NUM_CONST_SYM '='
+#define TRUE 1
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
