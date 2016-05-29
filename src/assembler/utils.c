@@ -52,4 +52,12 @@ int writeToBinaryFile(int8_t *binInstructions, char **argv) {
 	return 1;
 }
 
-
+int isLabel(char *str) {
+	// Loop through the string checking for label symbol
+	for(int i = 0; i < strlen(str); i++) {
+		if(str[i] == ':') {
+			return 1;
+		}
+	}
+	return 0;
+}
