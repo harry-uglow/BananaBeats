@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 #include "utils.h"
 #include "defs.h"
+#include "getFormat.h"
+#include "encodeInstructions.h"
 
 int readFile(assIns_t *instructions, char **argv) {
 	// Open file to read from
@@ -66,4 +69,17 @@ int isLabel(char *str) {
 		}
 	}
 	return 0;
+}
+
+int8_t *pass2(assIns_t *instructions) {
+	int8_t *memory = calloc(MEM_SIZE, sizeof(int8_t));
+	for(int i = 0; i < (sizeof(*instructions) / sizeof(instructions[0])); i++) {
+		instr_t format = getFormat(&instructions[i]);
+		int32_t instruction = encode(&format);
+		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & instruction);
+        memory[(WORD_LENGTH * i) + 1] = (int8_t)(MASK_BYTE_1 & instruction);
+        memory[(WORD_LENGTH * i) + 2] = (int8_t)(MASK_BYTE_2 & instruction);
+        memory[(WORD_LENGTH * i) + 3] = (int8_t)(MASK_BYTE_3 & instruction);
+	}
+    return memory;
 }

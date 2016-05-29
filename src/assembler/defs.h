@@ -11,6 +11,10 @@
 #define REG_PC 15
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
+#define MASK_BYTE_0 0x000000FF
+#define MASK_BYTE_1 0x0000FF00
+#define MASK_BYTE_2 0x00FF0000
+#define MASK_BYTE_3 0xFF000000
 #define REG_SYMBOL 'r'
 #define EXPR_SYMBOL '#'
 #define MAX_MOV_LDR 0xFF
