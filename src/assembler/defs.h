@@ -14,6 +14,7 @@
 #define REG_DELIMITER "r"
 #define CONST_DELIMITER "#"
 #define MAX_MOV_LDR 0xFF
+#define TRUE 1
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28

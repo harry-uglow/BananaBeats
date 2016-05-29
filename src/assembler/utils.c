@@ -44,8 +44,13 @@ int writeToBinaryFile(int32_t *binInstructions, char **argv) {
 	}
 	
 	// Write all of the binary instructions encoded into the output file
-	while(fwrite(binInstructions, sizeof(int32_t), 1, foutput) == 1) {
-		binInstructions++;
+	int pos = 0;
+	while(TRUE) {
+		int out = fwrite(&binInstructions[pos], sizeof(int32_t), 1, foutput);
+		if(out != 1) {
+			break;
+		}
+		pos++;
 	}
 
 	// Finished writing to output of binary file
