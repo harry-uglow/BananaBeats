@@ -43,17 +43,6 @@ instr_t getFormat(assIns_t *assIns) {
     return out;
 }
 
-mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
-    return ADD;
-    /*For this function I intend to have an ordered table mapping
-      a mnemonic's string representation to its mnemonic_t enum representation.
-      For example map "add" to ADD. Then this function simply has to iterate
-      through the key's of this table using strcmp until it either finds the key
-      being looked for or goes past it. If the string is found, return the
-      mapping, else throw an invalid assembly instruction error.
-    */
-}
-
 void setCond(instr_t *ins) {
     if (ins->opMnemonic <= MIN_BRANCH) {
         ins->cond = ALWAYS;
@@ -82,7 +71,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
         ins->opMnemonic == CMP) {
         ins->setS = 1;
     }
-    
+
     // Set up safely allocated pointers for use in sscanf
     int *Rn = malloc(sizeof(int *));
     int *Rd = malloc(sizeof(int *));
@@ -148,6 +137,7 @@ void getFormMult(instr_t *ins, assIns_t *assIns) {
     ins->Rn  =getIntFromString(assIns->op4);
 
 }
+
 void getFormDatTran(instr_t *ins, assIns_t *assIns){
     // Unless otherwise specified, the P bit is set (pre-indexing mode)
     ins->setP = 1;
@@ -188,7 +178,6 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
         ins->setP = 0;
     }
 }
-
 void getFormBranch(instr_t *ins, assIns_t *assIns) {
 
     // Branch may or may not be needed. I'll get back to this.
@@ -204,4 +193,67 @@ int getIntFromString(char *str) {
         }
     }
     return 0;
+}
+
+mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
+    /*For this function I intend to have an ordered table mapping
+      a mnemonic's string representation to its mnemonic_t enum representation.
+      For example map "add" to ADD. Then this function simply has to iterate
+      through the key's of this table using strcmp until it either finds the key
+      being looked for or goes past it. If the string is found, return the
+      mapping, else throw an invalid assembly instruction error.
+    */
+    // UPDATE: I hate this code, but any clever solution seems to be beyond
+    // the scope of the short C course and will certainly take longer to work
+    // out than we have time for on this course.
+    if (!strcmp(mnemonic, "and")) {
+        return AND;
+    } else if (!strcmp(mnemonic, "eor")) {
+        return EOR;
+    } else if (!strcmp(mnemonic, "sub")) {
+        return SUB;
+    } else if (!strcmp(mnemonic, "rsb")) {
+        return RSB;
+    } else if (!strcmp(mnemonic, "add")) {
+        return ADD;
+    } else if (!strcmp(mnemonic, "tst")) {
+        return TST;
+    } else if (!strcmp(mnemonic, "cmp")) {
+        return CMP;
+    } else if (!strcmp(mnemonic, "teq")) {
+        return TEQ;
+    } else if (!strcmp(mnemonic, "orr")) {
+        return ORR;
+    } else if (!strcmp(mnemonic, "mov")) {
+        return MOV;
+    } else if (!strcmp(mnemonic, "lsl")) {
+        return LSL;
+    } else if (!strcmp(mnemonic, "mul")) {
+        return MUL;
+    } else if (!strcmp(mnemonic, "mla")) {
+        return MLA;
+    } else if (!strcmp(mnemonic, "ldr")) {
+        return LDR;
+    } else if (!strcmp(mnemonic, "str")) {
+        return STR;
+    } else if (!strcmp(mnemonic, "b")) {
+        return B;
+    } else if (!strcmp(mnemonic, "beq")) {
+        return BEQ;
+    } else if (!strcmp(mnemonic, "bne")) {
+        return BNE;
+    } else if (!strcmp(mnemonic, "bge")) {
+        return BGE;
+    } else if (!strcmp(mnemonic, "blt")) {
+        return BLT;
+    } else if (!strcmp(mnemonic, "bgt")) {
+        return BGT;
+    } else if (!strcmp(mnemonic, "ble")) {
+        return BLE;
+    } else if (!strcmp(mnemonic, "andeq")) {
+        return ANDEQ;
+    } else {
+        printf("Invalid opcode mnemonic. Exiting program");
+        exit(1);
+    }
 }
