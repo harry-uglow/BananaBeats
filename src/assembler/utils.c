@@ -35,7 +35,7 @@ int initialiseAssembler(assIns_t *instructions) {
 	return 1;
 }
 
-int writeToBinaryFile(int8_t *binInstructions, char **argv) {
+int writeToBinaryFile(int32_t *binInstructions, char **argv) {
 	// Open file to write to
 	FILE *foutput = fopen(argv[2], "w");
 
