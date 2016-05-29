@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 
 mnemonic_t mnemonicStringToEnum(char mnemonic[4]);
 void setCond(instr_t *ins);
@@ -11,6 +12,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns);
 void getFormMult(instr_t *ins, assIns_t *assIns);
 void getFormDatTran(instr_t *ins, assIns_t *assIns);
 void getFormBranch(instr_t *ins, assIns_t *assIns);
+int getIntFromString(char *str);
 
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
@@ -19,6 +21,7 @@ instr_t getFormat(assIns_t *assIns) {
     instr_t out;
     out.opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
 
+    // Condition applies to all instruction types
     setCond(&out);
 
     if(out.opMnemonic <= MAX_DATA_PROCESS) {
@@ -37,8 +40,7 @@ instr_t getFormat(assIns_t *assIns) {
         out.type = HALT;
     }
 
-
-    // TODO : Continue implementation of getFormat()
+    return out;
 }
 
 mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
@@ -96,19 +98,17 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             // S is set for tst, teq and cmp instructions
             ins->setS = 1;
             // op1 and op2 specify registers Rn and Rm respectively.
-            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
-            sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", Rm);
+            ins->Rn = getIntFromString(assIns->op1);
+            ins->Rm = getIntFromString(assIns->op2);
             break;
         case MOV :
-            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
-            if(assIns->op2[0] == '#') {
+            ins->Rd = getIntFromString(assIns->op1);
+            if(assIns->op2[0] == EXPR_SYMBOL) {
                 // MOV currently doesn't work for constants > 0xFF
                 ins->setI = 1;
-                int *immVal = malloc(sizeof(int *));
-                sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", immVal);
-                ins->immVal = *immVal;
-            } else if(assIns->op2[0] == 'r'){
-                sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rm);
+                ins->immVal = getIntFromString(assIns->op2);
+            } else if(assIns->op2[0] == REG_SYMBOL){
+                ins->Rm = getIntFromString(assIns->op2);
             }
             // Not sure if this is required or not
             //else {
@@ -116,14 +116,12 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             //}
             break;
         case LSL :
-            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rn);
-            int *shiftAmt = malloc(sizeof(int *));
-            sscanf(strtok(assIns->op2, CONST_DELIMITER), "%i", shiftAmt);
-            ins->shiftAmount = *shiftAmt;
+            ins->Rn = getIntFromString(assIns->op1);
+            ins->shiftAmount = getIntFromString(assIns->op2);
         default:
-            sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
-            sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", Rn);
-            sscanf(strtok(assIns->op3, REG_DELIMITER), "%i", Rm);
+            ins->Rd = getIntFromString(assIns->op1);
+            ins->Rn = getIntFromString(assIns->op2);
+            ins->Rm = getIntFromString(assIns->op3);
             break;
     }
 
@@ -134,75 +132,76 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
 }
 
 void getFormMult(instr_t *ins, assIns_t *assIns) {
+
     // Set A bit
     if (ins->opMnemonic == MUL) {
         ins->setA = 0;
     } else {
         ins->setA = 1;
     }
-
     // Set S bit
     ins->setS = 0;
 
-    // Initialise registers to make sure memory access is valid
-    int *Rd = malloc(sizeof(int *));
-    int *Rm = malloc(sizeof(int *));
-    int *Rs = malloc(sizeof(int *));
-    int *Rn = malloc(sizeof(int *));
+    ins->Rd = getIntFromString(assIns->op1);
+    ins->Rm = getIntFromString(assIns->op2);
+    ins->Rs = getIntFromString(assIns->op3);
+    ins->Rn  =getIntFromString(assIns->op4);
 
-
-    sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
-    sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", Rm);
-    sscanf(strtok(assIns->op3, REG_DELIMITER), "%i", Rs);
-
-    if (ins->opMnemonic == MLA) {
-        sscanf(strtok(assIns->op4, REG_DELIMITER), "%i", Rn);
-        ins->Rn = *Rn;
-    }
-
-    ins->Rd = *Rd;
-    ins->Rm = *Rm;
-    ins->Rs = *Rs;
 }
 void getFormDatTran(instr_t *ins, assIns_t *assIns){
-    int *Rd = malloc(sizeof(int *));
-    sscanf(strtok(assIns->op1, REG_DELIMITER), "%i", Rd);
-    ins->Rd = *Rd;
+    // Unless otherwise specified, the P bit is set (pre-indexing mode)
+    ins->setP = 1;
+    // Rd always in op1 position
+    ins->Rd = getIntFromString(assIns->op1);
+
+    // If ldr instruction, then setL 1
     if(ins->opMnemonic == LDR) {
         ins->setL = 1;
-        if(assIns->op2[0] == '=') {
-            int *expression = malloc(sizeof(int *));
-            sscanf(strtok(assIns->op2, REG_DELIMITER), "%i", expression);
-            if(*expression <= MAX_MOV_LDR) {
-                // Change <=expression> to <#expression> and use mov instead
-                assIns->op2[0] = CONST_DELIMITER[0];
-                assIns_t treatAsMov = {"mov", assIns->op1, assIns->op2};
+        if(assIns->op2[0] == NUM_CONST_SYM) {
+            // Op2 represents a numeric constant
+            int expression = getIntFromString(assIns->op2);
+            if(expression <= MAX_MOV_LDR) {
+                // If the expression value is small enough to be used in a mov,
+                // change <=expression> to <#expression> and use mov instead
+                assIns->op2[0] = EXPR_SYMBOL;
+                assIns_t treatAsMov = {MOV_MNEMONIC, assIns->op1, assIns->op2};
                 ins->opMnemonic = MOV;
                 getFormDatProc(ins, &treatAsMov);
                 return;
             }
-            ins->SDTExpression = *expression;
-            ins->Rn = REG_PC;
             // encode() is expected to put the SDTExpression in four bytes at
             // the end of the program and then calculate the offset from the PC
             // to the address of this expression
+            ins->SDTExpression = expression;
+            ins->Rn = REG_PC;
         }
     } else {
         ins->setL = 0;
     }
     char part1[50];
     char part2[50];
-    sscanf(strtok(assIns->op2, ","), "%s%s", part1, part2);
-    if(part2[0] == '\0') {
-        int *Rn = malloc(sizeof(int *));
-        sscanf(assIns->op2, "%u", Rn);
-        ins->Rn = *Rn;
+    sscanf(strtok(assIns->op2, SDT_OP2_SPLIT), "%s%s", part1, part2);
+    ins->Rn = getIntFromString(part1);
+    ins->offset = getIntFromString(part2);
+    if (strrchr(part1, ']')) {
+        // Post-indexing
+        ins->setP = 0;
     }
 }
 
 void getFormBranch(instr_t *ins, assIns_t *assIns) {
 
-    // TODO: set the offset to the number of lines between the current
-    // instruction and the label it references
+    // Branch may or may not be needed. I'll get back to this.
 
+}
+
+int getIntFromString(char *str) {
+    while(*str) {
+        if(isdigit(*str)) {
+            return atoi(str);
+        } else {
+            str++;
+        }
+    }
+    return 0;
 }
