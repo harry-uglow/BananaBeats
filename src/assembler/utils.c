@@ -3,8 +3,8 @@
 #include <memory.h>
 #include "utils.h"
 #include "defs.h"
-#include "getFormat.h"
-#include "encodeInstructions.h"
+#include "getFormat.c"
+#include "encodeInstructions.c"
 
 int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address) {
 	// Open file to read from
@@ -17,10 +17,23 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *ad
 	}
 
 	char buffer[MAX_LINE_LENGTH];
-	
-	
-	
+	char *token;
+	char *ops[4];
 
+	// Some sort of loop construct before the code underneath
+	fgets(buffer, MAX_LINE_LENGTH, finput);		
+	token = strtok(buffer, TOK_DELIM);
+	if(isLabel(token)) {
+		symbolTable_put(token, address, table);
+		if(strtok(NULL, TOK_DELIM) == NULL)  
+	}
+	
+	
+	for(int i = 0; i < 4; i++) {
+		ops[i] = strtok(NULL, TOK_DELIM);		
+	}
+	
+	
 	// Finished reading input of assembly file
 	fclose(finput);
 	return 1;
@@ -66,12 +79,11 @@ int writeToBinaryFile(int8_t *binInstructions, char **argv) {
 	return 1;
 }
 
-int isLabel(char *str) {
-	// Loop through the string checking for label symbol
-	for(int i = 0; i < strlen(str); i++) {
-		if(str[i] == ':') {
-			return 1;
-		}
+int isLabel(char *token) {
+	// Check if token is label and remove colon
+	if(token[strlen(token) - 1] == ':') {
+		token[strlen(token) - 1] = '\0';
+		return 1;
 	}
 	return 0;
 }
