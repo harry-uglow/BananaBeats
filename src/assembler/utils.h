@@ -3,8 +3,8 @@
 
 #include "defs.h"
 
-int readFile(assIns_t *instructions, char **argv);
-int initialiseAssembler(assIns_t *instructions);
+int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table);
+int initialiseAssembler(assIns_t *instructions, symbolTable_t *table);
 int writeToBinaryFile(int32_t *instructions, char **argv);
 int isLabel(char *str);
 

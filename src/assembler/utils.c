@@ -6,7 +6,7 @@
 #include "getFormat.h"
 #include "encodeInstructions.h"
 
-int readFile(assIns_t *instructions, char **argv) {
+int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 	// Open file to read from
 	FILE *finput = fopen(argv[1],"r");
 	
@@ -16,7 +16,7 @@ int readFile(assIns_t *instructions, char **argv) {
 		return 0;
 	}
 
-
+	
 	// TODO: code for reading strings of each assembly instruction
 
 	// Finished reading input of assembly file
@@ -24,7 +24,7 @@ int readFile(assIns_t *instructions, char **argv) {
 	return 1;
 }
 
-int initialiseAssembler(assIns_t *instructions) {
+int initialiseAssembler(assIns_t *instructions, symbolTable_t *table) {
 	// Allocate memory onto the heap for an array of instructions
 	instructions = calloc(MEM_SIZE, sizeof(assIns_t));
 	
@@ -33,6 +33,9 @@ int initialiseAssembler(assIns_t *instructions) {
 		printf("Memory could not be allocated onto the heap.\n");
 		return 0;
 	}	
+
+	// Create new symbol table
+	table = SymbolTable_new();
 	return 1;
 }
 
