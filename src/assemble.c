@@ -3,16 +3,16 @@
 int main(int argc, char **argv) {
 	// Initialise array of assembly instructions on heap
 	// and create symbol table 
-	if(!initialiseAssembler(instructions, table)) {
+	if(!initialiseAssembler(instruction, table)) {
 		return EXIT_FAILURE;
 	}	
 
 	// Read assembler file input 
-	if(!firstPass(instructions, argv, table)) {
+	if(!firstPass(instruction, argv, table)) {
 		return EXIT_FAILURE;
 	}
 
-	secondPass(instructions);
+	secondPass(instruction);
 
 
 	// Write results of assembler to binary file specified by 2nd argument
@@ -21,8 +21,8 @@ int main(int argc, char **argv) {
 	}
 	
 	// Null check before clearing heap memory
-	if(instructions != NULL) {
-		free(instructions);
+	if(instruction != NULL) {
+		free(instruction);
 	}
 
 
