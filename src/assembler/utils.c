@@ -3,7 +3,7 @@
 #include <memory.h>
 
 
-int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address) {
+int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 	// Open file to read from
 	FILE *finput = fopen(argv[1],"r");
 	
@@ -25,7 +25,7 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *ad
 		if(isLabel(token)) {
 			symbolTable_put(token, address, table);
 		} else {
-			strcpy(instruction[*address]->mnemonic, token);
+			strcpy(instruction[address]->mnemonic, token);
 		}
 	
 		// Parse through rest of the string & fill up array of operands
@@ -35,23 +35,23 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *ad
 	
 		// Set all non-null operands to compoents of assembly instructions
 		if(ops[0] != NULL) {
-			strcpy(instruction[*address]->op1, ops[0]);
+			strcpy(instruction[address]->op1, ops[0]);
 		}
 
 		if(ops[1] != NULL) {
-			strcpy(instruction[*address]->op2, ops[1]);
+			strcpy(instruction[address]->op2, ops[1]);
 		}
 	
 		if(ops[2] != NULL) {
-			strcpy(instruction[*address]->op3, ops[2]);
+			strcpy(instruction[address]->op3, ops[2]);
 		}
 
 		if(ops[3] != NULL) {
-			strcpy(instruction[*address]->op4, ops[3]);
+			strcpy(instruction[address]->op4, ops[3]);
 		}	
 		
 		// Increment address
-		(*address)++;
+		address++;
 	}
 		
 	// Finished reading input of assembly file
@@ -71,6 +71,9 @@ int initialiseAssembler(assIns_t *instructions, symbolTable_t *table) {
 
 	// Create new symbol table
 	table = SymbolTable_new();
+
+	// Initialise address counter
+	address = 0;
 	return 1;
 }
 
@@ -85,13 +88,8 @@ int writeToBinaryFile(int8_t *binInstructions, char **argv) {
 	}
 	
 	// Write all of the binary instructions encoded into the output file
-	int pos = 0;
-	while(TRUE) {
-		int out = fwrite(&binInstructions[pos], sizeof(int8_t), 1, foutput);
-		if(out != 1) {
-			break;
-		}
-		pos++;
+	for(int i = 0; i < address; i++) {
+		fwrite(&binInstructions[pos], sizeof(int8_t), 1, foutput);
 	}
 
 	// Finished writing to output of binary file

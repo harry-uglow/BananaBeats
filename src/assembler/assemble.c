@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 	}	
 
 	// Read assembler file input 
-	if(!firstPass(instructions, &argv[1], table, &address)) {
+	if(!firstPass(instructions, argv, table, &address)) {
 		return EXIT_FAILURE;
 	}
 
