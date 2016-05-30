@@ -3,6 +3,6 @@
 
 #include "defs.h"
 
-    instr_t getFormat(assIns_t *assIns);
+    instr_t *getFormat(assIns_t *assIns);
 
 #endif //ARM11_19_GETFORMAT_H
