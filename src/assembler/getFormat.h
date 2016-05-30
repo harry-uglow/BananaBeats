@@ -2,7 +2,7 @@
 #define ARM11_19_GETFORMAT_H
 
 #include "defs.h"
-#include "symboltable.h"
+#include "symbolTable.h"
 
     instr_t *getFormat(assIns_t *assIns);
     extern symbolTable_t *table;
