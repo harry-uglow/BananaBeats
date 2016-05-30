@@ -16,10 +16,14 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 	char buffer[MAX_LINE_LENGTH];
 	char *token;
 	char *ops[4];
+	char *rest;
+	char *temp[4];
+	int opSignal[4] = {0, 0, 0, 0};
 
 	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
 		// Extract first token in string 
 		token = strtok(buffer, TOK_DELIM);
+		rest = strtok(NULL, "");
 	
 		// Check if first token is label	
 		if(isLabel(token)) {
@@ -30,24 +34,51 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 	
 		// Parse through rest of the string & fill up array of operands
 		for(int i = 0; i < 4; i++) {
-			ops[i] = strtok(NULL, TOK_DELIM);		
+			if(checkBracket(rest, temp[i])) {
+				ops[i] = strtok(rest, TOK_DELIM);
+				opSignal[i] = 1;
+				strcpy(buffer, rest);	
+			} else {	
+				ops[i] = strtok(NULL, TOK_DELIM);
+			}		
 		}
 	
+		char *strToken;
 		// Set all non-null operands to compoents of assembly instructions
 		if(ops[0] != NULL) {
-			strcpy(instruction[address].op1, ops[0]);
+			if(opSignal[0]) {
+				strToken = temp[0];
+			} else {
+				strToken = ops[0];
+			}
+			strcpy(instruction[address].op1, strToken);
 		}
 
 		if(ops[1] != NULL) {
-			strcpy(instruction[address].op2, ops[1]);
+			if(opSignal[1]) {
+				strToken = temp[1];
+			} else {
+				strToken = ops[1];
+			}
+			strcpy(instruction[address].op2, strToken);
 		}
 	
 		if(ops[2] != NULL) {
-			strcpy(instruction[address].op3, ops[2]);
+			if(opSignal[2]) {
+				strToken = temp[2];
+			} else {
+				strToken = ops[2];
+			}
+			strcpy(instruction[address].op3, strToken);
 		}
 
 		if(ops[3] != NULL) {
-			strcpy(instruction[address].op4, ops[3]);
+			if(opSignal[3]) {
+				strToken = temp[3];
+			} else {
+				strToken = ops[3];
+			}
+			strcpy(instruction[address].op4, strToken);
 		}	
 		
 		// Increment address
@@ -119,4 +150,19 @@ void *secondPass(assIns_t *instructions) {
 
 void removeNewline(char *token) {
 	token[strlen(token) - 1] = '\0';
+}
+
+int checkBracket(char *token, char *temp) {
+	if(token[0] == '[') {
+		int i = 0;
+		while(token[0] != ']') {
+			temp[i] = token[0];
+			token++;
+			i++; 
+		}
+		temp[i] = token[0];
+		token++;
+		return 1;
+	} 
+	return 0;
 }
