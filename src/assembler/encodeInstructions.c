@@ -1,12 +1,9 @@
 #include "encodeInstructions.h"
 
-<<<<<<< Updated upstream
-=======
 // Declare pointer to array of instructions
 // and address counter and symbol table
 assIns_t *instructions;
 int address;
->>>>>>> Stashed changes
 
 int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
