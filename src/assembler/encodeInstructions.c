@@ -62,14 +62,7 @@ int32_t encodeMultiply(instr_t *instr) {
 
 
 int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
-    int cond = instr->cond;
-    int setI = instr->setI;
-    int setP = instr->setP;
-    int setU = instr->setU;
-    int setL = instr->setL;
-    int Rn = instr->Rn;
-    int Rd = instr->Rd;
-    int offset = instr->offset;
+    int offset = 0;
 
     // If SDT expr, then calculate offset, store it in memory
     if (instr->calculateOffset) {
@@ -87,14 +80,14 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
 
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
-    binaryInstr |= cond << COND_BITS;
+    binaryInstr |= instr->cond << COND_BITS;
     binaryInstr |= SDT_PREDEFINED_BITS;
-    binaryInstr |= setI << I_BIT;
-    binaryInstr |= setP << P_BIT;
-    binaryInstr |= setU << U_BIT;
-    binaryInstr |= setL << L_BIT;
-    binaryInstr |= Rn << RN_BITS;
-    binaryInstr |= Rd << RD_BITS;
+    binaryInstr |= instr->setI << I_BIT;
+    binaryInstr |= instr->setP << P_BIT;
+    binaryInstr |= instr->setU << U_BIT;
+    binaryInstr |= instr->setL << L_BIT;
+    binaryInstr |= instr->Rn << RN_BITS;
+    binaryInstr |= instr->Rd << RD_BITS;
     binaryInstr |= offset;
 
     return binaryInstr;
