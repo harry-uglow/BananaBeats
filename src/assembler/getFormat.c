@@ -70,14 +70,9 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
         ins->setS = 1;
     }
 
-    // Set up safely allocated pointers for use in sscanf
-    int *Rn = malloc(sizeof(int *));
-    int *Rd = malloc(sizeof(int *));
-    int *Rm = malloc(sizeof(int *));
-
     // Switch to handle the different ways the operands are represented for
     // different functions.
-    switch(ins->opMnemonic) {
+    switch (ins->opMnemonic) {
         case CMP :
         case TEQ :
         case TST :
@@ -90,17 +85,31 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             break;
         case MOV :
             ins->Rd = getIntFromString(assIns->op1);
-            if(assIns->op2[0] == EXPR_SYMBOL) {
+            if (assIns->op2[0] == EXPR_SYMBOL) {
                 // MOV currently doesn't work for constants > 0xFF
                 ins->setI = 1;
                 ins->immVal = getIntFromString(assIns->op2);
-            } else if(assIns->op2[0] == REG_SYMBOL){
+                if (ins->immVal) {
+                    // If the value is 0 this is unnecessary.
+                    // If immVal ends in zeros, it can be shifted to attempt to
+                    // fit values higher than (2^8)-1 into the 8-bit Imm field.
+                    int mask = 3;
+                    ins->shiftAmount = 0;
+                    while (!mask & ins->immVal) {
+                        ins->shiftAmount++;
+                        ins->immVal >>= 2;
+                    }
+                }
+                if (ins->immVal > MAX_8_BIT) {
+                    // The program gives an error if the value cannot fit into
+                    // the 8-bit immediate value.
+                    printf("Invalid numeric constant in mov instruction.");
+                    exit(1);
+                }
+
+            } else if (assIns->op2[0] == REG_SYMBOL) {
                 ins->Rm = getIntFromString(assIns->op2);
             }
-            // Not sure if this is required or not
-            //else {
-            //    printf("Badly formed instruction");
-            //}
             break;
         case LSL :
             ins->Rn = getIntFromString(assIns->op1);
@@ -111,11 +120,6 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             ins->Rm = getIntFromString(assIns->op3);
             break;
     }
-
-    // Assign values from the pointers assigned to in the above switch().
-    ins->Rn = *Rn;
-    ins->Rm = *Rm;
-    ins->Rd = *Rd;
 }
 
 void getFormMult(instr_t *ins, assIns_t *assIns) {

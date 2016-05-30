@@ -27,6 +27,7 @@
 #define MAX_MNEMONIC_LENGTH 6
 #define MAX_OPERAND_LENGTH 50 
 #define TOK_DELIM ", "
+#define MAX_8_BIT 255
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
