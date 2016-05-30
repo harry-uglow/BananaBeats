@@ -189,7 +189,9 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
     if (isdigit(*expression)) {
         ins->targetAddress = (int16_t) assIns->op1;
     } else {
-        ins->targetAddress = SymbolTable_get(expression, table); 
+
+        ins->targetAddress
+                = *((int16_t *) SymbolTable_get(expression, *table));
     }
 }
 
