@@ -1,5 +1,10 @@
 #include "encodeInstructions.h"
 
+static int32_t encodeDataProcessing(instr_t *instr);
+static int32_t encodeMultiply(instr_t *instr);
+static int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress);
+static int32_t encodeBranch(instr_t *instr, int currAddress);
+
 // Declare pointer to array of instructions
 // and address counter and symbol table
 assIns_t *instructions;
