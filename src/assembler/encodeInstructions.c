@@ -36,14 +36,13 @@ int32_t encodeDataProcessing(instr_t *instr) {
 
 
 int32_t encodeMultiply(instr_t *instr) {
-
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= instr->cond << COND_BITS;
     binaryInstr |= instr->setA << A_BIT;
     binaryInstr |= instr->setS << S_BIT;
-    binaryInstr |= instr->Rd << RD_BITS;
-    binaryInstr |= instr->Rn << RN_BITS;
+    binaryInstr |= instr->Rn << RD_BITS;
+    binaryInstr |= instr->Rd << RN_BITS;
     binaryInstr |= instr->Rs << RS_BITS;
     binaryInstr |= MULT_PREDEFINED_BITS;    
     binaryInstr |= instr->Rm;
@@ -97,9 +96,8 @@ int32_t encodeBranch(instr_t *instr, int currAddress) {
 int32_t encode(instr_t *instr) {
     static int currAddress = 0;
     int32_t binaryInstruction = 0;
-    exec_t instructionType = instr->type;
 
-    switch(instructionType) {
+    switch(instr->type) {
         case DATA_PROCESS:
             binaryInstruction = encodeDataProcessing(instr);
             break;
