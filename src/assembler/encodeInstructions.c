@@ -1,16 +1,10 @@
 #include "defs.h"
 
 int32_t encodeDataProcessing(instr_t *instr) {
-    int cond = instr->cond;
-    int setI = instr->setI;
-    int opCode = instr->opCode;
-    int setS = instr->setS;
-    int Rn = instr->Rn;
-    int Rd = instr->Rd;
     int operand2 = 0;
 
     // Calculate shift
-    if (setI) {
+    if (instr->setI) {
         operand2 = instr->immVal;
         operand2 |= (instr->shiftAmount) << IMMVAL_SHIFTAMOUNT_BITS;
     } else {
@@ -29,12 +23,12 @@ int32_t encodeDataProcessing(instr_t *instr) {
 
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
-    binaryInstr |= cond << COND_BITS;
-    binaryInstr |= setI << I_BIT;
-    binaryInstr |= opCode << OPCODE_BITS;
-    binaryInstr |= setS << S_BIT;
-    binaryInstr |= Rn << RN_BITS;
-    binaryInstr |= Rd << RD_BITS;
+    binaryInstr |= instr->cond << COND_BITS;
+    binaryInstr |= instr->setI << I_BIT;
+    binaryInstr |= instr->opCode << OPCODE_BITS;
+    binaryInstr |= instr->setS << S_BIT;
+    binaryInstr |= instr->Rn << RN_BITS;
+    binaryInstr |= instr->Rd << RD_BITS;
     binaryInstr |= operand2;
 
     return binaryInstr;
@@ -87,12 +81,13 @@ int32_t encodeSingleDataTransfer(instr_t *instr) {
 
 
 int32_t encodeBranch(instr_t *instr, int currAddress) {
-    int cond = instr->cond;
-    int offset = instr->offset;
+    int16_t addressDiff = instr->targetAddress - currAddress;
+    int32_t offset = (addressDiff << OFFSET_SIGN_EXTEND) >> OFFSET_RIGHT_SHIFT;
+    offset &= OFFSET_MASK;
    
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
-    binaryInstr |= cond << COND_BITS;
+    binaryInstr |= instr->cond << COND_BITS;
     binaryInstr |= BRANCH_PREDEFINED_BITS;
     binaryInstr |= offset;
 
