@@ -1,11 +1,12 @@
 #include <stdlib.h>
-#include "utils.h"
+#include "utils.c"
 
 int main(int argc, char **argv) {
 	// Declare pointer to array of instructions  
 	// and address counter and symbol table
 	assIns_t *instructions;
-	int address = 0;
+    address = 0;
+
 	symbolTable_t *table;
 
 	// Initialise array of assembly instructions on heap

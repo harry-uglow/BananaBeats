@@ -181,7 +181,12 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
 void getFormBranch(instr_t *ins, assIns_t *assIns) {
 
     // Branch may or may not be needed. I'll get back to this.
-
+    char *expression = assIns->op1;
+    if (isdigit(*expression)) {
+        ins->targetAddress = (int16_t) assIns->op1;
+    } else {
+        ins->targetAddress = SymbolTable_get(expression, table); 
+    }
 }
 
 int getIntFromString(char *str) {
