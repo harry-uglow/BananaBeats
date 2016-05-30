@@ -1,18 +1,14 @@
 #include "utils.h"
 
 int main(int argc, char **argv) {
-    address = 0;
-
-    // Initialise the symbol table
-    table = SymbolTable_new();
-
 	// Initialise array of assembly instructions on heap
+	// and create symbol table 
 	if(!initialiseAssembler(instructions, table)) {
 		return EXIT_FAILURE;
 	}	
 
 	// Read assembler file input 
-	if(!firstPass(instructions, &argv[1], table, &address)) {
+	if(!firstPass(instructions, argv, table)) {
 		return EXIT_FAILURE;
 	}
 
