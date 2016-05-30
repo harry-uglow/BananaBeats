@@ -16,7 +16,11 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 		return 0;
 	}
 
+	char buffer[MAX_LINE_LENGTH];
+	int address = 0;
 	
+	
+		
 	// TODO: code for reading strings of each assembly instruction
 
 	// Finished reading input of assembly file
@@ -74,7 +78,7 @@ int isLabel(char *str) {
 	return 0;
 }
 
-int8_t *pass2(assIns_t *instructions) {
+int8_t *secondPass(assIns_t *instructions) {
 	int8_t *memory = calloc(MEM_SIZE, sizeof(int8_t));
 	for(int i = 0; i < (sizeof(*instructions) / sizeof(instructions[0])); i++) {
 		instr_t format = getFormat(&instructions[i]);
@@ -85,4 +89,8 @@ int8_t *pass2(assIns_t *instructions) {
         memory[(WORD_LENGTH * i) + 3] = (int8_t)(MASK_BYTE_3 & instruction);
 	}
     return memory;
+}
+
+void removeNewline(char *token) {
+	token[strlen(token) - 1] = '\0';
 }
