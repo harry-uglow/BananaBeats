@@ -94,7 +94,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
                     // fit values higher than (2^8)-1 into the 8-bit Imm field.
                     int mask = 3;
                     ins->shiftAmount = 0;
-                    while (!mask & ins->immVal) {
+                    while ((!mask) & ins->immVal) {
                         ins->shiftAmount++;
                         ins->immVal >>= 2;
                     }
