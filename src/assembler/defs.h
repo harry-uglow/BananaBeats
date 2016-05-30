@@ -44,12 +44,15 @@
 #define SHIFT_RS_BITS 4
 #define SHIFT_BITS 4
 #define SHIFT_TYPE_BITS 1
+#define OFFSET_SIGN_EXTEND 16
+#define OFFSET_RIGHT_SHIFT 18
 
 // Encode Constant Bits
 #define MULT_PREDEFINED_BITS 0x00000090
 #define SDT_PREDEFINED_BITS 0x04000000
 #define BRANCH_PREDEFINED_BITS 0x0C000000
 #define HALT_PREDEFINED_INSTRUCTION 0x00000000
+#define OFFSET_MASK 0x00FFFFFF
 
 // Structure of assembly instruction
 typedef struct assInstr {
@@ -134,6 +137,7 @@ typedef struct Instruction {
 	int Rm;
 	int opCode;
 	int immVal;
+	int calculateOffset;
 	int32_t offset;
     int32_t op2;
     exec_t type;
