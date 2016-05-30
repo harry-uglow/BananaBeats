@@ -74,6 +74,8 @@ int32_t encodeSingleDataTransfer(instr_t *instr) {
     int Rn = instr->Rn;
     int Rd = instr->Rd;
     int offset = instr->offset;
+
+    // If SDT expr, then calculate offset, store it in memory
    
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
