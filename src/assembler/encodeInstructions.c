@@ -8,7 +8,6 @@ static int32_t encodeBranch(instr_t *instr, int currAddress);
 // Declare pointer to array of instructions
 // and address counter and symbol table
 
-int address;
 
 int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
@@ -67,15 +66,21 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
     // If SDT expr, then calculate offset, store it in memory
     if (instr->calculateOffset) {
 
-        // Increment the address counter
-        address++;
         // Put this in memory at the end at the position:
         int32_t newExpression = instr->SDTExpression;
-        memory[WORD_LENGTH * address] = newExpression;
+        memory[WORD_LENGTH * address] = (int8_t)(MASK_BYTE_0 & newExpression);
+        memory[(WORD_LENGTH * address) + 1]
+                = (int8_t)(MASK_BYTE_1 & newExpression);
+        memory[(WORD_LENGTH * address) + 2]
+                = (int8_t)(MASK_BYTE_2 & newExpression);
+        memory[(WORD_LENGTH * address) + 3]
+                = (int8_t)(MASK_BYTE_3 & newExpression);
 
         // Calculate offset and override it
         // Address is the next free word in memory
         offset = WORD_LENGTH * (address - currAddress);
+        // Increment the address counter
+        address++;
     }
 
     // Build the instruction via bit operations
@@ -95,7 +100,7 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
 
 
 int32_t encodeBranch(instr_t *instr, int currAddress) {
-    int16_t addressDiff = instr->targetAddress - currAddress;
+    int16_t addressDiff = (int16_t)(instr->targetAddress - currAddress);
     int32_t offset = (addressDiff << OFFSET_SIGN_EXTEND) >> OFFSET_RIGHT_SHIFT;
     offset &= OFFSET_MASK;
 
