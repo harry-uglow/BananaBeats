@@ -21,16 +21,16 @@ instr_t *getFormat(assIns_t *assIns) {
     // Condition applies to all instruction types
     setCond(out);
 
-    if(out->opMnemonic <= MAX_DATA_PROCESS) {
+    if (out->opMnemonic <= MAX_DATA_PROCESS) {
         out->type = DATA_PROCESS;
         getFormDatProc(out, assIns);
-    } else if(out->opMnemonic <= MAX_MULTIPLY) {
+    } else if (out->opMnemonic <= MAX_MULTIPLY) {
         out->type = MULTIPLY;
         getFormMult(out, assIns);
-    } else if(out->opMnemonic <= MAX_DATA_TRANSFER) {
+    } else if (out->opMnemonic <= MAX_DATA_TRANSFER) {
         out->type = DATA_TRANSFER;
         getFormDatTran(out, assIns);
-    } else if(out->opMnemonic <= MAX_BRANCH) {
+    } else if (out->opMnemonic <= MAX_BRANCH) {
         out->type = BRANCH;
         getFormBranch(out, assIns);
     } else {
@@ -135,23 +135,23 @@ void getFormMult(instr_t *ins, assIns_t *assIns) {
     ins->Rd = getIntFromString(assIns->op1);
     ins->Rm = getIntFromString(assIns->op2);
     ins->Rs = getIntFromString(assIns->op3);
-    ins->Rn  =getIntFromString(assIns->op4);
+    ins->Rn = getIntFromString(assIns->op4);
 
 }
 
-void getFormDatTran(instr_t *ins, assIns_t *assIns){
+void getFormDatTran(instr_t *ins, assIns_t *assIns) {
     // Unless otherwise specified, the P bit is set (pre-indexing mode)
     ins->setP = 1;
     // Rd always in op1 position
     ins->Rd = getIntFromString(assIns->op1);
 
     // If ldr instruction, then setL 1
-    if(ins->opMnemonic == LDR) {
+    if (ins->opMnemonic == LDR) {
         ins->setL = 1;
-        if(assIns->op2[0] == NUM_CONST_SYM) {
+        if (assIns->op2[0] == NUM_CONST_SYM) {
             // Op2 represents a numeric constant
             int32_t expression = getIntFromString(assIns->op2);
-            if(expression <= MAX_MOV_LDR) {
+            if (expression <= MAX_MOV_LDR) {
                 // If the expression value is small enough to be used in a mov,
                 // change <=expression> to <#expression> and use mov instead
                 assIns->op2[0] = EXPR_SYMBOL;
@@ -174,14 +174,16 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
     part1 = strtok(assIns->op2, SDT_OP2_SPLIT);
     part2 = strtok(NULL, SDT_OP2_SPLIT);
     ins->Rn = getIntFromString(part1);
-    if(part2) {
+    if (part2) {
         ins->offset = getIntFromString(part2);
-        if (strrchr(part1, POST_INDEX_CHAR)) {
-            // Post-indexing
-            ins->setP = 0;
-        }
+    }
+    if (strcmp(assIns->op3, "")) {
+        // Post-indexing
+        ins->setP = 0;
+        ins->offset = getIntFromString(assIns->op3);
     }
 }
+
 void getFormBranch(instr_t *ins, assIns_t *assIns) {
 
     // Branch may or may not be needed. I'll get back to this.
@@ -196,9 +198,9 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
 }
 
 int getIntFromString(char *str) {
-    if(str) {
-        while(*str) {
-            if(isdigit(*str)) {
+    if (str) {
+        while (*str) {
+            if (isdigit(*str)) {
                 return atoi(str);
             } else {
                 str++;
