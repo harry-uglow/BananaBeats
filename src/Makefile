@@ -15,8 +15,9 @@ all: assemble
 #emulator/utils.c: emulator/defs.h
 
 ###--- Assembler dependencies ---###
-assemble: assembler/assemble.o
-assembler/assemble.o: assembler/assemble.c
+assemble: assemble.o
+assemble.o: assemble.c
+assemble.c: assembler/utils.h
 assembler/utils.h: assembler/encodeInstructions.h
 assembler/encodeInstructions.h: assembler/getFormat.h
 assembler/getFormat.h: assembler/defs.h assembler/SymbolTable.h
