@@ -6,6 +6,7 @@
 
 int address;
 int8_t *memory;
+assIns_t *instructions;
 
 int32_t encode(assIns_t *instr);
 
