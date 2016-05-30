@@ -115,19 +115,19 @@ int32_t encode(assIns_t *instr) {
 
     switch(format->type) {
         case DATA_PROCESS:
-            binaryInstruction = encodeDataProcessing(instr);
+            binaryInstruction = encodeDataProcessing(format);
             break;
 
         case MULTIPLY:
-            binaryInstruction = encodeMultiply(instr);
+            binaryInstruction = encodeMultiply(format);
             break;
 
         case DATA_TRANSFER:
-            binaryInstruction = encodeSingleDataTransfer(instr, currAddress);
+            binaryInstruction = encodeSingleDataTransfer(format, currAddress);
             break;
 
         case BRANCH:
-            binaryInstruction = encodeBranch(instr, currAddress);
+            binaryInstruction = encodeBranch(format, currAddress);
             break;
 
         case HALT:
