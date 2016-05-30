@@ -5,6 +5,6 @@
 #include "symbolTable.h"
 
     instr_t *getFormat(assIns_t *assIns);
-    extern symbolTable_t *table;
+    symbolTable_t table;
 
 #endif //ARM11_19_GETFORMAT_H

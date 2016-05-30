@@ -77,8 +77,8 @@ void SymbolTable_put(char *newLabel, void *newValue,
 }
 
 // Find value from given label
-void *SymbolTable_get(char *key, symbolTable_t symbolTable) {
-    symbolTableNode_t *pCurrent = symbolTable.pFirstNode;
+void *SymbolTable_get(char *key, symbolTable_t *symbolTable) {
+    symbolTableNode_t *pCurrent = (*symbolTable).pFirstNode;
 
     // Loop to traverse through table until value value is found
     while (pCurrent != NULL) {

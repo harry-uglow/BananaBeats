@@ -193,7 +193,7 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
     } else {
 
         ins->targetAddress
-                = *((int16_t *) SymbolTable_get(expression, *table));
+                = *((int16_t *) SymbolTable_get(expression, &table));
     }
 }
 

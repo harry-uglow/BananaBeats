@@ -27,7 +27,7 @@ int firstPass(assIns_t *instruction, char **argv) {
 	
 		// Check if first token is label	
 		if(isLabel(token)) {
-			SymbolTable_put(token, &address, table);
+			SymbolTable_put(token, &address, &table);
 		} else {
 			strcpy(instruction[address].mnemonic, token);
 		}
@@ -101,7 +101,7 @@ int initialiseAssembler(assIns_t *instructions) {
 	}	
 
 	// Create new symbol table
-	table = SymbolTable_new();
+	table = *SymbolTable_new();
 
 	// Initialise address counter
 	address = 0;
@@ -151,7 +151,7 @@ void removeNewline(char *token) {
 	token[strlen(token) - 1] = '\0';
 }
 
-int checkBracket(char *token, char *temp) {
+int checkBrackets(char *token, char *temp) {
 	if(token[0] == '[') {
 		int i = 0;
 		while(token[0] != ']') {

@@ -23,6 +23,6 @@ void SymbolTable_put(char *newLabel, void *newValue,
                      symbolTable_t *symbolTable);
 
 // Find value from given label
-void *SymbolTable_get(char *key, symbolTable_t symbolTable);
+void *SymbolTable_get(char *key, symbolTable_t *symbolTable);
 
 #endif //ARM11_19_SYMBOLTABLE_H
