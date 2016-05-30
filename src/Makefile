@@ -17,18 +17,23 @@ all: assemble
 ###--- Assembler dependencies ---###
 assemble: assemble.o
 assemble.o: assemble.c
-assemble.c: assembler/utils.h
+	gcc -c assemble.c
+assemble.c: assembler/utils.h assembler/utils.c
+	gcc -c assembler/utils.c
 assembler/utils.h: assembler/encodeInstructions.h
 assembler/encodeInstructions.h: assembler/getFormat.h
 assembler/getFormat.h: assembler/defs.h assembler/SymbolTable.h
 
 assembler/utils.o: assembler/utils.c
+	gcc -c assembler/utils.c
 assembler/utils.c: assembler/utils.h
 assembler/symbolTable.o: assembler/symbolTable.c
+	gcc -c assembler/symbolTable.c
 assembler/symbolTable.c: assembler/symbolTable.h
 assembler/getFormat.o: assembler/getFormat.c
 assembler/getFormat.c: assembler/getFormat.h
 assembler/encodeInstructions.o: assembler/encodeInstructions.c assembler/encodeInstructions.h
+	gcc -c assembler/encodeInstructions.c
 
 clean:
 	rm -f $(wildcard *.o)

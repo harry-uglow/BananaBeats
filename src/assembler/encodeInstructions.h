@@ -1,7 +1,6 @@
 #ifndef ARM11_19_ENCODEINSTRUCTIONS_H
 #define ARM11_19_ENCODEINSTRUCTIONS_H
 
-#include <stdint.h>
 #include "getFormat.h"
 
 int address;

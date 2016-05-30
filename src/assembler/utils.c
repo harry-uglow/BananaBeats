@@ -3,7 +3,7 @@
 #include <memory.h>
 
 
-int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
+int firstPass(assIns_t *instruction, char **argv) {
 	// Open file to read from
 	FILE *finput = fopen(argv[1],"r");
 	
@@ -34,7 +34,7 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 	
 		// Parse through rest of the string & fill up array of operands
 		for(int i = 0; i < 4; i++) {
-			if(checkBracket(rest, temp[i])) {
+			if(checkBrackets(rest, temp[i])) {
 				ops[i] = strtok(rest, TOK_DELIM);
 				opSignal[i] = 1;
 				strcpy(buffer, rest);	
@@ -90,7 +90,7 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 	return 1;
 }
 
-int initialiseAssembler(assIns_t *instructions, symbolTable_t *table) {
+int initialiseAssembler(assIns_t *instructions) {
 	// Allocate memory onto the heap for an array of instructions
 	instructions = calloc(MEM_SIZE, sizeof(assIns_t));
 	
@@ -137,7 +137,7 @@ int isLabel(char *token) {
 	return 0;
 }
 
-void *secondPass(assIns_t *instructions) {
+void secondPass(assIns_t *instructions) {
 	for(int i = 0; i < (sizeof(*instructions) / sizeof(instructions[0])); i++) {
 		int32_t instruction = encode(&instructions[i]);
 		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & instruction);
@@ -145,7 +145,6 @@ void *secondPass(assIns_t *instructions) {
         memory[(WORD_LENGTH * i) + 2] = (int8_t)(MASK_BYTE_2 & instruction);
         memory[(WORD_LENGTH * i) + 3] = (int8_t)(MASK_BYTE_3 & instruction);
 	}
-	// TODO: return something
 }
 
 void removeNewline(char *token) {

@@ -2,13 +2,13 @@
 
 int main(int argc, char **argv) {
 	// Initialise array of assembly instructions on heap
-	// and create symbol table 
-	if(!initialiseAssembler(instruction, table)) {
+	// and create symbol table
+	if(!initialiseAssembler(instruction)) {
 		return EXIT_FAILURE;
 	}	
 
 	// Read assembler file input 
-	if(!firstPass(instruction, argv, table)) {
+	if(!firstPass(instruction, argv)) {
 		return EXIT_FAILURE;
 	}
 
