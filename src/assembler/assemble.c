@@ -7,7 +7,7 @@ int main(int argc, char **argv) {
     address = 0;
 
     // Initialise the symbol table
-    table = SymbolTable_new;
+    table = SymbolTable_new();
 
 	// Initialise array of assembly instructions on heap
 	if(!initialiseAssembler(instructions, table)) {
