@@ -114,6 +114,7 @@ void *secondPass(assIns_t *instructions) {
         memory[(WORD_LENGTH * i) + 2] = (int8_t)(MASK_BYTE_2 & instruction);
         memory[(WORD_LENGTH * i) + 3] = (int8_t)(MASK_BYTE_3 & instruction);
 	}
+	// TODO: return something
 }
 
 void removeNewline(char *token) {
