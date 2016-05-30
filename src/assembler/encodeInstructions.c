@@ -1,5 +1,7 @@
 #include "defs.h"
 
+int address;
+
 int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
 
@@ -63,7 +65,10 @@ int32_t encodeSingleDataTransfer(instr_t *instr) {
     int offset = instr->offset;
 
     // If SDT expr, then calculate offset, store it in memory
-   
+    if (instr->calculateOffset) {
+        // TODO: This
+    }
+
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= cond << COND_BITS;
