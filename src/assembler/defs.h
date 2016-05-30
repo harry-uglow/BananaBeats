@@ -135,6 +135,7 @@ typedef struct Instruction {
     exec_t type;
 	mnemonic_t opMnemonic;
 	int32_t SDTExpression;
+	int16_t targetAddress;
 } instr_t;
 
 #endif //ARM11_19_ASSEMBELER_DEFS_H

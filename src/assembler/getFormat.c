@@ -149,7 +149,7 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
         ins->setL = 1;
         if(assIns->op2[0] == NUM_CONST_SYM) {
             // Op2 represents a numeric constant
-            int expression = getIntFromString(assIns->op2);
+            int32_t expression = getIntFromString(assIns->op2);
             if(expression <= MAX_MOV_LDR) {
                 // If the expression value is small enough to be used in a mov,
                 // change <=expression> to <#expression> and use mov instead

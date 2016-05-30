@@ -42,24 +42,17 @@ int32_t encodeDataProcessing(instr_t *instr) {
 
 
 int32_t encodeMultiply(instr_t *instr) {
-    int cond = instr->cond;
-    int setA = instr->setA;
-    int setS = instr->setS;
-    int Rd = instr->Rn;
-    int Rn = instr->Rd;
-    int Rs = instr->Rs;
-    int Rm = instr->Rm;
 
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
-    binaryInstr |= cond << COND_BITS;
-    binaryInstr |= setA << A_BIT;
-    binaryInstr |= setS << S_BIT;
-    binaryInstr |= Rd << RD_BITS;
-    binaryInstr |= Rn << RN_BITS;
-    binaryInstr |= Rs << RS_BITS;
+    binaryInstr |= instr->cond << COND_BITS;
+    binaryInstr |= instr->setA << A_BIT;
+    binaryInstr |= instr->setS << S_BIT;
+    binaryInstr |= instr->Rd << RD_BITS;
+    binaryInstr |= instr->Rn << RN_BITS;
+    binaryInstr |= instr->Rs << RS_BITS;
     binaryInstr |= MULT_PREDEFINED_BITS;    
-    binaryInstr |= Rm;
+    binaryInstr |= instr->Rm;
 
     return binaryInstr;
 }
@@ -91,7 +84,7 @@ int32_t encodeSingleDataTransfer(instr_t *instr) {
 }
 
 
-int32_t encodeBranch(instr_t *instr) {
+int32_t encodeBranch(instr_t *instr, int currAddress) {
     int cond = instr->cond;
     int offset = instr->offset;
    
@@ -105,6 +98,7 @@ int32_t encodeBranch(instr_t *instr) {
 }
 
 int32_t encode(instr_t *instr) {
+    static int currAddress = 0;
     int32_t binaryInstruction = 0;
     exec_t instructionType = instr->type;
 
@@ -122,7 +116,7 @@ int32_t encode(instr_t *instr) {
             break;
 
         case BRANCH:
-            binaryInstruction = encodeBranch(instr);
+            binaryInstruction = encodeBranch(instr, currAddress);
             break;
 
         case HALT:
@@ -130,5 +124,6 @@ int32_t encode(instr_t *instr) {
             break;
     }
 
+    currAddress += WORD_LENGTH;
     return binaryInstruction;
 }
