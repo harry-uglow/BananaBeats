@@ -3,7 +3,7 @@
 
 #include "defs.h"
 
-int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table);
+int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address);
 int initialiseAssembler(assIns_t *instructions, symbolTable_t *table);
 int writeToBinaryFile(int32_t *instructions, char **argv);
 int isLabel(char *str);

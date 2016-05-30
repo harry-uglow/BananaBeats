@@ -6,7 +6,7 @@
 #include "getFormat.h"
 #include "encodeInstructions.h"
 
-int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
+int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address) {
 	// Open file to read from
 	FILE *finput = fopen(argv[1],"r");
 	
@@ -17,11 +17,9 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table) {
 	}
 
 	char buffer[MAX_LINE_LENGTH];
-	int address = 0;
 	
 	
-		
-	// TODO: code for reading strings of each assembly instruction
+	
 
 	// Finished reading input of assembly file
 	fclose(finput);
@@ -43,7 +41,7 @@ int initialiseAssembler(assIns_t *instructions, symbolTable_t *table) {
 	return 1;
 }
 
-int writeToBinaryFile(int32_t *binInstructions, char **argv) {
+int writeToBinaryFile(int8_t *binInstructions, char **argv) {
 	// Open file to write to
 	FILE *foutput = fopen(argv[2], "wb");
 
@@ -56,7 +54,7 @@ int writeToBinaryFile(int32_t *binInstructions, char **argv) {
 	// Write all of the binary instructions encoded into the output file
 	int pos = 0;
 	while(TRUE) {
-		int out = fwrite(&binInstructions[pos], sizeof(int32_t), 1, foutput);
+		int out = fwrite(&binInstructions[pos], sizeof(int8_t), 1, foutput);
 		if(out != 1) {
 			break;
 		}
