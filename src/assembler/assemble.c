@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 	}	
 
 	// Read assembler file input 
-	if(!firstPass(instructions, argv[1], table, &address)) {
+	if(!firstPass(instructions, &argv[1], table, &address)) {
 		return EXIT_FAILURE;
 	}
 
@@ -29,5 +29,7 @@ int main(int argc, char **argv) {
 		free(instructions);
 	}
 
+
+    // TODO: Clear all memory including symbol tables
 	return EXIT_SUCCESS;
 }

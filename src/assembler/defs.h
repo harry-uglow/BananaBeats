@@ -119,7 +119,7 @@ typedef enum Cond {
 	GRTR_THAN = 12,
 	L_OR_EQ = 13,
 	ALWAYS = 14,
-};
+} cont_t; // TODO: Tidy this up. Some enumns are unused. Typedef is not used
 
 // Structure of instruction format
 typedef struct Instruction {
