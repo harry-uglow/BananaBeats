@@ -1,7 +1,4 @@
 #include "getFormat.h"
-#include "defs.h"
-#include "symbolTable.h"
-#include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -16,7 +13,7 @@ int getIntFromString(char *str);
 
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
-instr_t getFormat(assIns_t *assIns) {
+instr_t *getFormat(assIns_t *assIns) {
     // Initialise instr_t for output later.
     instr_t out;
     out.opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
@@ -40,7 +37,7 @@ instr_t getFormat(assIns_t *assIns) {
         out.type = HALT;
     }
 
-    return out;
+    return &out;
 }
 
 void setCond(instr_t *ins) {
@@ -168,14 +165,17 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns){
     } else {
         ins->setL = 0;
     }
-    char part1[50];
-    char part2[50];
-    sscanf(strtok(assIns->op2, SDT_OP2_SPLIT), "%s%s", part1, part2);
+    char *part1;
+    char *part2;
+    part1 = strtok(assIns->op2, SDT_OP2_SPLIT);
+    part2 = strtok(NULL, SDT_OP2_SPLIT);
     ins->Rn = getIntFromString(part1);
-    ins->offset = getIntFromString(part2);
-    if (strrchr(part1, ']')) {
-        // Post-indexing
-        ins->setP = 0;
+    if(part2) {
+        ins->offset = getIntFromString(part2);
+        if (strrchr(part1, POST_INDEX_CHAR)) {
+            // Post-indexing
+            ins->setP = 0;
+        }
     }
 }
 void getFormBranch(instr_t *ins, assIns_t *assIns) {
@@ -185,24 +185,19 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
 }
 
 int getIntFromString(char *str) {
-    while(*str) {
-        if(isdigit(*str)) {
-            return atoi(str);
-        } else {
-            str++;
+    if(str) {
+        while(*str) {
+            if(isdigit(*str)) {
+                return atoi(str);
+            } else {
+                str++;
+            }
         }
     }
     return 0;
 }
 
 mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
-    /*For this function I intend to have an ordered table mapping
-      a mnemonic's string representation to its mnemonic_t enum representation.
-      For example map "add" to ADD. Then this function simply has to iterate
-      through the key's of this table using strcmp until it either finds the key
-      being looked for or goes past it. If the string is found, return the
-      mapping, else throw an invalid assembly instruction error.
-    */
     // UPDATE: I hate this code, but any clever solution seems to be beyond
     // the scope of the short C course and will certainly take longer to work
     // out than we have time for on this course.

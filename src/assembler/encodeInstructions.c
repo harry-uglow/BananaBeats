@@ -1,4 +1,5 @@
-#include "defs.h"
+#include "encodeInstructions.h"
+#include "getFormat.h"
 
 int32_t encodeDataProcessing(instr_t *instr) {
     int cond = instr->cond;
@@ -99,10 +100,11 @@ int32_t encodeBranch(instr_t *instr, int currAddress) {
     return binaryInstr;
 }
 
-int32_t encode(instr_t *instr) {
+int32_t encode(assIns_t *instr) {
     static int currAddress = 0;
     int32_t binaryInstruction = 0;
-    exec_t instructionType = instr->type;
+    instr_t *format = getFormat(instr);
+    exec_t instructionType = format->type;
 
     switch(instructionType) {
         case DATA_PROCESS:

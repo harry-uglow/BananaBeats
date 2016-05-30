@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <memory.h>
 #include "utils.h"
-#include "defs.h"
-#include "getFormat.h"
 #include "encodeInstructions.h"
 
 int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address) {
@@ -79,8 +77,7 @@ int isLabel(char *str) {
 int8_t *secondPass(assIns_t *instructions) {
 	int8_t *memory = calloc(MEM_SIZE, sizeof(int8_t));
 	for(int i = 0; i < (sizeof(*instructions) / sizeof(instructions[0])); i++) {
-		instr_t format = getFormat(&instructions[i]);
-		int32_t instruction = encode(&format);
+		int32_t instruction = encode(&instructions[i]);
 		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & instruction);
         memory[(WORD_LENGTH * i) + 1] = (int8_t)(MASK_BYTE_1 & instruction);
         memory[(WORD_LENGTH * i) + 2] = (int8_t)(MASK_BYTE_2 & instruction);
