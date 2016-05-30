@@ -71,13 +71,12 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
 
     // If SDT expr, then calculate offset, store it in memory
     if (instr->calculateOffset) {
-        // TODO: This
 
         // Increment the address counter
         address++;
         // Put this in memory at the end at the position:
         int32_t newExpression = instr->SDTExpression;
-        memory[address] = newExpression;
+        memory[WORD_LENGTH * address] = newExpression;
 
         // Calculate offset and override it
         // Address is the next free word in memory
