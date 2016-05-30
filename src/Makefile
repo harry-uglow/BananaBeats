@@ -10,7 +10,7 @@ all: assemble
 ###--- Emulator dependencies ---###
 #emulate: emulate.o
 #emulate.o: emulator/pipeline.c
-#emulator/pipeline.c: emulator/executeInstructions.c emulator/pipeline.h
+#emulator/pipeline.c: emulator/executeInstrugctions.c emulator/pipeline.h
 #emulator/executeInstructions.c: emulator/utils.c emulator/executeInstructions.h
 #emulator/utils.c: emulator/defs.h
 
