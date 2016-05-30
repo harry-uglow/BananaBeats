@@ -57,11 +57,11 @@
 
 // Structure of assembly instruction
 typedef struct assInstr {
-	char mnemonic[MAX_MNEMONIC_LENGTH];
-	char op1[MAX_OPERAND_LENGTH];
-	char op2[MAX_OPERAND_LENGTH];
-	char op3[MAX_OPERAND_LENGTH];
-	char op4[MAX_OPERAND_LENGTH];
+	char *mnemonic;
+	char *op1;
+	char *op2;
+	char *op3;
+	char *op4;
 } assIns_t;
 
 // Structure of type of instructions
