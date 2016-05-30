@@ -11,9 +11,17 @@
 #define REG_PC 15
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
-#define REG_DELIMITER "r"
-#define CONST_DELIMITER "#"
+#define MASK_BYTE_0 0x000000FF
+#define MASK_BYTE_1 0x0000FF00
+#define MASK_BYTE_2 0x00FF0000
+#define MASK_BYTE_3 0xFF000000
+#define REG_SYMBOL 'r'
+#define EXPR_SYMBOL '#'
 #define MAX_MOV_LDR 0xFF
+#define SDT_OP2_SPLIT ","
+#define MOV_MNEMONIC "mov"
+#define NUM_CONST_SYM '='
+#define TRUE 1
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
