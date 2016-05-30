@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <memory.h>
 #include "utils.h"
-#include "encodeInstructions.h"
+#include <stdio.h>
+#include <memory.h>
 
 
 int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address) {

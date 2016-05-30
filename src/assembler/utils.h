@@ -1,7 +1,7 @@
 #ifndef ARM11_19_ASSEMBLER_UTILS_H
 #define ARM11_19_ASSEMBLER_UTILS_H
 
-#include "defs.h"
+#include "encodeInstructions.h"
 
 int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address);
 int initialiseAssembler(assIns_t *instructions, symbolTable_t *table);

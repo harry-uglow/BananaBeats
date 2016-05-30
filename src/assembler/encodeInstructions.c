@@ -1,7 +1,5 @@
 #include "encodeInstructions.h"
-#include "getFormat.h"
 
-int address;
 
 int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
