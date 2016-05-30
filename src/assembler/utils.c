@@ -17,20 +17,43 @@ int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *ad
 	char *token;
 	char *ops[4];
 
-	// Some sort of loop construct before the code underneath
-	fgets(buffer, MAX_LINE_LENGTH, finput);		
-	token = strtok(buffer, TOK_DELIM);
-	if(isLabel(token)) {
-		symbolTable_put(token, address, table);
-		if(strtok(NULL, TOK_DELIM) == NULL)  
+	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
+		// Extract first token in string 
+		token = strtok(buffer, TOK_DELIM);
+	
+		// Check if first token is label	
+		if(isLabel(token)) {
+			symbolTable_put(token, address, table);
+		} else {
+			strcpy(instruction[*address]->mnemonic, token);
+		}
+	
+		// Parse through rest of the string & fill up array of operands
+		for(int i = 0; i < 4; i++) {
+			ops[i] = strtok(NULL, TOK_DELIM);		
+		}
+	
+		// Set all non-null operands to compoents of assembly instructions
+		if(ops[0] != NULL) {
+			strcpy(instruction[*address]->op1, ops[0]);
+		}
+
+		if(ops[1] != NULL) {
+			strcpy(instruction[*address]->op2, ops[1]);
+		}
+	
+		if(ops[2] != NULL) {
+			strcpy(instruction[*address]->op3, ops[2]);
+		}
+
+		if(ops[3] != NULL) {
+			strcpy(instruction[*address]->op4, ops[3]);
+		}	
+		
+		// Increment address
+		(*address)++;
 	}
-	
-	
-	for(int i = 0; i < 4; i++) {
-		ops[i] = strtok(NULL, TOK_DELIM);		
-	}
-	
-	
+		
 	// Finished reading input of assembly file
 	fclose(finput);
 	return 1;
