@@ -2,7 +2,10 @@
 #define ARM11_19_ENCODEINSTRUCTIONS_H
 
 #include <stdint.h>
-#include "defs.h"
+#include "getFormat.h"
+
+int address;
+int8_t *memory;
 
 int32_t encodeDataProcessing(instr_t *instr);
 int32_t encodeMultiply(instr_t *instr);

@@ -21,13 +21,11 @@ int main(int argc, char **argv) {
 
 	
 
-	// TODO: Main assembler functions
-    // Loop through the array of assembly instructions calling get format and 
-    // encode on each. Translate the labels into loops using the symbolTable
+	secondPass(instructions);
 
 
 	// Write results of assembler to binary file specified by 2nd argument
-	if(!writeToBinaryFile(binInstructions, argv)) {
+	if(!writeToBinaryFile(memory, argv)) {
 		return EXIT_FAILURE;			
 	}
 	
