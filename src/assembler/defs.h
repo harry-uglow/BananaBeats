@@ -7,10 +7,10 @@
 // Constants
 #define MEM_SIZE 65536
 #define WORD_LENGTH 4
-#define OFFSET 4
 #define REG_PC 15
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
+#define MAX_8_BIT 255
 #define MASK_BYTE_0 0x000000FF
 #define MASK_BYTE_1 0x0000FF00
 #define MASK_BYTE_2 0x00FF0000
@@ -25,9 +25,8 @@
 #define TRUE 1
 #define MAX_LINE_LENGTH 511
 #define MAX_MNEMONIC_LENGTH 6
-#define MAX_OPERAND_LENGTH 50 
+#define MAX_OPERAND_LENGTH 50
 #define TOK_DELIM ", "
-#define MAX_8_BIT 255
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
@@ -103,23 +102,12 @@ typedef enum mnemonic {
 
 // Constants arising from mnemonic_t
 #define MAX_DATA_PROCESS 14
-#define MIN_MULTIPLY 15
 #define MAX_MULTIPLY 16
-#define MIN_DATA_TRANSFER 17
 #define MAX_DATA_TRANSFER 18
 #define MIN_BRANCH 19
 #define MAX_BRANCH 25
 #define BRANCH_OFFSET 20
-
-typedef enum Cond {
-	EQUAL,
-	NOT_EQUAL,
-	G_OR_EQ = 10,
-	LESS_THAN = 11,
-	GRTR_THAN = 12,
-	L_OR_EQ = 13,
-	ALWAYS = 14,
-} cont_t; // TODO: Tidy this up. Some enumns are unused. Typedef is not used
+#define ALWAYS_COND 14
 
 // Structure of instruction format
 typedef struct Instruction {

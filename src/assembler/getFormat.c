@@ -42,7 +42,7 @@ instr_t *getFormat(assIns_t *assIns) {
 
 void setCond(instr_t *ins) {
     if (ins->opMnemonic <= MIN_BRANCH) {
-        ins->cond = ALWAYS;
+        ins->cond = ALWAYS_COND;
     } else {
         ins->cond = ins->opMnemonic - BRANCH_OFFSET;
     }
