@@ -101,7 +101,6 @@ int32_t encode(assIns_t *instr) {
     static int currAddress = 0;
     int32_t binaryInstruction = 0;
     instr_t *format = getFormat(instr);
-    exec_t instructionType = format->type;
 
     switch(format->type) {
         case DATA_PROCESS:
