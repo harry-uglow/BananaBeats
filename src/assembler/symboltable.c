@@ -8,21 +8,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct SymbolTableNode {
+typedef struct SymbolTableNode {
     char *label; // 'Key' of the symbol table, the label
     void *value; // 'Value' of the symbol table. Pointer to a value
 
     struct SymbolTableNode *pNextNode; // The next node (node linked to)
-};
+} symbolTableNode_t;
 
 typedef struct SymbolTable {
-    struct SymbolTableNode *pFirstNode;
+    symbolTableNode_t *pFirstNode;
 } symbolTable_t;
 
 // Create new symbol table
-symbolTable_t*SymbolTable_new(void) {
+symbolTable_t *SymbolTable_new(void) {
     // Assign new symbol table to heap
-    symbolTable_t*newSymbolTable
+    symbolTable_t *newSymbolTable
             = malloc(sizeof(struct SymbolTable));
 
     // Exit the program if assigning to the heap has failed
@@ -38,7 +38,7 @@ symbolTable_t*SymbolTable_new(void) {
 }
 
 // Remove the symbol table from the heap (i.e. garbage collection)
-void SymbolTable_delete(symbolTable_t*symbolTable) {
+void SymbolTable_delete(symbolTable_t *symbolTable) {
     // Check that the argument doesn't point to null
     if (symbolTable == NULL) {
         printf("The table doesn't exist");
@@ -46,8 +46,8 @@ void SymbolTable_delete(symbolTable_t*symbolTable) {
     }
 
     // Remove all nodes
-    struct SymbolTableNode *pCurrent = symbolTable->pFirstNode;
-    struct SymbolTableNode *pNext;
+    symbolTableNode_t *pCurrent = symbolTable->pFirstNode;
+    symbolTableNode_t *pNext;
 
     while (pCurrent != NULL) {
         pNext = pCurrent->pNextNode; // Update next node
@@ -62,7 +62,7 @@ void SymbolTable_delete(symbolTable_t*symbolTable) {
 
 // Add matching label and value to symbol table
 void SymbolTable_put(char *newLabel, void *newValue,
-                     symbolTable_t*symbolTable) {
+                     symbolTable_t *symbolTable) {
     // Make sure no arguments are null
     if (newLabel == NULL || newValue == NULL || symbolTable == NULL) {
         printf("Error: null argument. Did not add entry to symbol table\n");
@@ -70,7 +70,7 @@ void SymbolTable_put(char *newLabel, void *newValue,
     }
 
     // Create new node and assign it to the heap
-    struct SymbolTableNode *newNode = malloc(sizeof(struct SymbolTableNode));
+    symbolTableNode_t *newNode = malloc(sizeof(struct SymbolTableNode));
 
     // Exit the program if assigning to the heap has failed
     if (newNode == NULL) {
@@ -88,8 +88,8 @@ void SymbolTable_put(char *newLabel, void *newValue,
 }
 
 // Find value from given label
-void *SymbolTable_get(char *key, symbolTable_tsymbolTable) {
-    struct SymbolTableNode *pCurrent = symbolTable.pFirstNode;
+void *SymbolTable_get(char *key, symbolTable_t symbolTable) {
+    symbolTableNode_t *pCurrent = symbolTable.pFirstNode;
 
     // Loop to traverse through table until value value is found
     while (pCurrent != NULL) {
