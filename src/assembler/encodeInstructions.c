@@ -1,5 +1,12 @@
 #include "encodeInstructions.h"
 
+<<<<<<< Updated upstream
+=======
+// Declare pointer to array of instructions
+// and address counter and symbol table
+assIns_t *instructions;
+int address;
+>>>>>>> Stashed changes
 
 int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
@@ -45,14 +52,14 @@ int32_t encodeMultiply(instr_t *instr) {
     binaryInstr |= instr->Rn << RD_BITS;
     binaryInstr |= instr->Rd << RN_BITS;
     binaryInstr |= instr->Rs << RS_BITS;
-    binaryInstr |= MULT_PREDEFINED_BITS;    
+    binaryInstr |= MULT_PREDEFINED_BITS;
     binaryInstr |= instr->Rm;
 
     return binaryInstr;
 }
 
 
-int32_t encodeSingleDataTransfer(instr_t *instr) {
+int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
     int cond = instr->cond;
     int setI = instr->setI;
     int setP = instr->setP;
@@ -64,7 +71,16 @@ int32_t encodeSingleDataTransfer(instr_t *instr) {
 
     // If SDT expr, then calculate offset, store it in memory
     if (instr->calculateOffset) {
-        // TODO: This
+
+        // Increment the address counter
+        address++;
+        // Put this in memory at the end at the position:
+        int32_t newExpression = instr->SDTExpression;
+        memory[WORD_LENGTH * address] = newExpression;
+
+        // Calculate offset and override it
+        // Address is the next free word in memory
+        offset = WORD_LENGTH * (address - currAddress);
     }
 
     // Build the instruction via bit operations
@@ -87,7 +103,7 @@ int32_t encodeBranch(instr_t *instr, int currAddress) {
     int16_t addressDiff = instr->targetAddress - currAddress;
     int32_t offset = (addressDiff << OFFSET_SIGN_EXTEND) >> OFFSET_RIGHT_SHIFT;
     offset &= OFFSET_MASK;
-   
+
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= instr->cond << COND_BITS;
@@ -101,7 +117,6 @@ int32_t encode(assIns_t *instr) {
     static int currAddress = 0;
     int32_t binaryInstruction = 0;
     instr_t *format = getFormat(instr);
-    exec_t instructionType = format->type;
 
     switch(format->type) {
         case DATA_PROCESS:
@@ -113,7 +128,7 @@ int32_t encode(assIns_t *instr) {
             break;
 
         case DATA_TRANSFER:
-            binaryInstruction = encodeSingleDataTransfer(instr);
+            binaryInstruction = encodeSingleDataTransfer(instr, currAddress);
             break;
 
         case BRANCH:

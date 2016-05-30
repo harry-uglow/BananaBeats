@@ -1,9 +1,6 @@
 #include "utils.h"
 
 int main(int argc, char **argv) {
-	// Declare pointer to array of instructions  
-	// and address counter and symbol table
-	assIns_t *instructions;
     address = 0;
 
     // Initialise the symbol table
@@ -17,9 +14,7 @@ int main(int argc, char **argv) {
 	// Read assembler file input 
 	if(!firstPass(instructions, argv[1], table, &address)) {
 		return EXIT_FAILURE;
-	}	
-
-	
+	}
 
 	secondPass(instructions);
 
