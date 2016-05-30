@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include "utils.c"
+#include "utils.h"
 
 int main(int argc, char **argv) {
 	// Declare pointer to array of instructions  
@@ -7,7 +6,8 @@ int main(int argc, char **argv) {
 	assIns_t *instructions;
     address = 0;
 
-	symbolTable_t *table;
+    // Initialise the symbol table
+    table = SymbolTable_new;
 
 	// Initialise array of assembly instructions on heap
 	if(!initialiseAssembler(instructions, table)) {

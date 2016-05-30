@@ -1,4 +1,5 @@
 #include "getFormat.h"
+#include "symboltable.h"
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
