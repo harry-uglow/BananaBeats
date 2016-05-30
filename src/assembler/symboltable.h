@@ -16,13 +16,13 @@ typedef struct SymbolTable {
 symbolTable_t *SymbolTable_new(void);
 
 // Remove the symbol table from the heap (i.e. garbage collection)
-void SymbolTable_delete(struct SymbolTable *symbolTable);
+void SymbolTable_delete(symbolTable_t *symbolTable);
 
 // Add matching label and value to symbol table
 void SymbolTable_put(char *newLabel, void *newValue,
-                     struct SymbolTable *symbolTable);
+                     symbolTable_t *symbolTable);
 
 // Find value from given label
-void *SymbolTable_get(char *key, struct SymbolTable symbolTable);
+void *SymbolTable_get(char *key, symbolTable_t symbolTable);
 
 #endif //ARM11_19_SYMBOLTABLE_H
