@@ -22,6 +22,9 @@
 #define MOV_MNEMONIC "mov"
 #define NUM_CONST_SYM '='
 #define TRUE 1
+#define MAX_LINE_LENGTH 511
+#define MAX_MNEMONIC_LENGTH 6
+#define MAX_OPERAND_LENGTH 50 
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
@@ -49,11 +52,11 @@
 
 // Structure of assembly instruction
 typedef struct assInstr {
-	char mnemonic[];
-	char op1[];
-	char op2[];
-	char op3[];
-	char op4[];
+	char mnemonic[MAX_MNEMONIC_LENGTH];
+	char op1[MAX_OPERAND_LENGTH];
+	char op2[MAX_OPERAND_LENGTH];
+	char op3[MAX_OPERAND_LENGTH];
+	char op4[MAX_OPERAND_LENGTH];
 } assIns_t;
 
 // Structure of type of instructions

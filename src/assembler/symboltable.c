@@ -20,9 +20,9 @@ typedef struct SymbolTable {
 } symbolTable_t;
 
 // Create new symbol table
-struct SymbolTable *SymbolTable_new(void) {
+symbolTable_t*SymbolTable_new(void) {
     // Assign new symbol table to heap
-    struct SymbolTable *newSymbolTable
+    symbolTable_t*newSymbolTable
             = malloc(sizeof(struct SymbolTable));
 
     // Exit the program if assigning to the heap has failed
@@ -38,7 +38,7 @@ struct SymbolTable *SymbolTable_new(void) {
 }
 
 // Remove the symbol table from the heap (i.e. garbage collection)
-void SymbolTable_delete(struct SymbolTable *symbolTable) {
+void SymbolTable_delete(symbolTable_t*symbolTable) {
     // Check that the argument doesn't point to null
     if (symbolTable == NULL) {
         printf("The table doesn't exist");
@@ -62,7 +62,7 @@ void SymbolTable_delete(struct SymbolTable *symbolTable) {
 
 // Add matching label and value to symbol table
 void SymbolTable_put(char *newLabel, void *newValue,
-                     struct SymbolTable *symbolTable) {
+                     symbolTable_t*symbolTable) {
     // Make sure no arguments are null
     if (newLabel == NULL || newValue == NULL || symbolTable == NULL) {
         printf("Error: null argument. Did not add entry to symbol table\n");
@@ -88,7 +88,7 @@ void SymbolTable_put(char *newLabel, void *newValue,
 }
 
 // Find value from given label
-void *SymbolTable_get(char *key, struct SymbolTable symbolTable) {
+void *SymbolTable_get(char *key, symbolTable_tsymbolTable) {
     struct SymbolTableNode *pCurrent = symbolTable.pFirstNode;
 
     // Loop to traverse through table until value value is found

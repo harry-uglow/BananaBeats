@@ -6,7 +6,7 @@
 #include "getFormat.h"
 #include "encodeInstructions.h"
 
-int readFile(assIns_t *instructions, char **argv) {
+int firstPass(assIns_t *instructions, char **argv, symbolTable_t *table, int *address) {
 	// Open file to read from
 	FILE *finput = fopen(argv[1],"r");
 	
@@ -16,15 +16,17 @@ int readFile(assIns_t *instructions, char **argv) {
 		return 0;
 	}
 
-
-	// TODO: code for reading strings of each assembly instruction
+	char buffer[MAX_LINE_LENGTH];
+	
+	
+	
 
 	// Finished reading input of assembly file
 	fclose(finput);
 	return 1;
 }
 
-int initialiseAssembler(assIns_t *instructions) {
+int initialiseAssembler(assIns_t *instructions, symbolTable_t *table) {
 	// Allocate memory onto the heap for an array of instructions
 	instructions = calloc(MEM_SIZE, sizeof(assIns_t));
 	
@@ -33,10 +35,13 @@ int initialiseAssembler(assIns_t *instructions) {
 		printf("Memory could not be allocated onto the heap.\n");
 		return 0;
 	}	
+
+	// Create new symbol table
+	table = SymbolTable_new();
 	return 1;
 }
 
-int writeToBinaryFile(int32_t *binInstructions, char **argv) {
+int writeToBinaryFile(int8_t *binInstructions, char **argv) {
 	// Open file to write to
 	FILE *foutput = fopen(argv[2], "wb");
 
@@ -49,7 +54,7 @@ int writeToBinaryFile(int32_t *binInstructions, char **argv) {
 	// Write all of the binary instructions encoded into the output file
 	int pos = 0;
 	while(TRUE) {
-		int out = fwrite(&binInstructions[pos], sizeof(int32_t), 1, foutput);
+		int out = fwrite(&binInstructions[pos], sizeof(int8_t), 1, foutput);
 		if(out != 1) {
 			break;
 		}
@@ -71,7 +76,7 @@ int isLabel(char *str) {
 	return 0;
 }
 
-int8_t *pass2(assIns_t *instructions) {
+int8_t *secondPass(assIns_t *instructions) {
 	int8_t *memory = calloc(MEM_SIZE, sizeof(int8_t));
 	for(int i = 0; i < (sizeof(*instructions) / sizeof(instructions[0])); i++) {
 		instr_t format = getFormat(&instructions[i]);
@@ -82,4 +87,8 @@ int8_t *pass2(assIns_t *instructions) {
         memory[(WORD_LENGTH * i) + 3] = (int8_t)(MASK_BYTE_3 & instruction);
 	}
     return memory;
+}
+
+void removeNewline(char *token) {
+	token[strlen(token) - 1] = '\0';
 }
