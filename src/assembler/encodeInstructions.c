@@ -1,5 +1,9 @@
 #include "encodeInstructions.h"
 
+// Declare pointer to array of instructions
+// and address counter and symbol table
+assIns_t *instructions;
+int address;
 
 int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
@@ -45,38 +49,40 @@ int32_t encodeMultiply(instr_t *instr) {
     binaryInstr |= instr->Rn << RD_BITS;
     binaryInstr |= instr->Rd << RN_BITS;
     binaryInstr |= instr->Rs << RS_BITS;
-    binaryInstr |= MULT_PREDEFINED_BITS;    
+    binaryInstr |= MULT_PREDEFINED_BITS;
     binaryInstr |= instr->Rm;
 
     return binaryInstr;
 }
 
 
-int32_t encodeSingleDataTransfer(instr_t *instr) {
-    int cond = instr->cond;
-    int setI = instr->setI;
-    int setP = instr->setP;
-    int setU = instr->setU;
-    int setL = instr->setL;
-    int Rn = instr->Rn;
-    int Rd = instr->Rd;
-    int offset = instr->offset;
+int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
+    int offset = 0;
 
     // If SDT expr, then calculate offset, store it in memory
     if (instr->calculateOffset) {
-        // TODO: This
+
+        // Increment the address counter
+        address++;
+        // Put this in memory at the end at the position:
+        int32_t newExpression = instr->SDTExpression;
+        memory[WORD_LENGTH * address] = newExpression;
+
+        // Calculate offset and override it
+        // Address is the next free word in memory
+        offset = WORD_LENGTH * (address - currAddress);
     }
 
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
-    binaryInstr |= cond << COND_BITS;
+    binaryInstr |= instr->cond << COND_BITS;
     binaryInstr |= SDT_PREDEFINED_BITS;
-    binaryInstr |= setI << I_BIT;
-    binaryInstr |= setP << P_BIT;
-    binaryInstr |= setU << U_BIT;
-    binaryInstr |= setL << L_BIT;
-    binaryInstr |= Rn << RN_BITS;
-    binaryInstr |= Rd << RD_BITS;
+    binaryInstr |= instr->setI << I_BIT;
+    binaryInstr |= instr->setP << P_BIT;
+    binaryInstr |= instr->setU << U_BIT;
+    binaryInstr |= instr->setL << L_BIT;
+    binaryInstr |= instr->Rn << RN_BITS;
+    binaryInstr |= instr->Rd << RD_BITS;
     binaryInstr |= offset;
 
     return binaryInstr;
@@ -87,7 +93,7 @@ int32_t encodeBranch(instr_t *instr, int currAddress) {
     int16_t addressDiff = instr->targetAddress - currAddress;
     int32_t offset = (addressDiff << OFFSET_SIGN_EXTEND) >> OFFSET_RIGHT_SHIFT;
     offset &= OFFSET_MASK;
-   
+
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= instr->cond << COND_BITS;
@@ -101,7 +107,6 @@ int32_t encode(assIns_t *instr) {
     static int currAddress = 0;
     int32_t binaryInstruction = 0;
     instr_t *format = getFormat(instr);
-    exec_t instructionType = format->type;
 
     switch(format->type) {
         case DATA_PROCESS:
@@ -113,7 +118,7 @@ int32_t encode(assIns_t *instr) {
             break;
 
         case DATA_TRANSFER:
-            binaryInstruction = encodeSingleDataTransfer(instr);
+            binaryInstruction = encodeSingleDataTransfer(instr, currAddress);
             break;
 
         case BRANCH:

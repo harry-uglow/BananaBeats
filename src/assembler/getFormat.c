@@ -1,5 +1,4 @@
 #include "getFormat.h"
-#include "symboltable.h"
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -16,29 +15,29 @@ int getIntFromString(char *str);
 // struct Instruction to aid encoding.
 instr_t *getFormat(assIns_t *assIns) {
     // Initialise instr_t for output later.
-    instr_t out;
-    out.opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
+    instr_t *out = calloc(1, sizeof(instr_t));
+    out->opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
 
     // Condition applies to all instruction types
-    setCond(&out);
+    setCond(out);
 
-    if(out.opMnemonic <= MAX_DATA_PROCESS) {
-        out.type = DATA_PROCESS;
-        getFormDatProc(&out, assIns);
-    } else if(out.opMnemonic <= MAX_MULTIPLY) {
-        out.type = MULTIPLY;
-        getFormMult(&out, assIns);
-    } else if(out.opMnemonic <= MAX_DATA_TRANSFER) {
-        out.type = DATA_TRANSFER;
-        getFormDatTran(&out, assIns);
-    } else if(out.opMnemonic <= MAX_BRANCH) {
-        out.type = BRANCH;
-        getFormBranch(&out, assIns);
+    if(out->opMnemonic <= MAX_DATA_PROCESS) {
+        out->type = DATA_PROCESS;
+        getFormDatProc(out, assIns);
+    } else if(out->opMnemonic <= MAX_MULTIPLY) {
+        out->type = MULTIPLY;
+        getFormMult(out, assIns);
+    } else if(out->opMnemonic <= MAX_DATA_TRANSFER) {
+        out->type = DATA_TRANSFER;
+        getFormDatTran(out, assIns);
+    } else if(out->opMnemonic <= MAX_BRANCH) {
+        out->type = BRANCH;
+        getFormBranch(out, assIns);
     } else {
-        out.type = HALT;
+        out->type = HALT;
     }
 
-    return &out;
+    return out;
 }
 
 void setCond(instr_t *ins) {

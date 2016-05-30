@@ -108,8 +108,7 @@ int isLabel(char *token) {
 	return 0;
 }
 
-int8_t *secondPass(assIns_t *instructions) {
-	int8_t *memory = calloc(MEM_SIZE, sizeof(int8_t));
+void *secondPass(assIns_t *instructions) {
 	for(int i = 0; i < (sizeof(*instructions) / sizeof(instructions[0])); i++) {
 		int32_t instruction = encode(&instructions[i]);
 		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & instruction);
@@ -117,7 +116,6 @@ int8_t *secondPass(assIns_t *instructions) {
         memory[(WORD_LENGTH * i) + 2] = (int8_t)(MASK_BYTE_2 & instruction);
         memory[(WORD_LENGTH * i) + 3] = (int8_t)(MASK_BYTE_3 & instruction);
 	}
-    return memory;
 }
 
 void removeNewline(char *token) {
