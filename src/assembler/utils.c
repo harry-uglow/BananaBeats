@@ -21,6 +21,8 @@ int firstPass(assIns_t *instruction, char **argv) {
 	int opSignal[4] = {0, 0, 0, 0};
 
 	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
+		// Remove '\n' character at the end of the string
+		removeNewline(buffer);
 		// Extract first token in string 
 		token = strtok(buffer, TOK_DELIM);
 		rest = strtok(NULL, "");
