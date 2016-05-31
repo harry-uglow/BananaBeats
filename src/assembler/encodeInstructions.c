@@ -63,6 +63,7 @@ int32_t encodeMultiply(instr_t *instr) {
 int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
 
     // If SDT expr, then calculate offset, store it in memory
+
     if (instr->calculateOffset) {
 
         // Put this in memory at the end at the position:

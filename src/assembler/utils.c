@@ -58,6 +58,11 @@ int firstPass(char **argv) {
             if(!rest || rest[0] == '\0') {
                 break;
             }
+
+            // Skip through spaces at the beginning of operands
+            while(rest[0] == ' ') {
+                rest++;
+            }
 		
 			// Check if current expression is a bracketed expression
 			// and if it is then iterate through the characters and 
