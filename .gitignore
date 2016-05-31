@@ -35,5 +35,4 @@ assemble
 
 #ignore CLion files
 *.idea
-CMakeLists.txt
 
