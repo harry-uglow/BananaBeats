@@ -12,36 +12,57 @@ int firstPass(char **argv) {
 		printf("Could not open file %s\n", argv[1]);
 		return 0;
 	}
-
+	
+	// Declare buffer string to hold each line in assembly file
 	char *buffer = calloc(MAX_LINE_LENGTH, sizeof(char));
+	// Declare token string to hold mnemonic part of assembly instruction
 	char *token;
-	char *ops = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+	// Declare rest string to hold the rest of the assembly instruction 	
 	char *rest;
+	// Declare ops string to hold operands of each instruction
+	char *ops = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+	// Declare temp string to hold bracketed operands of assembly instruction
 	char *temp = calloc(MAX_OPERAND_LENGTH, sizeof(char));
-    char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+    // Declare label string to hold label and act as buffer for token	
+	char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
 
+	
 	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
 		// Remove '\n' character at the end of the string
 		removeNewline(buffer);
-		// Extract first token in string 
+		// Extract first token in string (the mnemonic) 
 		token = strtok(buffer, TOK_DELIM);
-        // Rest of the string
+        // Rest will hold the rest of the string (the operands)
 		rest = strtok(NULL, "");
 
-        // Check if first token is label
+        
+		// Check if first token is label or mnemonic
         if(isLabel(token)) {
-            strcpy(label, token);
+           	// Copy token to label buffer
+			strcpy(label, token);
+			// Insert the label with the corresponding address into symbol table
             SymbolTable_put(label, &address, &table);
+			// Continue to next assembly instruction
             continue;
         } else {
+			// Assign token as value of mnemonic in the instruction at 'address'
             strcpy(instruction[address].mnemonic, token);
 		}
 	
-		// Parse through rest of the string & fill up array of operands
+		// Loop for up to 4 operands and assign operands to instruction at 'address'
 		for(int i = 1; i <= 4; i++) {
+			// If there are no more operands left then break from the loop
             if(!rest || rest[0] == '\0') {
                 break;
             }
+			
+			// Check if current expression is a bracketed expression
+			// and if it is then iterate through the characters and 
+			// copy them to the temp string until the you encounter 
+			// a ']' character. Once the end bracket is reached then 
+			// copy it to the end of temp, add a null terminater for 
+			// temp string and increment the rest pointer to point to 
+			// the next character after ']'
 			if(rest[0] == '[') {
                 int j = 0;
                 while(rest[0] != ']') {
@@ -51,12 +72,21 @@ int firstPass(char **argv) {
                 }
                 temp[j] = rest[0];
                 temp[j + 1] = '\0';
+
+				// Copy the temp operand into the ops string
                 strcpy(ops, temp);
+				// Increment rest pointer to point to next character
                 rest++;
             } else {
+				// Copy next tokenised operand into ops string
 				strcpy(ops, strtok(rest, TOK_DELIM));
+				// Reassing the rest of the assembly instruction to rest
                 rest = strtok(NULL, "");
 			}
+			// If ops string is not null & contains an operand then 
+			// copy it to the correct component of the assembly instruction
+			// at 'address'. Otherwise do nothing since there is no operand
+			// to add to the assembly instruction.
             if(ops != NULL) {
                 switch (i) {
                     case 1 :
@@ -76,28 +106,25 @@ int firstPass(char **argv) {
                 }
             }
 		}
-	
-		/*// Set all non-null operands to components of assembly instructions
-		if(ops[0] != NULL) {
-            strcpy(instruction[address].op1, ops[0]);
-		}
-
-        if(ops[1] != NULL) {
-            strcpy(instruction[address].op1, ops[1]);
-        }
-
-        if(ops[2] != NULL) {
-            strcpy(instruction[address].op1, ops[2]);
-        }
-
-        if(ops[3] != NULL) {
-            strcpy(instruction[address].op1, ops[3]);
-        }*/
-		
-		// Increment address
+		// Increment the address counter to hold the next assembly instruction to be tokenised
 		address++;
 	}
-		
+	// Free memory allocated onto the heap for local variables
+	if(buffer != NULL) {
+		free(buffer);
+	}
+	
+	if(ops != NULL) {
+		free(ops);
+	}
+	
+	if(temp != NULL) {
+		free(temp);
+	}
+	
+	if(label != NULL) {
+		free(label);
+	}
 	// Finished reading input of assembly file
 	fclose(finput);
 	return 1;
@@ -112,7 +139,9 @@ int initialiseAssembler() {
         printf("Memory could not be allocated onto the heap.\n");
         return 0;
     }
-
+	
+	// Allocate memory for every component of each assIns_t in instruction
+	// and initialise them with calloc
     for(int i = 0; i < MEM_SIZE; i++) {
         instruction[i].mnemonic = calloc(MAX_MNEMONIC_LENGTH, sizeof(char));
         instruction[i].op1 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
@@ -120,7 +149,8 @@ int initialiseAssembler() {
         instruction[i].op3 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
         instruction[i].op4 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
     }
-
+	
+	// Allcoate memory on the heap for 'memory' array & initialise
     memory = calloc(MEM_SIZE, sizeof(int8_t));
 
     // Create new symbol table
@@ -141,8 +171,8 @@ int writeToBinaryFile(char **argv) {
 		return 0;
 	}
 	
-	// Write all of the binary instructions encoded into the output file
-	for(int i = 0; i < address * 4; i++) {
+	// Write all of the encoded binary instructions into the output file
+	for(int i = 0; i < address * WORD_LENGTH; i++) {
 		fwrite(&memory[i], sizeof(int8_t), 1, foutput);
 	}
 
