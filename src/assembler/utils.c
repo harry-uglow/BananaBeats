@@ -18,6 +18,7 @@ int firstPass(char **argv) {
 	char *ops = calloc(MAX_OPERAND_LENGTH, sizeof(char));
 	char *rest;
 	char *temp = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+    char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
 
 	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
 		// Remove '\n' character at the end of the string
@@ -28,7 +29,8 @@ int firstPass(char **argv) {
 
         // Check if first token is label
         if(isLabel(token)) {
-            SymbolTable_put(token, &address, &table);
+            strcpy(label, token);
+            SymbolTable_put(label, &address, &table);
         } else {
             strcpy(instruction[address].mnemonic, token);
 		}
