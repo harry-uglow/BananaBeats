@@ -27,12 +27,11 @@ int firstPass(char **argv) {
 		token = strtok(buffer, TOK_DELIM);
 		rest = strtok(NULL, "");
 
-        assIns_t assIns = instruction[address];
         // Check if first token is label
         if(isLabel(token)) {
             SymbolTable_put(token, &address, &table);
         } else {
-			assIns.mnemonic = token;
+            instruction[address].mnemonic = token;
 		}
 	
 		// Parse through rest of the string & fill up array of operands
@@ -96,6 +95,14 @@ int firstPass(char **argv) {
 int initialiseAssembler() {
 	// Allocate memory onto the heap for an array of instructions
 	instruction = calloc(MEM_SIZE, sizeof(assIns_t));
+
+    for(int i = 0; i < (sizeof(*instruction) / sizeof(instruction[0])); i++) {
+        instruction[i].mnemonic = calloc(MAX_MNEMONIC_LENGTH, sizeof(char));
+        instruction[i].op1 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+        instruction[i].op2 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+        instruction[i].op3 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+        instruction[i].op4 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
+    }
 	
 	// Check if memory allocation failed
 	if(instruction == NULL) {
