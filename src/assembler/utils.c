@@ -157,7 +157,7 @@ int isLabel(char *token) {
 }
 
 void secondPass() {
-	for(int i = 0; i < (sizeof(*instruction) / sizeof(instruction[0])); i++) {
+	for(int i = 0; i < address; i++) {
         assIns_t assIns = instruction[i];
 		int32_t ins = encode(&assIns);
 		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & ins);
