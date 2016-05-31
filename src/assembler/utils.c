@@ -161,9 +161,9 @@ void secondPass() {
         assIns_t assIns = instruction[i];
 		int32_t ins = encode(&assIns);
 		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & ins);
-        memory[(WORD_LENGTH * i) + 1] = (int8_t)(MASK_BYTE_1 & ins);
-        memory[(WORD_LENGTH * i) + 2] = (int8_t)(MASK_BYTE_2 & ins);
-        memory[(WORD_LENGTH * i) + 3] = (int8_t)(MASK_BYTE_3 & ins);
+        memory[(WORD_LENGTH * i) + 1] = (int8_t)((MASK_BYTE_1 & ins) >> 8);
+        memory[(WORD_LENGTH * i) + 2] = (int8_t)((MASK_BYTE_2 & ins) >> 16);
+        memory[(WORD_LENGTH * i) + 3] = (int8_t)((MASK_BYTE_3 & ins) >> 24);
 	}
 }
 
