@@ -1,4 +1,3 @@
-#include "executeInstructions.c"
 #include "pipeline.h"
 
 // Fetch the instruction from the virtual memory

@@ -7,32 +7,47 @@ CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -Werror -pedantic
 
 all: assemble emulate
 
-###--- Emulator dependencies ---###
-emulate: emulate.o
-emulate.o: emulator/pipeline.c
-emulator/pipeline.c: emulator/executeInstructions.c emulator/pipeline.h
-emulator/executeInstructions.c: emulator/utils.c emulator/executeInstructions.h
-emulator/utils.c: emulator/defs.h
+###***--- Emulator dependencies ---***###
 
-###--- Assembler dependencies ---###
-assemble: assemble.o assembler/utils.o assembler/encodeInstructions.o assembler/getFormat.o assembler/symbolTable.o
+emulate: emulate.o emulator/pipeline.o emulator/executeInstructions.o \
+	emulator/utils.o
+emulate.o: emulate.c
+pipeline.o: pipeline.c
+executeInstructions.o: executeInstructions.c
+utils.o: utils.c
+
+emulate.c: pipeline.h
+pipeline.c: pipeline.h
+executeInstructions.c: executeInstructions.h
+utils.c: utils.h
+pipeline.h: executeInstructions.h
+executeInstructions.h: utils.h
+utils.h: emulator/defs.h
+
+
+###***--- Assembler dependencies ---***###
+
+assemble: assemble.o assembler/utils.o assembler/encodeInstructions.o \
+	assembler/getFormat.o assembler/symbolTable.o
 assemble.o: assemble.c
-utils.o: assembler/utils.c
-encodeInstructions.o: assembler/encodeInstructions.c
-getFormat.o: assembler/getFormat.c
-symbolTable.o: assembler/symbolTable.c
+utils.o: utils.c
+encodeInstructions.o: encodeInstructions.c
+getFormat.o: getFormat.c
+symbolTable.o: symbolTable.c
 
-assemble.c: assembler/utils.h assembler/utils.c
-assembler/utils.c: assembler/utils.h
-assembler/encodeInstructions.c: assembler/encodeInstructions.h
-assembler/getFormat.c: assembler/getFormat.h
-assembler/symbolTable.c: assembler/symbolTable.h
-assembler/utils.h: assembler/encodeInstructions.h
-assembler/encodeInstructions.h: assembler/getFormat.h
-assembler/getFormat.h: assembler/defs.h assembler/symbolTable.h
+assemble.c: utils.h utils.c
+utils.c: utils.h
+encodeInstructions.c: encodeInstructions.h
+getFormat.c: getFormat.h
+symbolTable.c: symbolTable.h
+utils.h: encodeInstructions.h
+encodeInstructions.h: getFormat.h
+getFormat.h: assembler/defs.h assembler/symbolTable.h
+
 
 clean:
 	rm -rf $(wildcard *.o)
-	rm -rf assembler/*.o
+	rm -rf $(wildcard emulator/*.o)
+	rm -rf $(wildcard assembler/*.o)
 	rm -f assemble
 	rm -f emulate
