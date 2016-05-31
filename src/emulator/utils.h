@@ -1,6 +1,9 @@
 #ifndef ARM11_19_UTILS_H
 #define ARM11_19_UTILS_H
 
+#include <stdio.h>
+#include "defs.h"
+
 int32_t executeShift(int32_t value, int shiftType, int amount);
 int checkCond(int cond, int NZCV);
 int initialiseProcessor(arm_t *state);

@@ -1,4 +1,3 @@
-#include "utils.c"
 #include "executeInstructions.h"
 
 void dataProcessing(arm_t *arm) {
@@ -129,7 +128,6 @@ void dataProcessing(arm_t *arm) {
     }
 }
 
-
 void multiply(arm_t *arm) {
     int result;
     instr_t *ins = arm->instruction;
@@ -152,7 +150,6 @@ void multiply(arm_t *arm) {
     int32_t nBit = result & MASK_N_BIT;
     arm->registers[REG_CPSR] |= nBit;
 }
-
 
 void singleDataTransfer(arm_t *arm) {
     instr_t *ins = arm->instruction;
@@ -209,8 +206,6 @@ void singleDataTransfer(arm_t *arm) {
         }
     }
 }
-
-
  
 void branch(arm_t *arm) {
 	// (2's complement) 24 bit offset in branch instruction

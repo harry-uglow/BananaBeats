@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include "defs.h"
 #include "utils.h"
 
 #define TRUE 1
@@ -70,7 +68,6 @@ int checkCond(int cond, int NZCV){
     return passesCond;
 }
 
-
 int32_t reverseByteOrder(int32_t n) {
     // Little-endian means retrieving multiple bytes from the memory in one go
     // will retrieve them in the wrong byte order. This function reverses
@@ -81,7 +78,6 @@ int32_t reverseByteOrder(int32_t n) {
     int32_t byte0 = (0xFF000000 & n) >> 24;
     return (byte3 | byte2 | byte1 | byte0);
 }
-
 
 void printFinalState(arm_t *state) {
 	printf("Registers:\n");

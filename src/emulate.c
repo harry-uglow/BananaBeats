@@ -1,4 +1,4 @@
-#include "emulator/pipeline.c"
+#include "emulator/pipeline.h"
 
 int main(int argc, char **argv) {
 	arm_t arm;
@@ -29,4 +29,3 @@ int main(int argc, char **argv) {
 
 	return EXIT_SUCCESS;
 }
-
