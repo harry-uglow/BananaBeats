@@ -13,7 +13,8 @@
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
 #define BYTE 8
-
+#define PRINT_LIMIT -1000000000
+ 
 // Useful bit numbers
 #define N_BIT		 	31
 #define Z_BIT		 	30
