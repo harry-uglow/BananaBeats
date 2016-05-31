@@ -35,7 +35,7 @@ int firstPass(char **argv) {
 	
 		// Parse through rest of the string & fill up array of operands
 		for(int i = 1; i <= 4; i++) {
-            if(!rest) {
+            if(!rest || rest[0] == '\0') {
                 break;
             }
 			if(rest[0] == '[') {
