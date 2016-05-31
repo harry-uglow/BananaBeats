@@ -179,6 +179,7 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns) {
             ins->SDTExpression = expression;
             ins->calculateOffset = 1;
             ins->Rn = REG_PC;
+            return;
         }
     } else {
         ins->setL = 0;

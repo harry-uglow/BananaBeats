@@ -4,6 +4,7 @@
 #include "getFormat.h"
 
 int address;
+int numStoredConstants;
 int8_t *memory;
 assIns_t *instruction;
 

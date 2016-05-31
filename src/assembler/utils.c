@@ -194,7 +194,8 @@ int isLabel(char *token) {
 }
 
 void secondPass() {
-	for(int i = 0; i < address; i++) {
+    numStoredConstants = 0;
+	for(int i = 0; i < address - numStoredConstants; i++) {
         assIns_t assIns = instruction[i];
 		int32_t ins = encode(&assIns);
 		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & ins);

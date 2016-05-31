@@ -69,17 +69,20 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
         int32_t newExpression = instr->SDTExpression;
         memory[WORD_LENGTH * address] = (int8_t) (MASK_BYTE_0 & newExpression);
         memory[(WORD_LENGTH * address) + 1]
-                = (int8_t) (MASK_BYTE_1 & newExpression);
+                = (int8_t) ((MASK_BYTE_1 & newExpression) >> 8);
         memory[(WORD_LENGTH * address) + 2]
-                = (int8_t) (MASK_BYTE_2 & newExpression);
+                = (int8_t) ((MASK_BYTE_2 & newExpression) >> 16);
         memory[(WORD_LENGTH * address) + 3]
-                = (int8_t) (MASK_BYTE_3 & newExpression);
+                = (int8_t) ((MASK_BYTE_3 & newExpression) >> 24);
 
         // Calculate offset and override it
         // Address is the next free word in memory
-        instr->offset = WORD_LENGTH * (address - currAddress);
-        // Increment the address counter
+        instr->offset = (WORD_LENGTH * address) - currAddress;
+        // Take into account off by 8 effect of ARM pipeline
+        instr->offset -= PIPELINE_OFFSET;
+        // Increment the address counter and numStoredConstants
         address++;
+        numStoredConstants++;
     }
 
     if(instr->offset < 0) {
