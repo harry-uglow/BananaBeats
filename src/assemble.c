@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Free memory components of instructions array from heap
-	freeInstructions(void);
+	freeInstructions();
 	
 	// Null check before clearing heap memory
 	if(instruction != NULL) {

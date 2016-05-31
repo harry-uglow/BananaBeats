@@ -40,9 +40,6 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
 
     while (pCurrent) {
         pNext = pCurrent->pNextNode; // Update next node
-        free(pCurrent->value);
-        free(pCurrent->label);
-        free(pCurrent); // Free the node itself
         pCurrent = pNext;
     }
 
