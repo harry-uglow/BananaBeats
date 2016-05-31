@@ -3,20 +3,20 @@
 int main(int argc, char **argv) {
 	// Initialise array of assembly instructions on heap
 	// and create symbol table
-	if(!initialiseAssembler(instruction)) {
+	if(!initialiseAssembler()) {
 		return EXIT_FAILURE;
 	}	
 
 	// Read assembler file input 
-	if(!firstPass(instruction, argv)) {
+	if(!firstPass(argv)) {
 		return EXIT_FAILURE;
 	}
 
-	secondPass(instruction);
+	secondPass();
 
 
 	// Write results of assembler to binary file specified by 2nd argument
-	if(!writeToBinaryFile(memory, argv)) {
+	if(!writeToBinaryFile(argv)) {
 		return EXIT_FAILURE;			
 	}
 	

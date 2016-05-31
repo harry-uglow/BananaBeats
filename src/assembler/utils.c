@@ -3,7 +3,7 @@
 #include <memory.h>
 
 
-int firstPass(assIns_t *instruction, char **argv) {
+int firstPass(char **argv) {
 	// Open file to read from
 	FILE *finput = fopen(argv[1],"r");
 	
@@ -26,12 +26,13 @@ int firstPass(assIns_t *instruction, char **argv) {
 		// Extract first token in string 
 		token = strtok(buffer, TOK_DELIM);
 		rest = strtok(NULL, "");
-	
-		// Check if first token is label	
-		if(isLabel(token)) {
-			SymbolTable_put(token, &address, &table);
-		} else {
-			strcpy(instruction[address].mnemonic, token);
+
+        assIns_t assIns = instruction[address];
+        // Check if first token is label
+        if(isLabel(token)) {
+            SymbolTable_put(token, &address, &table);
+        } else {
+			assIns.mnemonic = token;
 		}
 	
 		// Parse through rest of the string & fill up array of operands
@@ -92,12 +93,12 @@ int firstPass(assIns_t *instruction, char **argv) {
 	return 1;
 }
 
-int initialiseAssembler(assIns_t *instructions) {
+int initialiseAssembler() {
 	// Allocate memory onto the heap for an array of instructions
-	instructions = calloc(MEM_SIZE, sizeof(assIns_t));
+	instruction = calloc(MEM_SIZE, sizeof(assIns_t));
 	
 	// Check if memory allocation failed
-	if(instructions == NULL) {
+	if(instruction == NULL) {
 		printf("Memory could not be allocated onto the heap.\n");
 		return 0;
 	}	
@@ -110,7 +111,7 @@ int initialiseAssembler(assIns_t *instructions) {
 	return 1;
 }
 
-int writeToBinaryFile(int8_t *binInstructions, char **argv) {
+int writeToBinaryFile(char **argv) {
 	// Open file to write to
 	FILE *foutput = fopen(argv[2], "wb");
 
@@ -122,7 +123,7 @@ int writeToBinaryFile(int8_t *binInstructions, char **argv) {
 	
 	// Write all of the binary instructions encoded into the output file
 	for(int i = 0; i < address; i++) {
-		fwrite(&binInstructions[i], sizeof(int8_t), 1, foutput);
+		fwrite(&memory[i], sizeof(int8_t), 1, foutput);
 	}
 
 	// Finished writing to output of binary file
@@ -139,9 +140,10 @@ int isLabel(char *token) {
 	return 0;
 }
 
-void secondPass(assIns_t *instructions) {
-	for(int i = 0; i < (sizeof(*instructions) / sizeof(instructions[0])); i++) {
-		int32_t instruction = encode(&instructions[i]);
+void secondPass() {
+	for(int i = 0; i < (sizeof(*instruction) / sizeof(instruction[0])); i++) {
+        assIns_t assIns = instruction[i];
+		int32_t instruction = encode(&assIns);
 		memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & instruction);
         memory[(WORD_LENGTH * i) + 1] = (int8_t)(MASK_BYTE_1 & instruction);
         memory[(WORD_LENGTH * i) + 2] = (int8_t)(MASK_BYTE_2 & instruction);
