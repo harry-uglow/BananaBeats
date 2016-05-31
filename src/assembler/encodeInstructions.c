@@ -14,7 +14,7 @@ int32_t encodeDataProcessing(instr_t *instr) {
 
     // Calculate shift
     if (instr->setI) {
-        operand2 = instr->Rm;
+        operand2 = instr->Rm & 0x000000FF;
         operand2 |= (instr->shiftAmount) << IMMVAL_SHIFTAMOUNT_BITS;
     } else {
         int shift = instr->isRsShift;

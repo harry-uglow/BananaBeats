@@ -96,7 +96,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
                     // fit values higher than (2^8)-1 into the 8-bit Imm field.
                     int mask = 3;
                     ins->shiftAmount = 0;
-                    while ((!mask) & ins->Rm) {
+                    while (!(mask & ins->Rm)) {
                         ins->shiftAmount++;
                         ins->Rm >>= 2;
                     }
@@ -105,7 +105,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
                     // The program gives an error if the value cannot fit into
                     // the 8-bit immediate value.
                     printf("Invalid numeric constant in mov instruction.");
-                    exit(1);
+                    //exit(1);
                 }
 
             } else if (assIns->op2[0] == REG_SYMBOL) {
