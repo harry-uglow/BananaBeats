@@ -31,6 +31,7 @@ int firstPass(char **argv) {
         if(isLabel(token)) {
             strcpy(label, token);
             SymbolTable_put(label, &address, &table);
+            continue;
         } else {
             strcpy(instruction[address].mnemonic, token);
 		}

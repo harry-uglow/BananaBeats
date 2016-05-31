@@ -19,7 +19,6 @@ instr_t *getFormat(assIns_t *assIns) {
     if (assIns->mnemonic[0] != '\0') {
         out->opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
     }
-
     // Condition applies to all instruction types
     setCond(out);
 
@@ -38,6 +37,7 @@ instr_t *getFormat(assIns_t *assIns) {
     } else {
         out->type = HALT;
     }
+
 
     return out;
 }

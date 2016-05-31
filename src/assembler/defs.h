@@ -27,7 +27,7 @@
 #define MAX_LINE_LENGTH 511
 #define MAX_MNEMONIC_LENGTH 6
 #define MAX_OPERAND_LENGTH 50
-#define TOK_DELIM ", \n"
+#define TOK_DELIM ", \n\0"
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
@@ -47,7 +47,7 @@
 #define SHIFT_BITS 4
 #define SHIFT_TYPE_BITS 1
 #define OFFSET_SIGN_EXTEND 16
-#define OFFSET_RIGHT_SHIFT 18
+#define OFFSET_RIGHT_SHIFT 14
 
 // Encode Constant Bits
 #define MULT_PREDEFINED_BITS 0x00000090
