@@ -46,7 +46,8 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
         pCurrent = pNext;
     }
 
-    free(symbolTable); // Free the table
+    // TODO: uncomment this when bug is fixed
+    // free(symbolTable); // Free the table
 }
 
 // Add matching label and value to symbol table
