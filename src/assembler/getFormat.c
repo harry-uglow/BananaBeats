@@ -95,7 +95,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
                 // Note Rm actually represents Imm (from the spec) due to the
                 // overloading of Rm in the default case.
                 ins->Rm = getIntFromString(assIns->op2);
-                if (ins->Rm) {
+                if (ins->Rm && ins->Rm > MAX_8_BIT) {
                     // If the value is 0 this is unnecessary.
                     // If immVal ends in zeros, it can be shifted to attempt to
                     // fit values higher than (2^8)-1 into the 8-bit Imm field.
