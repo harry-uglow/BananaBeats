@@ -14,7 +14,7 @@ int32_t encodeDataProcessing(instr_t *instr) {
 
     // Calculate shift
     if (instr->setI) {
-        operand2 = instr->Rm;
+        operand2 = instr->Rm & 0x000000FF;
         operand2 |= (instr->shiftAmount) << IMMVAL_SHIFTAMOUNT_BITS;
     } else {
         int shift = instr->isRsShift;
@@ -61,7 +61,6 @@ int32_t encodeMultiply(instr_t *instr) {
 
 
 int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
-    int offset = 0;
 
     // If SDT expr, then calculate offset, store it in memory
     if (instr->calculateOffset) {
@@ -78,11 +77,15 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
 
         // Calculate offset and override it
         // Address is the next free word in memory
-        offset = WORD_LENGTH * (address - currAddress);
+        instr->offset = WORD_LENGTH * (address - currAddress);
         // Increment the address counter
         address++;
     }
 
+    if(instr->offset < 0) {
+        instr->setU = 0;
+        instr->offset = -instr->offset;
+    }
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= instr->cond << COND_BITS;
@@ -93,7 +96,7 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
     binaryInstr |= instr->setL << L_BIT;
     binaryInstr |= instr->Rn << RN_BITS;
     binaryInstr |= instr->Rd << RD_BITS;
-    binaryInstr |= offset;
+    binaryInstr |= instr->offset;
 
     return binaryInstr;
 }

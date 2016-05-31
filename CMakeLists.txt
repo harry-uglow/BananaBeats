@@ -4,7 +4,11 @@ project(arm11_19)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -pedantic -std=c99")
 
 set(SOURCE_FILES src)
-    add_executable(emulate ${SOURCE_FILES} src/emulate.c)
+    add_executable(emulate ${SOURCE_FILES}
+            src/emulate.c
+            src/emulator/executeInstructions.c
+            src/emulator/pipeline.c
+            src/emulator/utils.c)
     add_executable(assemble ${SOURCE_FILES}
             src/assemble.c
             src/assembler/encodeInstructions.c

@@ -10,6 +10,7 @@
 #define REG_PC 15
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
+#define HEX_BASE 16
 #define MAX_8_BIT 255
 #define MASK_BYTE_0 0x000000FF
 #define MASK_BYTE_1 0x0000FF00
@@ -81,8 +82,8 @@ typedef enum mnemonic {
 	RSB,
 	ADD,
 	TST = 8,
-	CMP = 9,
-	TEQ = 10,
+	TEQ = 9,
+	CMP = 10,
 	ORR = 12,
 	MOV = 13,
 	LSL,
