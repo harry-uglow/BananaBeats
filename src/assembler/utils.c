@@ -40,8 +40,11 @@ int firstPass(char **argv) {
         if(isLabel(token)) {
            	// Copy token to label buffer
 			strcpy(label, token);
+
+            int16_t *currAddress = malloc(sizeof(int16_t));
+            *currAddress = (int16_t) address;
 			// Insert the label with the corresponding address into symbol table
-            SymbolTable_put(label, &address, &table);
+            SymbolTable_put(label, currAddress, &table);
 			// Continue to next assembly instruction
             continue;
         } else {
