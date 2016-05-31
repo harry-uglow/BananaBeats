@@ -12,8 +12,13 @@
 \section{Introduction}
 
 \subsection{Assembler}
+\subsubsection{File Structure}
+The main function from which the assembler program is run is the sole function in the file, \texttt{assemble.c} and resides in the main \texttt{src/} directory. Its source files are located in the \texttt{assembler/} directory within \texttt{src/}. We have also written a \texttt{Makefile} in the \texttt{src/} directory which compiles both our assembler and emulator with the correct dependencies so that the minimal amount of work required is done in the compilation process.
+\subsubsection{Implementation}
+We elected to use the two-pass method to implement the assembler. This meant that we needed to create a Symbol Table data type. This simple and minimal data type uses a linked list of label-pointer pairs and includes the \textit{put} and \textit{get} functions which add a label-pointer pair entry to the table and retrieve a pointer given a label argument respectively. There are also functions included to create a new Symbol Table (\textit{new}) and remove a Symbol Table (\textit{delete}) and all its associated nodes from memory. We decided that the second part of the pair would be a generic pointer (\texttt{void *}) as opposed to an integer pointer as this makes the data structure reuseable for purposes other than mapping labels to memory addresses.\\
 
-The main function from which the assembler program is run is called \texttt{assemble.c} and resides in the main \texttt{src/} sdirectory
+On the first pass (\texttt{int firstPass(char **argv)} in \texttt{utils.c}), the input file is read and all labels are entered into the Symbol Table, mapped to the address in memory to which each refers to.
+
 
 \subsection{Extension plans}
 

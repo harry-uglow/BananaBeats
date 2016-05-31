@@ -25,6 +25,7 @@ int firstPass(char **argv) {
 		removeNewline(buffer);
 		// Extract first token in string 
 		token = strtok(buffer, TOK_DELIM);
+        // Rest of the string
 		rest = strtok(NULL, "");
 
         // Check if first token is label

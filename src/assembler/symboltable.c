@@ -47,7 +47,7 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
     }
 
     // TODO: Uncomment this when bus are fixed
-    //free(symbolTable); // Free the table
+    // free(symbolTable); // Free the table
 }
 
 // Add matching label and value to symbol table
