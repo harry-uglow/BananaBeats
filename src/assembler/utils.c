@@ -54,7 +54,7 @@ int firstPass(char **argv) {
 			} else {
 				strToken = ops[0];
 			}
-			strcpy(instruction[address].op1, strToken);
+			instruction[address].op1 = strToken;
 		}
 
 		if(ops[1] != NULL) {
@@ -63,7 +63,7 @@ int firstPass(char **argv) {
 			} else {
 				strToken = ops[1];
 			}
-			strcpy(instruction[address].op2, strToken);
+			instruction[address].op2 = strToken;
 		}
 	
 		if(ops[2] != NULL) {
@@ -72,7 +72,7 @@ int firstPass(char **argv) {
 			} else {
 				strToken = ops[2];
 			}
-			strcpy(instruction[address].op3, strToken);
+			instruction[address].op3 = strToken;
 		}
 
 		if(ops[3] != NULL) {
@@ -81,7 +81,7 @@ int firstPass(char **argv) {
 			} else {
 				strToken = ops[3];
 			}
-			strcpy(instruction[address].op4, strToken);
+			instruction[address].op4 = strToken;
 		}	
 		
 		// Increment address
