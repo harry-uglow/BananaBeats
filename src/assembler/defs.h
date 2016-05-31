@@ -126,7 +126,6 @@ typedef struct Instruction {
 	int Rs;
 	int Rm;
 	int opCode;
-	int immVal;
 	int calculateOffset;
 	int32_t offset;
     int32_t op2;

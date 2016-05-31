@@ -87,19 +87,21 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             if (assIns->op2[0] == EXPR_SYMBOL) {
                 // MOV currently doesn't work for constants > 0xFF
                 ins->setI = 1;
-                ins->immVal = getIntFromString(assIns->op2);
-                if (ins->immVal) {
+                // Note Rm actually represents Imm (from the spec) due to the
+                // overloading of Rm in the default case.
+                ins->Rm = getIntFromString(assIns->op2);
+                if (ins->Rm) {
                     // If the value is 0 this is unnecessary.
                     // If immVal ends in zeros, it can be shifted to attempt to
                     // fit values higher than (2^8)-1 into the 8-bit Imm field.
                     int mask = 3;
                     ins->shiftAmount = 0;
-                    while ((!mask) & ins->immVal) {
+                    while ((!mask) & ins->Rm) {
                         ins->shiftAmount++;
-                        ins->immVal >>= 2;
+                        ins->Rm >>= 2;
                     }
                 }
-                if (ins->immVal > MAX_8_BIT) {
+                if (ins->Rm > MAX_8_BIT) {
                     // The program gives an error if the value cannot fit into
                     // the 8-bit immediate value.
                     printf("Invalid numeric constant in mov instruction.");
@@ -116,6 +118,11 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
         default:
             ins->Rd = getIntFromString(assIns->op1);
             ins->Rn = getIntFromString(assIns->op2);
+            if(assIns->op3[0] == '#') {
+                ins->setI = 1;
+            }
+            // Note how where I is set to 1 Rm actually represents the Imm field
+            // of Operand 2 as seen in the spec. In this way Rm is overloaded.
             ins->Rm = getIntFromString(assIns->op3);
             break;
     }
