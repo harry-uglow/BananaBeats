@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <MacTypes.h>
 
 // Create new symbol table
 symbolTable_t *SymbolTable_new(void) {
@@ -27,9 +28,9 @@ symbolTable_t *SymbolTable_new(void) {
 }
 
 // Remove the symbol table from the heap (i.e. garbage collection)
-void SymbolTable_delete(symbolTable_t *symbolTable) {
+void SymbolTable_delete(symbolTable_t symbolTable) {
     // Check that the argument doesn't point to null
-    if (symbolTable == NULL) {
+    if (symbolTable != nil) {
         printf("The table doesn't exist");
         return;
     }

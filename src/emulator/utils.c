@@ -88,7 +88,7 @@ void printFinalState(arm_t *state) {
 
     // Print out contents of registers 0-9
     for(int i = 0; i < 10; i++) {
-    	if(floor(log10(abs(state->registers[i]))) + 1 == 11) {
+    	if(state->registers[i] < 0 && state->registers[i] <= PRINT_LIMIT) {
 			printf("$%i  :%12d (0x%08x)\n", i, state->registers[i],
                state->registers[i]);
 		} else {
@@ -99,7 +99,7 @@ void printFinalState(arm_t *state) {
 
     // Print out contents of registers 10-12
     for(int j = 10; j < 13; j++) {
-    	if(floor(log10(abs(state->registers[j]))) + 1 == 11) {
+    	if(state->registers[j] < 0 && state->registers[j] <= PRINT_LIMIT) {
 			printf("$%i :%12d (0x%08x)\n", j, state->registers[j],
                state->registers[j]);
 		} else {
@@ -109,13 +109,13 @@ void printFinalState(arm_t *state) {
     }
 
     // Print out contents of PC and CPSR
-    if(floor(log10(abs(pc))) + 1 == 11) {
+    if(pc < 0 && pc < PRINT_LIMIT) {
     	printf("PC  :%12d (0x%08x)\n", pc, pc);
 	} else {
     	printf("PC  :%11d (0x%08x)\n", pc, pc);
 	}
 	
-    if(floor(log10(abs(cpsr))) + 1 == 11) {
+    if(cpsr < 0 && cpsr < PRINT_LIMIT) {
 		printf("CPSR:%12d (0x%08x)\n", cpsr, cpsr);
 	} else {
 		printf("CPSR:%11d (0x%08x)\n", cpsr, cpsr);
