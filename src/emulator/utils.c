@@ -88,21 +88,40 @@ void printFinalState(arm_t *state) {
 
     // Print out contents of registers 0-9
     for(int i = 0; i < 10; i++) {
-        printf("$%i  :%12d (0x%08x)\n", i, state->registers[i],
+    	if(state->registers[i] < 0) {
+			printf("$%i  :%12d (0x%08x)\n", i, state->registers[i],
                state->registers[i]);
+		} else {
+			printf("$%i  :%11d (0x%08x)\n", i, state->registers[i],
+               state->registers[i]);
+		}
     }
 
     // Print out contents of registers 10-12
     for(int j = 10; j < 13; j++) {
-        printf("$%i :%12d (0x%08x)\n", j, state->registers[j],
+    	if(state->registers[j] < 0) {
+			printf("$%i :%12d (0x%08x)\n", j, state->registers[j],
                state->registers[j]);
+		} else {
+			printf("$%i :%11d (0x%08x)\n", j, state->registers[j],
+               state->registers[j]);
+		}
     }
 
     // Print out contents of PC and CPSR
-    printf("PC  :%12d (0x%08x)\n", pc, pc);
-    printf("CPSR:%12d (0x%08x)\n", cpsr, cpsr);
-
-    // Print out non-zero contents of memory
+	if(pc < 0) {
+    	printf("PC  :%12d (0x%08x)\n", pc, pc);
+	} else {
+    	printf("PC  :%11d (0x%08x)\n", pc, pc);
+	}
+	
+	if(cpsr < 0) {
+		printf("CPSR:%12d (0x%08x)\n", cpsr, cpsr);
+	} else {
+		printf("CPSR:%11d (0x%08x)\n", cpsr, cpsr);
+    }
+	
+	// Print out non-zero contents of memory
     printf("Non-zero memory:\n");
 
 	int32_t *wordSizedMem = (int32_t *)state->memory;
