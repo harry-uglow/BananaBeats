@@ -24,6 +24,8 @@ int main(int argc, char **argv) {
 		free(instruction);
 	}
 
+	SymbolTable_delete(&table);
+
 	// SymbolTable_delete(&table);
 	return EXIT_SUCCESS;
 }

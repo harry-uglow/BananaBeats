@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <MacTypes.h>
 
 // Create new symbol table
 symbolTable_t *SymbolTable_new(void) {
@@ -28,9 +27,9 @@ symbolTable_t *SymbolTable_new(void) {
 }
 
 // Remove the symbol table from the heap (i.e. garbage collection)
-void SymbolTable_delete(symbolTable_t symbolTable) {
+void SymbolTable_delete(symbolTable_t *symbolTable) {
     // Check that the argument doesn't point to null
-    if (symbolTable != nil) {
+    if (!symbolTable) {
         printf("The table doesn't exist");
         return;
     }
@@ -39,7 +38,7 @@ void SymbolTable_delete(symbolTable_t symbolTable) {
     symbolTableNode_t *pCurrent = symbolTable->pFirstNode;
     symbolTableNode_t *pNext;
 
-    while (pCurrent != NULL) {
+    while (pCurrent) {
         pNext = pCurrent->pNextNode; // Update next node
         free(pCurrent->value);
         free(pCurrent->label);
@@ -47,7 +46,8 @@ void SymbolTable_delete(symbolTable_t symbolTable) {
         pCurrent = pNext;
     }
 
-    free(symbolTable); // Free the table
+    // TODO: Uncomment this when bus are fixed
+    //free(symbolTable); // Free the table
 }
 
 // Add matching label and value to symbol table
