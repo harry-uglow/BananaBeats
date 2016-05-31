@@ -14,7 +14,6 @@ int main(int argc, char **argv) {
 
 	secondPass();
 
-
 	// Write results of assembler to binary file specified by 2nd argument
 	if(!writeToBinaryFile(argv)) {
 		return EXIT_FAILURE;			
@@ -25,7 +24,6 @@ int main(int argc, char **argv) {
 		free(instruction);
 	}
 
-
-    // TODO: Clear all memory including symbol tables
+	SymbolTable_delete(&table);
 	return EXIT_SUCCESS;
 }
