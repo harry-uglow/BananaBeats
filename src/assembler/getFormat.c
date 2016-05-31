@@ -83,6 +83,9 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             // op1 and op2 specify registers Rn and Rm respectively.
             ins->Rn = getIntFromString(assIns->op1);
             ins->Rm = getIntFromString(assIns->op2);
+            if(assIns->op2[0] == IMM_CONST_SYM) {
+                ins->setI = 1;
+            }
             break;
         case MOV :
             ins->Rd = getIntFromString(assIns->op1);
@@ -116,8 +119,12 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             }
             break;
         case LSL :
-            ins->Rn = getIntFromString(assIns->op1);
+            ins->Rd = getIntFromString(assIns->op1);
+            ins->Rm = ins->Rd;
             ins->shiftAmount = getIntFromString(assIns->op2);
+            ins->opMnemonic = MOV;
+            ins->opCode = MOV;
+            break;
         default:
             ins->Rd = getIntFromString(assIns->op1);
             ins->Rn = getIntFromString(assIns->op2);
@@ -206,9 +213,14 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
     if (isdigit(*expression)) {
         ins->targetAddress = (int16_t) assIns->op1;
     } else {
-
-        ins->targetAddress
-                = *((int16_t *) SymbolTable_get(expression, &table));
+        int16_t *returnedPointer = SymbolTable_get(expression, &table);
+        // Check the returned pointer is not null
+        if (returnedPointer) {
+            ins->targetAddress = *returnedPointer;
+        } else {
+            printf("Branch statement with undefined label. Exiting.");
+            exit(1);
+        }
     }
 }
 

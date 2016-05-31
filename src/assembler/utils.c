@@ -23,8 +23,6 @@ int firstPass(char **argv) {
 	char *ops = calloc(MAX_OPERAND_LENGTH, sizeof(char));
 	// Declare temp string to hold bracketed operands of assembly instruction
 	char *temp = calloc(MAX_OPERAND_LENGTH, sizeof(char));
-    // Declare label string to hold label and act as buffer for token	
-	char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
 
 	
 	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
@@ -38,6 +36,8 @@ int firstPass(char **argv) {
         
 		// Check if first token is label or mnemonic
         if(isLabel(token)) {
+            // Declare label string to hold label and act as buffer for token
+            char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
            	// Copy token to label buffer
 			strcpy(label, token);
 
@@ -124,10 +124,7 @@ int firstPass(char **argv) {
 	if(temp != NULL) {
 		free(temp);
 	}
-	
-	if(label != NULL) {
-		free(label);
-	}
+
 	// Finished reading input of assembly file
 	fclose(finput);
 	return 1;

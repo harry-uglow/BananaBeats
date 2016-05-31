@@ -24,6 +24,7 @@
 #define SDT_OP2_SPLIT ","
 #define MOV_MNEMONIC "mov"
 #define NUM_CONST_SYM '='
+#define IMM_CONST_SYM '#'
 #define POST_INDEX_CHAR ']'
 #define TRUE 1
 #define MAX_LINE_LENGTH 511
