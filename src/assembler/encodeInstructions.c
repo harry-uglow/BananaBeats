@@ -103,7 +103,10 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int currAddress) {
 
 
 int32_t encodeBranch(instr_t *instr, int currAddress) {
-    int16_t addressDiff = (int16_t) (instr->targetAddress - currAddress);
+    int16_t addressDiff
+            = (int16_t) ((instr->targetAddress * WORD_LENGTH) - currAddress);
+    // Take into account off-by-8 effect of the ARM pipeline.
+    addressDiff -= PIPELINE_OFFSET;
     int32_t offset = (addressDiff << OFFSET_SIGN_EXTEND) >> OFFSET_RIGHT_SHIFT;
     offset &= OFFSET_MASK;
 
