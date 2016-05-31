@@ -138,7 +138,7 @@ int writeToBinaryFile(char **argv) {
 	}
 	
 	// Write all of the binary instructions encoded into the output file
-	for(int i = 0; i < address; i++) {
+	for(int i = 0; i < address * 4; i++) {
 		fwrite(&memory[i], sizeof(int8_t), 1, foutput);
 	}
 
