@@ -38,7 +38,7 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
     symbolTableNode_t *pCurrent = symbolTable->pFirstNode;
     symbolTableNode_t *pNext;
 
-    while (pCurrent != NULL) {
+    while (pCurrent) {
         pNext = pCurrent->pNextNode; // Update next node
         free(pCurrent->value);
         free(pCurrent->label);
