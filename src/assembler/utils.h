@@ -10,5 +10,6 @@ int isLabel(char *str);
 void secondPass();
 void removeNewline(char *token);
 int checkBrackets(char *token, char *temp);
+void freeInstructions(void);
 
 #endif //ARM11_19_ASSEMBLER_UTILS_H

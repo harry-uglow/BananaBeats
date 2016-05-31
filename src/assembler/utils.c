@@ -55,7 +55,7 @@ int firstPass(char **argv) {
             if(!rest || rest[0] == '\0') {
                 break;
             }
-			
+		
 			// Check if current expression is a bracketed expression
 			// and if it is then iterate through the characters and 
 			// copy them to the temp string until the you encounter 
@@ -205,3 +205,26 @@ void removeNewline(char *token) {
 	token[strlen(token) - 1] = '\0';
 }
 
+void freeInstructions(void) {
+	for(int i = 0; i < MEM_SIZE; i++) {
+		if(instruction[i].mnemonic != NULL) {
+			free(instruction[i].mnemonic);
+		}
+		
+		if(instruction[i].op1 != NULL) {
+			free(instruction[i].op1);
+		}	
+		
+		if(instruction[i].op2 != NULL) {
+			free(instruction[i].op2);
+		}	
+		
+		if(instruction[i].op3 != NULL) {
+			free(instruction[i].op3);
+		}			
+		
+		if(instruction[i].op4 != NULL) {
+			free(instruction[i].op4);
+		}
+	}
+}

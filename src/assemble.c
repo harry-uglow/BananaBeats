@@ -18,6 +18,9 @@ int main(int argc, char **argv) {
 	if(!writeToBinaryFile(argv)) {
 		return EXIT_FAILURE;			
 	}
+
+	// Free memory components of instructions array from heap
+	freeInstructions(void);
 	
 	// Null check before clearing heap memory
 	if(instruction != NULL) {
