@@ -16,7 +16,9 @@ int getIntFromString(char *str);
 instr_t *getFormat(assIns_t *assIns) {
     // Initialise instr_t for output later.
     instr_t *out = calloc(1, sizeof(instr_t));
-    out->opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
+    if (assIns->mnemonic[0] != '\0') {
+        out->opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
+    }
 
     // Condition applies to all instruction types
     setCond(out);
