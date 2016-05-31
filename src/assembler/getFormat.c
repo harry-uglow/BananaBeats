@@ -16,7 +16,9 @@ int getIntFromString(char *str);
 instr_t *getFormat(assIns_t *assIns) {
     // Initialise instr_t for output later.
     instr_t *out = calloc(1, sizeof(instr_t));
-    out->opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
+    if (assIns->mnemonic[0] != '\0') {
+        out->opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
+    }
 
     // Condition applies to all instruction types
     setCond(out);
@@ -95,11 +97,12 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
                     // If immVal ends in zeros, it can be shifted to attempt to
                     // fit values higher than (2^8)-1 into the 8-bit Imm field.
                     int mask = 3;
-                    ins->shiftAmount = 0;
+                    int shiftAcc = 0;
                     while (!(mask & ins->Rm)) {
-                        ins->shiftAmount++;
+                        shiftAcc++;
                         ins->Rm >>= 2;
                     }
+                    ins->shiftAmount = (MAX_SHIFT - shiftAcc) % MAX_SHIFT;
                 }
                 if (ins->Rm > MAX_8_BIT) {
                     // The program gives an error if the value cannot fit into
