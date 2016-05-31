@@ -149,6 +149,8 @@ void getFormMult(instr_t *ins, assIns_t *assIns) {
 void getFormDatTran(instr_t *ins, assIns_t *assIns) {
     // Unless otherwise specified, the P bit is set (pre-indexing mode)
     ins->setP = 1;
+    // encode can work out from the offset whether U should be 1 or 0.
+    ins->setU = 1;
     // Rd always in op1 position
     ins->Rd = getIntFromString(assIns->op1);
 
@@ -164,6 +166,7 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns) {
                 assIns->op2[0] = EXPR_SYMBOL;
                 assIns_t treatAsMov = {MOV_MNEMONIC, assIns->op1, assIns->op2};
                 ins->opMnemonic = MOV;
+                ins->type = DATA_PROCESS;
                 getFormDatProc(ins, &treatAsMov);
                 return;
             }
@@ -171,6 +174,7 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns) {
             // the end of the program and then calculate the offset from the PC
             // to the address of this expression
             ins->SDTExpression = expression;
+            ins->calculateOffset = 1;
             ins->Rn = REG_PC;
         }
     } else {
@@ -208,7 +212,11 @@ int getIntFromString(char *str) {
     if (str) {
         while (*str) {
             if (isdigit(*str)) {
-                return atoi(str);
+                if (!strncmp(str, "0x", 2)) {
+                    return (int) strtol(str, NULL, HEX_BASE);
+                } else {
+                    return atoi(str);
+                }
             } else {
                 str++;
             }

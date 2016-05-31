@@ -2,6 +2,7 @@
 #define ARM11_19_UTILS_H
 
 #include <stdio.h>
+#include <math.h>
 #include "defs.h"
 
 int32_t executeShift(int32_t value, int shiftType, int amount);
