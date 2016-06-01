@@ -180,12 +180,12 @@ void singleDataTransfer(arm_t *arm) {
         // Perform the load or store operation
         if (ins->setL) {
             if((memAddr % WORD_LENGTH) != 0) {
-                int32_t byte0 = arm->memory[memAddr] & MASK_END_BYTE;
-                int32_t byte1 = (arm->memory[memAddr + 1] & MASK_END_BYTE)
+                int32_t byte0 = arm->memory[memAddr++] & MASK_END_BYTE;
+                int32_t byte1 = (arm->memory[memAddr++] & MASK_END_BYTE)
                                 << BYTE;
-                int32_t byte2 = (arm->memory[memAddr + 2] & MASK_END_BYTE)
+                int32_t byte2 = (arm->memory[memAddr++] & MASK_END_BYTE)
                                 << (2 * BYTE);
-                int32_t byte3 = (arm->memory[memAddr + 3] & MASK_END_BYTE)
+                int32_t byte3 = (arm->memory[memAddr] & MASK_END_BYTE)
                                 << (3 * BYTE);
                 arm->registers[ins->Rd] = byte3 | byte2 | byte1 | byte0;
             } else {
@@ -193,7 +193,14 @@ void singleDataTransfer(arm_t *arm) {
                 arm->registers[ins->Rd] = wordSizedMem[memAddr / WORD_LENGTH];
             }
         } else {
-            arm->memory[memAddr] = arm->registers[ins->Rd];
+            arm->memory[memAddr++]
+                    = (int8_t) (arm->registers[ins->Rd] & MASK_END_BYTE);
+            arm->memory[memAddr++] = (int8_t)
+                    ((arm->registers[ins->Rd] >>= BYTE) & MASK_END_BYTE);
+            arm->memory[memAddr++] = (int8_t)
+                    ((arm->registers[ins->Rd] >>= BYTE) & MASK_END_BYTE);
+            arm->memory[memAddr] = (int8_t)
+                    ((arm->registers[ins->Rd] >>= BYTE) & MASK_END_BYTE);
         }
     }
 
