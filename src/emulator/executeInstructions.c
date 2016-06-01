@@ -60,8 +60,8 @@ void dataProcessing(arm_t *arm) {
         case 2: // Subtract
             arm->registers[destReg] = (operand1 - operand2);
             temp = destReg;
-            carry = (MASK_CARRY_BIT & (op1_64 - op2_64))
-                    >> BIT_WORD_LENGTH;
+            carry = (int) ((MASK_CARRY_BIT & (op1_64 - op2_64))
+                    >> BIT_WORD_LENGTH);
             carry = !carry;
 
             break;
@@ -69,16 +69,16 @@ void dataProcessing(arm_t *arm) {
         case 3: // Subtract (op2 - rn)
             arm->registers[destReg] = (operand2 - operand1);
             temp = destReg;
-            carry = (MASK_CARRY_BIT & (op1_64 - op2_64))
-                    >> BIT_WORD_LENGTH;
+            carry = (int) ((MASK_CARRY_BIT & (op1_64 - op2_64))
+                    >> BIT_WORD_LENGTH);
             carry = !carry;
             break;
 
         case 4: // Addition
             arm->registers[destReg] = (operand1 + operand2);
             temp = destReg;
-            carry = (MASK_CARRY_BIT & (op1_64 + op2_64))
-                    >> BIT_WORD_LENGTH;
+            carry = (int) ((MASK_CARRY_BIT & (op1_64 + op2_64))
+                    >> BIT_WORD_LENGTH);
             break;
 
         case 8: // AND but result not written (tst)
@@ -91,8 +91,8 @@ void dataProcessing(arm_t *arm) {
 
         case 10: // Cmp
             temp = (operand1 - operand2);
-            carry = (MASK_CARRY_BIT & (op1_64 - op2_64))
-                    >> BIT_WORD_LENGTH;
+            carry = (int) ((MASK_CARRY_BIT & (op1_64 - op2_64))
+                    >> BIT_WORD_LENGTH);
             carry = !carry;
             break;
             
@@ -197,11 +197,11 @@ void singleDataTransfer(arm_t *arm) {
             arm->memory[memAddr++]
                     = (int8_t) (arm->registers[ins->Rd] & MASK_END_BYTE);
             arm->memory[memAddr++] = (int8_t)
-                    ((arm->registers[ins->Rd] >>= BYTE) & MASK_END_BYTE);
+                    ((arm->registers[ins->Rd] >> BYTE) & MASK_END_BYTE);
             arm->memory[memAddr++] = (int8_t)
-                    ((arm->registers[ins->Rd] >>= BYTE) & MASK_END_BYTE);
+                    ((arm->registers[ins->Rd] >> (2 * BYTE)) & MASK_END_BYTE);
             arm->memory[memAddr] = (int8_t)
-                    ((arm->registers[ins->Rd] >>= BYTE) & MASK_END_BYTE);
+                    ((arm->registers[ins->Rd] >> (3 * BYTE)) & MASK_END_BYTE);
         }
     }
 
