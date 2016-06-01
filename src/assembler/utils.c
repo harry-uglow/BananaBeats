@@ -35,30 +35,43 @@ int firstPass(char **argv) {
         }
 		// Remove '\n' character at the end of the string
 		removeNewline(buffer);
-		// Extract first token in string (the mnemonic) 
-		token = strtok(buffer, TOK_DELIM);
-        // Rest will hold the rest of the string (the operands)
-		rest = strtok(NULL, "");
 
-        
-		// Check if first token is label or mnemonic
-        if(isLabel(token)) {
+        // Find if there is a colon in the line
+        char *colonPosition = strchr(buffer, ':');
+        // If there is then there is a label.
+        if(colonPosition) {
+            colonPosition[0] = '\0';
             // Declare label string to hold label and act as buffer for token
             char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
-           	// Copy token to label buffer
-			strcpy(label, token);
+            // Copy token to label buffer
+            strcpy(label, buffer);
             // Declare 16 bit integer to hold value of the current address
             int16_t *currAddress = malloc(sizeof(int16_t));
-			// Assign current address to currAddress
+            // Assign current address to currAddress
             *currAddress = (int16_t) address;
-			// Insert the label with the corresponding current address into symbol table
+            // Insert the label with the corresponding current address into
+            // symbol table
             SymbolTable_put(label, currAddress, &table);
-			// Continue to next instruction by skipping current iteration of while loop
-            continue;
-        } else {
-			// Assign token as value of mnemonic in the instruction at 'address'
-            strcpy(instruction[address].mnemonic, token);
-		}
+            // Move the pointer on to next non-whitespace character.
+            do {
+                colonPosition++;
+            } while (colonPosition[0] == ' ');
+            // If the char is a letter there is also an instruction on this
+            // line. If not go to the next iteration for the next line.
+            if(*colonPosition) {
+                buffer = colonPosition;
+            } else {
+                continue;
+            }
+        }
+
+        // Extract first token in string (the mnemonic)
+        token = strtok(buffer, TOK_DELIM);
+        // Rest will hold the rest of the string (the operands)
+        rest = strtok(NULL, "");
+        // Assign token as value of mnemonic in the instruction at 'address'
+        strcpy(instruction[address].mnemonic, token);
+
 	
 		// Loop for up to 4 operands and assign operands to instruction at 'address'
 		for(int i = 1; i <= 4; i++) {
@@ -126,9 +139,9 @@ int firstPass(char **argv) {
 		address++;
 	}
 	// Free memory allocated onto the heap for local variables
-	if(buffer != NULL) {
+/*	if(buffer != NULL) {
 		free(buffer);
-	}
+	}*/
 	
 	if(ops != NULL) {
 		free(ops);
