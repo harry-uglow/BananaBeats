@@ -1,13 +1,10 @@
-.section .data
-    
-
 .section .init 
 .globl _start 
 _start:
     ldr r0, =0x20200000   /* load base for GPIO into r0 */
     mov r1, #1            /* load 1 into r1 */
     lsl r1, #21           /* put bit in correct place to mask pin 7 */
-    str r1, [r0, #4]      /* store value of r1 in memory to activate pin 7 */
+    str r1, [r0]          /* store value of r1 in memory to activate pin 7 */
     mov r2, #1            /* load 1 into r2 */
     lsl r2, #7            /* create mask to clear and set pin 7 */
 
