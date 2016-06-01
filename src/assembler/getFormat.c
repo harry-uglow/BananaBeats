@@ -227,8 +227,8 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
 int getIntFromString(char *str) {
     if (str) {
         while (*str) {
-            if (isdigit(*str)) {
-                if (!strncmp(str, "0x", 2)) {
+            if (isdigit(*str) || str[0] == '-') {
+                if (!strncmp(str, "0x", 2) || !strncmp(str, "-0x", 3)) {
                     return (int) strtol(str, NULL, HEX_BASE);
                 } else {
                     return atoi(str);
