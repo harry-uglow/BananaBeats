@@ -23,7 +23,8 @@ int firstPass(char **argv) {
 	char *ops = calloc(MAX_OPERAND_LENGTH, sizeof(char));
 	// Declare temp string to hold bracketed operands of assembly instruction
 	char *temp = calloc(MAX_OPERAND_LENGTH, sizeof(char));
-
+	// Declare 16 bit integer to hold value of the current address
+	int16_t *currAddress = malloc(sizeof(int16_t));
 	
 	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
 		// Remove '\n' character at the end of the string
@@ -40,8 +41,6 @@ int firstPass(char **argv) {
             char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
            	// Copy token to label buffer
 			strcpy(label, token);
-			// Declare 16 bit integer to hold value of the current addresss
-            int16_t *currAddress = malloc(sizeof(int16_t));
 			// Assign current address to currAdress
             *currAddress = (int16_t) address;
 			// Insert the label with the corresponding current address into symbol table
