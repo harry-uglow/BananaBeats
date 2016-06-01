@@ -130,10 +130,6 @@ int firstPass(char **argv) {
 		free(temp);
 	}
 
-	if(currAddress != NULL) {
-		free(currAddress);
-	}
-
 	// Finished reading input of assembly file
 	fclose(finput);
 	return 1;
