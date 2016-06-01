@@ -207,15 +207,6 @@ int writeToBinaryFile(char **argv) {
 	return 1;
 }
 
-int isLabel(char *token) {
-	// Check if token is label and remove colon
-	if(token[strlen(token) - 1] == ':') {
-		token[strlen(token) - 1] = '\0';
-		return 1;
-	}
-	return 0;
-}
-
 void secondPass() {
     numStoredConstants = 0;
 	for(int i = 0; i < address - numStoredConstants; i++) {
