@@ -86,6 +86,8 @@ void decode(arm_t *state) {
         // Calculate the rotation amount
         toDecode->shiftAmount = 2 * ((MASK_ROTATE & fetched) >> ROT_AMT_LAST);
     }
+
+
 }
 
 // Execute the decoded instruction

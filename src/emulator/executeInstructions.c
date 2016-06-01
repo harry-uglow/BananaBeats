@@ -179,6 +179,7 @@ void singleDataTransfer(arm_t *arm) {
     } else {
         // Perform the load or store operation
         if (ins->setL) {
+            // Load
             if((memAddr % WORD_LENGTH) != 0) {
                 int32_t byte0 = arm->memory[memAddr] & MASK_END_BYTE;
                 int32_t byte1 = (arm->memory[memAddr + 1] & MASK_END_BYTE)
@@ -193,6 +194,7 @@ void singleDataTransfer(arm_t *arm) {
                 arm->registers[ins->Rd] = wordSizedMem[memAddr / WORD_LENGTH];
             }
         } else {
+            // Store
             arm->memory[memAddr] = arm->registers[ins->Rd];
         }
     }
