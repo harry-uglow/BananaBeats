@@ -40,12 +40,13 @@ int firstPass(char **argv) {
             char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
            	// Copy token to label buffer
 			strcpy(label, token);
-
+			// Declare 16 bit integer to hold value of the current addresss
             int16_t *currAddress = malloc(sizeof(int16_t));
+			// Assign current address to currAdress
             *currAddress = (int16_t) address;
-			// Insert the label with the corresponding address into symbol table
+			// Insert the label with the corresponding current address into symbol table
             SymbolTable_put(label, currAddress, &table);
-			// Continue to next assembly instruction
+			// Continue to next instruction by skipping current iteration of while loop
             continue;
         } else {
 			// Assign token as value of mnemonic in the instruction at 'address'
@@ -128,6 +129,10 @@ int firstPass(char **argv) {
 	
 	if(temp != NULL) {
 		free(temp);
+	}
+
+	if(currAddress != NULL) {
+		free(currAddress);
 	}
 
 	// Finished reading input of assembly file
