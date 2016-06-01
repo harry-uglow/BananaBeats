@@ -211,7 +211,7 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
     // Branch may or may not be needed. I'll get back to this.
     char *expression = assIns->op1;
     if (isdigit(*expression)) {
-        ins->targetAddress = (int16_t) assIns->op1;
+        ins->targetAddress = (int16_t) getIntFromString(assIns->op1);
     } else {
         int16_t *returnedPointer = SymbolTable_get(expression, &table);
         // Check the returned pointer is not null
