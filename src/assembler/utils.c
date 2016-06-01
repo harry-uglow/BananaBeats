@@ -26,7 +26,15 @@ int firstPass(char **argv) {
 	// Declare 16 bit integer to hold value of the current address
 	int16_t *currAddress = malloc(sizeof(int16_t));
 	
-	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {		
+	while(fgets(buffer, MAX_LINE_LENGTH, finput) != NULL) {
+        // Skip spaces at the beginning of a line
+        while(buffer[0] == ' ') {
+            buffer++;
+        }
+        // Skip blank lines
+        if(buffer[0] == '\n') {
+            continue;
+        }
 		// Remove '\n' character at the end of the string
 		removeNewline(buffer);
 		// Extract first token in string (the mnemonic) 
