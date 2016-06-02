@@ -272,16 +272,3 @@ static int isGPIOAddress(int32_t address) {
             return 0;
     }
 }
-
-void execute(arm_t *arm) {
-    exec_t type = arm->instruction->type;
-    if(type == DATA_PROCESS) {
-        dataProcessing(arm);
-    } else if(type == MULTIPLY) {
-        multiply(arm);
-    } else if(type == DATA_TRANSFER) {
-        singleDataTransfer(arm);
-    } else if(type == BRANCH) {
-        branch(arm);
-    }
-}
