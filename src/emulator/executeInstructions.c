@@ -185,6 +185,7 @@ void singleDataTransfer(arm_t *arm) {
     if(!isGPIO && memAddr > MEM_SIZE) {
         printf("Error: Out of bounds memory access at address 0x%08x\n",
                memAddr);
+        return;
     }
 
     // Perform the load or store operation
