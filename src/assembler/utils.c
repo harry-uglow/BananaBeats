@@ -139,10 +139,6 @@ int firstPass(char **argv) {
 		address++;
 	}
 	// Free memory allocated onto the heap for local variables
-/*	if(buffer != NULL) {
-		free(buffer);
-	}*/
-	
 	if(ops != NULL) {
 		free(ops);
 	}
