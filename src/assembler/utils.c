@@ -89,7 +89,7 @@ int firstPass(char **argv) {
 			// and if it is then iterate through the characters and 
 			// copy them to the temp string until the you encounter 
 			// a ']' character. Once the end bracket is reached then 
-			// copy it to the end of temp, add a null terminater for 
+			// copy it to the end of temp, add a null terminator for
 			// temp string and increment the rest pointer to point to 
 			// the next character after ']'
 			if(rest[0] == '[') {

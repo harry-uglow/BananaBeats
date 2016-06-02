@@ -242,9 +242,7 @@ int getIntFromString(char *str) {
 }
 
 mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
-    // UPDATE: I hate this code, but any clever solution seems to be beyond
-    // the scope of the short C course and will certainly take longer to work
-    // out than we have time for on this course.
+    // Noddy solution but works
     if (!strcmp(mnemonic, "and")) {
         return AND;
     } else if (!strcmp(mnemonic, "eor")) {

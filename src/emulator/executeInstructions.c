@@ -40,6 +40,7 @@ void dataProcessing(arm_t *arm) {
                 break;
 
             // Case for rotate is unnecessary as rotation has no carry
+            default: break;
         }
         operand2 = executeShift(rmVal, type, amount);
     }

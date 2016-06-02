@@ -26,6 +26,7 @@ int32_t executeShift(int32_t value, int shiftType, int amount) {
             shiftedValue = (value >> amount) | (value << (32 - amount));
             break;
 
+        default: break;
     }
     return shiftedValue;
 }
@@ -64,6 +65,7 @@ int checkCond(int cond, int NZCV){
             // Always
             passesCond = 1;
             break;
+        default: break;
     }
     return passesCond;
 }
@@ -153,7 +155,7 @@ int readFile(arm_t *state, char **argv) {
     int8_t *pByteInput = &byteInput;
     int memPos = 0;
 	while(TRUE) {
-		int in = fread(pByteInput,sizeof(int8_t),1,finput);
+		int in = (int) fread(pByteInput, sizeof(int8_t), 1, finput);
 		if(in != 1) {
 			break;
         }
