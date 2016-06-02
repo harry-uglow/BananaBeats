@@ -94,6 +94,13 @@ void decode(arm_t *state) {
 void execute(arm_t *state) {
     int NZCV = (MASK_NZCV & state->registers[REG_CPSR]) >> CPSR_LAST;
 
+    // Only perform valid memory accesses
+    if(state->registers[REG_PC] >= MEM_SIZE + PC_OFFSET) {
+        printf("Error: Attempting to execute an instruction stored outside \
+                machine memory.");
+        exit(1);
+    }
+
     if(checkCond(state->instruction->cond, NZCV)) {
         exec_t type = state->instruction->type;
         if(type == DATA_PROCESS) {

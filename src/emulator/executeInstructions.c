@@ -1,5 +1,7 @@
 #include "executeInstructions.h"
 
+int isGPIOAddress(int32_t address);
+
 void dataProcessing(arm_t *arm) {
     // get value of Rm / execute shift (shiftType, shiftAmount)
     instr_t *ins = arm->instruction;
@@ -172,28 +174,35 @@ void singleDataTransfer(arm_t *arm) {
         }
     }
 
+    int isGPIO = isGPIOAddress(memAddr);
     // Only perform valid memory accesses
-    if(memAddr > MEM_SIZE) {
+    if(!isGPIO && memAddr > MEM_SIZE) {
         printf("Error: Out of bounds memory access at address 0x%08x\n",
                memAddr);
-    } else {
-        // Perform the load or store operation
-        if (ins->setL) {
-            // Load
-            if((memAddr % WORD_LENGTH) != 0) {
-                int32_t byte0 = arm->memory[memAddr++] & MASK_END_BYTE;
-                int32_t byte1 = (arm->memory[memAddr++] & MASK_END_BYTE)
-                                << BYTE;
-                int32_t byte2 = (arm->memory[memAddr++] & MASK_END_BYTE)
-                                << (2 * BYTE);
-                int32_t byte3 = (arm->memory[memAddr] & MASK_END_BYTE)
-                                << (3 * BYTE);
-                arm->registers[ins->Rd] = byte3 | byte2 | byte1 | byte0;
-            } else {
+    }
+
+    // Perform the load or store operation
+    if (ins->setL) {
+        // Load
+        if((memAddr % WORD_LENGTH) != 0) {
+            int32_t byte0 = arm->memory[memAddr++] & MASK_END_BYTE;
+            int32_t byte1
+                    = (arm->memory[memAddr++] & MASK_END_BYTE) << BYTE;
+            int32_t byte2
+                    = (arm->memory[memAddr++] & MASK_END_BYTE) << (2 * BYTE);
+            int32_t byte3
+                    = (arm->memory[memAddr] & MASK_END_BYTE) << (3 * BYTE);
+            arm->registers[ins->Rd] = byte3 | byte2 | byte1 | byte0;
+        } else {
+            if(!isGPIO) {
                 int32_t *wordSizedMem = (int32_t *) arm->memory;
                 arm->registers[ins->Rd] = wordSizedMem[memAddr / WORD_LENGTH];
+            } else {
+                arm->registers[ins->Rd] = memAddr;
             }
-        } else {
+        }
+    } else {
+        if(!isGPIO) {
             arm->memory[memAddr++]
                     = (int8_t) (arm->registers[ins->Rd] & MASK_END_BYTE);
             arm->memory[memAddr++] = (int8_t)
@@ -233,4 +242,26 @@ void branch(arm_t *arm) {
 	// Clear fetched and decoded parts of pipeline
 	(arm->isFetched) = 0;
 	(arm->isDecoded) = 0;    
+}
+
+int isGPIOAddress(int32_t address) {
+    switch(address) {
+        case 0x20200000:
+            printf("One GPIO pin from 0 to 9 has been accessed\n");
+            return 1;
+        case 0x20200004:
+            printf("One GPIO pin from 10 to 19 has been accessed\n");
+            return 1;
+        case 0x20200008:
+            printf("One GPIO pin from 20 to 29 has been accessed\n");
+            return 1;
+        case 0x2020001C:
+            printf("PIN ON\n");
+            return 1;
+        case 0x20200028:
+            printf("PIN OFF\n");
+            return 1;
+        default:
+            return 0;
+    }
 }

@@ -8,7 +8,7 @@
 #define MEM_SIZE 65536
 #define WORD_LENGTH 4
 #define BIT_WORD_LENGTH 32
-#define OFFSET 4
+#define PC_OFFSET 8
 #define REG_PC 15
 #define REG_CPSR 16
 #define NUMBER_OF_REGISTERS 17
