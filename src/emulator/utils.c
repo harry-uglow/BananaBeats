@@ -26,7 +26,9 @@ int32_t executeShift(int32_t value, int shiftType, int amount) {
             shiftedValue = (value >> amount) | (value << (32 - amount));
             break;
 
-        default: break;
+        default:
+            printf("Error. executeShift() called with invalid shiftType");
+            break;
     }
     return shiftedValue;
 }
@@ -65,7 +67,9 @@ int checkCond(int cond, int NZCV){
             // Always
             passesCond = 1;
             break;
-        default: break;
+        default:
+            printf("Error. checkCond() called with invalid condition.");
+            break;
     }
     return passesCond;
 }

@@ -42,7 +42,8 @@ void dataProcessing(arm_t *arm) {
                 break;
 
             // Case for rotate is unnecessary as rotation has no carry
-            default: break;
+            default:
+                break;
         }
         operand2 = executeShift(rmVal, type, amount);
     }
@@ -107,6 +108,10 @@ void dataProcessing(arm_t *arm) {
         case 13: // Move
             arm->registers[destReg] = operand2;
             temp = destReg;
+            break;
+        default:
+            printf("Error. dataProcessing() in executeInstructions.c was \
+                    called with an invalid opCode.");
             break;
     }
 
