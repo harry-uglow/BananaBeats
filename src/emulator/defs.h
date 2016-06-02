@@ -16,8 +16,6 @@
 #define PRINT_LIMIT -1000000000
  
 // Useful bit numbers
-#define N_BIT		 	31
-#define Z_BIT		 	30
 #define C_BIT		 	29
 #define CPSR_LAST 	 	28
 #define COND_LAST 	 	28
@@ -27,7 +25,6 @@
 #define RS_LAST 	  	 8
 #define SHIFT_T_LAST  	 5
 #define ROT_AMT_LAST 	 8
-#define RS_SHIFT_BIT     4
 #define SHIFT_CONST_LAST 7
 
 // Mask macros for decode()
