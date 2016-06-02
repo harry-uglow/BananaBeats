@@ -1,7 +1,7 @@
 #include "pipeline.h"
 
 // Fetch the instruction from the virtual memory
-void fetch(arm_t *state) {
+static void fetch(arm_t *state) {
     int32_t pc = state->registers[REG_PC];
     // Pointer to the 32-bit instruction
     int32_t *wordSizedMem = (int32_t *)state->memory;
@@ -13,7 +13,7 @@ void fetch(arm_t *state) {
 }
 
 // Decode the fetched instruction
-void decode(arm_t *state) {
+static void decode(arm_t *state) {
     instr_t *toDecode = state->instruction;
     int32_t fetched = state->fetched;
     state->isDecoded = 1;
@@ -91,9 +91,7 @@ void decode(arm_t *state) {
 }
 
 // Execute the decoded instruction
-void execute(arm_t *state) {
-    int NZCV = (MASK_NZCV & state->registers[REG_CPSR]) >> CPSR_LAST;
-
+static void execute(arm_t *state) {
     // Only perform valid memory accesses
     if(state->registers[REG_PC] >= MEM_SIZE + PC_OFFSET) {
         printf("Error: Attempting to execute an instruction stored outside \
@@ -101,18 +99,21 @@ void execute(arm_t *state) {
         exit(1);
     }
 
+    int NZCV = (MASK_NZCV & state->registers[REG_CPSR]) >> CPSR_LAST;
+
     if(checkCond(state->instruction->cond, NZCV)) {
         exec_t type = state->instruction->type;
-        if(type == DATA_PROCESS) {
+        if (type == DATA_PROCESS) {
             dataProcessing(state);
-        } else if(type == MULTIPLY) {
+        } else if (type == MULTIPLY) {
             multiply(state);
-        } else if(type == DATA_TRANSFER) {
+        } else if (type == DATA_TRANSFER) {
             singleDataTransfer(state);
-        } else if(type == BRANCH) {
+        } else if (type == BRANCH) {
             branch(state);
         }
     }
+
 }
 
 // One iteration of the pipeline cycle

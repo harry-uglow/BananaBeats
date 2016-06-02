@@ -9,7 +9,7 @@ static int32_t encodeBranch(instr_t *instr, int16_t currAddress);
 // and address counter and symbol table
 
 
-int32_t encodeDataProcessing(instr_t *instr) {
+static int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
 
     // Calculate shift
@@ -44,7 +44,7 @@ int32_t encodeDataProcessing(instr_t *instr) {
 }
 
 
-int32_t encodeMultiply(instr_t *instr) {
+static int32_t encodeMultiply(instr_t *instr) {
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= instr->cond << COND_BITS;
@@ -60,7 +60,7 @@ int32_t encodeMultiply(instr_t *instr) {
 }
 
 
-int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
+static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
 
     // If SDT expr, then calculate offset, store it in memory
 
@@ -106,7 +106,7 @@ int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
 }
 
 
-int32_t encodeBranch(instr_t *instr, int16_t currAddress) {
+static int32_t encodeBranch(instr_t *instr, int16_t currAddress) {
     int16_t addressDiff
             = (int16_t) ((instr->targetAddress * WORD_LENGTH) - currAddress);
     // Take into account off-by-8 effect of the ARM pipeline.

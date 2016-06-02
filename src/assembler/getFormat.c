@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <ctype.h>
 
-mnemonic_t mnemonicStringToEnum(char mnemonic[4]);
-void setCond(instr_t *ins);
-void getFormDatProc(instr_t *ins, assIns_t *assIns);
-void getFormMult(instr_t *ins, assIns_t *assIns);
-void getFormDatTran(instr_t *ins, assIns_t *assIns);
-void getFormBranch(instr_t *ins, assIns_t *assIns);
-int getIntFromString(char *str);
+static mnemonic_t mnemonicStringToEnum(char mnemonic[4]);
+static void setCond(instr_t *ins);
+static void getFormDatProc(instr_t *ins, assIns_t *assIns);
+static void getFormMult(instr_t *ins, assIns_t *assIns);
+static void getFormDatTran(instr_t *ins, assIns_t *assIns);
+static void getFormBranch(instr_t *ins, assIns_t *assIns);
+static int getIntFromString(char *str);
 
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
@@ -42,7 +42,7 @@ instr_t *getFormat(assIns_t *assIns) {
     return out;
 }
 
-void setCond(instr_t *ins) {
+static void setCond(instr_t *ins) {
     if (ins->opMnemonic <= MIN_BRANCH) {
         ins->cond = ALWAYS_COND;
     } else {
@@ -50,7 +50,7 @@ void setCond(instr_t *ins) {
     }
 }
 
-void getFormDatProc(instr_t *ins, assIns_t *assIns) {
+static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     // I will not be set unless otherwise specified.
     ins->setI = 0;
     // Not supporting optional case for now means that bit 4 will be 0,
@@ -138,7 +138,7 @@ void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     }
 }
 
-void getFormMult(instr_t *ins, assIns_t *assIns) {
+static void getFormMult(instr_t *ins, assIns_t *assIns) {
 
     // Set A bit
     if (ins->opMnemonic == MUL) {
@@ -156,7 +156,7 @@ void getFormMult(instr_t *ins, assIns_t *assIns) {
 
 }
 
-void getFormDatTran(instr_t *ins, assIns_t *assIns) {
+static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
     // Unless otherwise specified, the P bit is set (pre-indexing mode)
     ins->setP = 1;
     // encode can work out from the offset whether U should be 1 or 0.
@@ -206,7 +206,7 @@ void getFormDatTran(instr_t *ins, assIns_t *assIns) {
     }
 }
 
-void getFormBranch(instr_t *ins, assIns_t *assIns) {
+static void getFormBranch(instr_t *ins, assIns_t *assIns) {
 
     // Branch may or may not be needed. I'll get back to this.
     char *expression = assIns->op1;
@@ -224,7 +224,7 @@ void getFormBranch(instr_t *ins, assIns_t *assIns) {
     }
 }
 
-int getIntFromString(char *str) {
+static int getIntFromString(char *str) {
     if (str) {
         while (*str) {
             if (isdigit(*str) || str[0] == '-') {
@@ -241,7 +241,7 @@ int getIntFromString(char *str) {
     return 0;
 }
 
-mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
+static mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
     // Noddy solution but works
     if (!strcmp(mnemonic, "and")) {
         return AND;

@@ -1,6 +1,6 @@
 #include "executeInstructions.h"
 
-int isGPIOAddress(int32_t address);
+static int isGPIOAddress(int32_t address);
 
 void dataProcessing(arm_t *arm) {
     // get value of Rm / execute shift (shiftType, shiftAmount)
@@ -251,7 +251,7 @@ void branch(arm_t *arm) {
 	(arm->isDecoded) = 0;    
 }
 
-int isGPIOAddress(int32_t address) {
+static int isGPIOAddress(int32_t address) {
     switch(address) {
         case 0x20200000:
             printf("One GPIO pin from 0 to 9 has been accessed\n");
@@ -270,5 +270,18 @@ int isGPIOAddress(int32_t address) {
             return 1;
         default:
             return 0;
+    }
+}
+
+void execute(arm_t *arm) {
+    exec_t type = arm->instruction->type;
+    if(type == DATA_PROCESS) {
+        dataProcessing(arm);
+    } else if(type == MULTIPLY) {
+        multiply(arm);
+    } else if(type == DATA_TRANSFER) {
+        singleDataTransfer(arm);
+    } else if(type == BRANCH) {
+        branch(arm);
     }
 }
