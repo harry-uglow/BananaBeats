@@ -1,14 +1,9 @@
 #include <Python.h>
-#define TRUE 1
 
-int main() {
-
-	while(TRUE) {
-		// TODO: Correct call of python function loopIteration
-		// This is just a basic framework for the C function 
-		loopIteration();
-	}    
-
-    return 0;
+static PyObject *loop(PyObject *self) {
+	// TODO: Complete correct C function call to be called from run.py
+	// Since this returns a pointer to a PyObject, we can't have a loop
+	// as originally planned		 
+	loopIteration();
 }
 
