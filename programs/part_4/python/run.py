@@ -13,7 +13,7 @@ pygame.init()
 # Last pin touched
 last_touched = device.touched()
 
-def loop():
+def loopIteration():
     # Current pin touched
     current_touched = device.touched()
     for i in range(12):
