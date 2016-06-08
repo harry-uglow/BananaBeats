@@ -3,7 +3,7 @@
 \usepackage{fullpage}
 
 \begin{document}
-
+\sloppy
 \title{Our Extension...}
 \author{Group 19: Harry Uglow, Shayan Khaksar-Ghalati, Maurice Yap and Joshua Cooper}
 
@@ -13,15 +13,17 @@
 
 \subsection{Assembler}
 \subsubsection{File Structure}
-The main function from which the assembler program is run is the sole function in the file, \texttt{assemble.c} and resides in the main \texttt{src/} directory. Its source files are located in the \texttt{assembler/} directory within \texttt{src/}. We have also written a \texttt{Makefile} in the \texttt{src/} directory which compiles both our assembler and emulator with the correct dependencies so that the minimal amount of work required is done in the compilation process.
+The main function from which the assembler program is run is the sole function in the file, \texttt{assemble.c} and resides in the main \texttt{src/} directory. Its source files are located in the \texttt{assembler/} directory within \texttt{src/}. In addition to this, a range of other supplementary files are located in the \texttt{assembler/} directory including \texttt{utils.c} which contains multiple utility functions that were used in the program. We have also written a \texttt{Makefile} in the \texttt{src/} directory which compiles both our assembler and emulator with the correct dependencies so that the minimal amount of work required is done in the compilation process.
 \subsubsection{Implementation}
 We elected to use the two-pass method to implement the assembler. This meant that we needed to create a Symbol Table data type. This simple and minimal data type uses a linked list of label-pointer pairs and includes the \textit{put} and \textit{get} functions which add a label-pointer pair entry to the table and retrieve a pointer given a label argument respectively. There are also functions included to create a new Symbol Table (\textit{new}) and remove a Symbol Table (\textit{delete}) and all its associated nodes from memory. We decided that the second part of the pair would be a generic pointer (\texttt{void *}) as opposed to an integer pointer as this makes the data structure reuseable for purposes other than mapping labels to memory addresses.\\
 
-On the first pass (\texttt{int firstPass(char **argv)} in \texttt{utils.c}), the input file is read and all labels are entered into the Symbol Table, mapped to the address in memory to which each refers. The instructions (i.e. everthing which is not a label) are split up into tokens and placed into an assembly instruction struct (\texttt{struct assInstr}). The assembly instruction structs are placed into an array (\texttt{instruction}).\\
+In the execution of the assembler program within \texttt{main}, a utility function \texttt{int initialiseAssembler(void)} is first called to allocate heap memory for the instructions to be read from the assembly file (\texttt{instruction} array), the instructions to be encoded (\texttt{memory} array), the Symbol Table (through \texttt{symbolTable\_t *SymbolTable\_new(void)}) as well as to initalise the \texttt{address} counter.\\
 
-The second pass (\texttt{void secondPass()} in \texttt{utils.c}) iterates through the array of assembly instructions. For each element, the assembly instruction is encoded and this encoded form is placed into another array (\texttt{memory}) representing each byte of the output.\\
+On the first pass (\texttt{int firstPass(char **argv)} in \texttt{utils.c}), the input file is read and all labels are added to the Symbol Table along with their corresponding memory address. The instructions (i.e. everthing which is not a label) are split up into tokens and placed into an assembly instruction struct (\texttt{struct assInstr}). The assembly instruction structs are placed into an array (\texttt{instruction}).\\
 
-After the second pass, the encoded instructions are written into the binary file and arrays and other data stored on the heap are removed.
+The second pass (\texttt{void secondPass(void)} in \texttt{utils.c}) iterates through the array of assembly instructions. For each element in the array, the assembly instruction is encoded into a binary instruction and this binary instruction is placed into another array (\texttt{memory}) representing each byte of the output. To do this, it makes use of the supplementary function \texttt{int32\_t encode(assIns\_t *instr)} found in \texttt{encodeInstructions.c}.\\
+
+After the second pass, the encoded instructions are written into the binary file, specified by the caller of the program, with the utility function \texttt{int writeToBinaryFile(char **argv)}. Finally, the arrays for the assembly and encoded binary instructions, the Symbol Table  and other data stored on the heap are removed with the utility function \texttt{void freeInstructions(void)} and \texttt{void SymbolTable\_delete(symbolTable\_t *symbolTable}.
 
 \subsection{Extension plans}
 
