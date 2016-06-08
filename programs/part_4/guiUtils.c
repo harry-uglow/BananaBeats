@@ -1,4 +1,3 @@
-#include <gtk/gtk.h>
 #include <string.h>
 #include "guiUtils.h"
 
@@ -10,10 +9,11 @@ void create_radio_buttons(GtkBox *vBox) {
             (GTK_RADIO_BUTTON(rb1), RB2_LABEL);
     rb3 = gtk_radio_button_new_with_label_from_widget
             (GTK_RADIO_BUTTON(rb1), RB3_LABEL);
+
     // Set tooltips for the radio buttons
-    gtk_widget_set_tooltip_text(rb1, strcat(RB_TOOLTIP_PREFIX, RB1_LABEL));
-    gtk_widget_set_tooltip_text(rb2, strcat(RB_TOOLTIP_PREFIX, RB2_LABEL));
-    gtk_widget_set_tooltip_text(rb3, strcat(RB_TOOLTIP_PREFIX, RB3_LABEL));
+    gtk_widget_set_tooltip_text(rb1, RB1_TOOLTIP);
+    gtk_widget_set_tooltip_text(rb2, RB2_TOOLTIP);
+    gtk_widget_set_tooltip_text(rb3, RB3_TOOLTIP);
 
     // When the buttons are clicked call toggle_title().
     g_signal_connect(rb1, "clicked",
@@ -40,16 +40,13 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
     const gchar *label = gtk_button_get_label(GTK_BUTTON(widget));
     switch(*label) {
         case 'D' :
-            gtk_window_set_title(GTK_WINDOW(window),
-                    strcat(WINDOW_TITLE_PREFIX, RB1_LABEL));
+            gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
             break;
         case 'P' :
-            gtk_window_set_title(GTK_WINDOW(window),
-                    strcat(WINDOW_TITLE_PREFIX, RB1_LABEL));
+            gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
             break;
         case 'A' :
-            gtk_window_set_title(GTK_WINDOW(window),
-                    strcat(WINDOW_TITLE_PREFIX, RB1_LABEL));
+            gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
             break;
         default:
             printf("Somethings gone wrong\n");
