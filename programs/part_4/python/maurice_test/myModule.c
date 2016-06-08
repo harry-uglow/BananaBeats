@@ -25,7 +25,7 @@ static PyObject* py_myOtherFunction(PyObject* self, PyObject* args)
 // My function
 static PyObject *py_tester(PyObject* self, PyObject* args) {
   iterator++;
-  return Py_BuildValue("d", iterator);
+  return Py_BuildValue("i", iterator);
 
 }
 
