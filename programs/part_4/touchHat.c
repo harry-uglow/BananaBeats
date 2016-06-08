@@ -7,14 +7,16 @@ int main() {
 }
 
 static PyObject* py_touched(PyObject* self, PyObject* args) {
-    int x;
-    PyArg_ParseTuple(args, "i", &x);
-    printf("I was touched in the %d pin lol\n", x);
+    int pin;
+    PyArg_ParseTuple(args, "i", &pin);
+    printf("I was touched in the %d pin lol\n", pin);
     return Py_BuildValue("");
 }
 
 static PyObject* py_released(PyObject* self, PyObject* args) {
-    printf("ahhhhhh... and release\n");
+    int pin;
+    PyArg_ParseTuple(args, "i", &pin);
+    printf("ahhhhhh... and release my %d pin\n", pin);
     return Py_BuildValue("");
 }
 
