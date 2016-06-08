@@ -4,7 +4,7 @@
 
 \begin{document}
 \sloppy
-\title{Our Extension...}
+\title{C Programming Project: Fruity Sound Controller}
 \author{Group 19: Harry Uglow, Shayan Khaksar-Ghalati, Maurice Yap and Joshua Cooper}
 
 \maketitle
@@ -13,7 +13,7 @@
 
 \subsection{Assembler}
 \subsubsection{File Structure}
-The main function from which the assembler program is run is the sole function in the file, \texttt{assemble.c} and resides in the main \texttt{src/} directory. Its source files are located in the \texttt{assembler/} directory within \texttt{src/}. In addition to this, a range of other supplementary files are located in the \texttt{assembler/} directory including \texttt{utils.c} which contains multiple utility functions that were used in the program. We have also written a \texttt{Makefile} in the \texttt{src/} directory which compiles both our assembler and emulator with the correct dependencies so that the minimal amount of work required is done in the compilation process.
+The main function from which the assembler program is run is the sole function in the file, \texttt{assemble.c} and resides in the main \texttt{src/} directory. Its source files are located in the \texttt{assembler/} directory within \texttt{src/}. In addition to this, a range of other supplementary files are located in the \texttt{assembler/} directory including \texttt{utils.c} which contains multiple utility functions that were used in the program. We have also written a \texttt{Makefile} in the \texttt{src/} directory which compiles both our assembler and emulator with the correct dependencies so that the minimal amount of work required is done in the compilation process when files are changed.
 \subsubsection{Implementation}
 We elected to use the two-pass method to implement the assembler. This meant that we needed to create a Symbol Table data type. This simple and minimal data type uses a linked list of label-pointer pairs and includes the \textit{put} and \textit{get} functions which add a label-pointer pair entry to the table and retrieve a pointer given a label argument respectively. There are also functions included to create a new Symbol Table (\textit{new}) and remove a Symbol Table (\textit{delete}) and all its associated nodes from memory. We decided that the second part of the pair would be a generic pointer (\texttt{void *}) as opposed to an integer pointer as this makes the data structure reuseable for purposes other than mapping labels to memory addresses.\\
 
