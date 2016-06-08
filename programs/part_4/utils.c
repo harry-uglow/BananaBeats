@@ -47,11 +47,11 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
     // free(symbolTable); // Free the table
 }
 
-// Add matching label and value to symbol table
-void SymbolTable_put(char *newLabel, void *newValue,
+// Add matching pin and sound to symbol table
+void SymbolTable_put(int *newPin, char *newSound,
                      symbolTable_t *symbolTable) {
     // Make sure no arguments are null
-    if (newLabel == NULL || newValue == NULL || symbolTable == NULL) {
+    if (newPin == NULL || newSound == NULL || symbolTable == NULL) {
         printf("Error: null argument. Did not add entry to symbol table\n");
         return;
     }
@@ -66,22 +66,22 @@ void SymbolTable_put(char *newLabel, void *newValue,
     }
 
     // Assign the key and value of the new node
-    newNode->label = newLabel;
-    newNode->value = newValue;
+    newNode->pin = newPin;
+    newNode->sound = newSound;
 
     // Node links to current head of symbol table
     newNode->pNextNode = symbolTable->pFirstNode;
     symbolTable->pFirstNode = newNode; // Make new node the head of the table
 }
 
-// Find value from given label
-void *SymbolTable_get(char *key, symbolTable_t *symbolTable) {
+// Find sound file from given pin
+void *SymbolTable_get(int pin, symbolTable_t *symbolTable) {
     symbolTableNode_t *pCurrent = (*symbolTable).pFirstNode;
 
-    // Loop to traverse through table until value value is found
+    // Loop to traverse through table until sound file is found
     while (pCurrent != NULL) {
-        if (!strcmp(pCurrent->label, key)) {
-            return pCurrent->value;
+        if (pCurrent->pin == pin) {
+            return pCurrent->sound;
         }
         pCurrent = pCurrent->pNextNode; // Update to next node
     }
