@@ -1,6 +1,15 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 
+// Declare widgets as global variables
+GtkWidget *window;
+GtkWidget *vBox;
+GtkWidget *halign;
+GtkWidget *rb1;
+GtkWidget *rb2;
+GtkWidget *rb3;
+GtkWidget *image;
+
 void toggle_title(GtkRadioButton *widget, gpointer window) {
 
 	// Need this check as function is also called for the deselected button.
@@ -28,14 +37,7 @@ void toggle_title(GtkRadioButton *widget, gpointer window) {
 
 int main(int argc, char** argv) {
 	
-	// Declare widgets
-  	GtkWidget *window;
-	GtkWidget *vBox;
-  	GtkWidget *halign;
-  	GtkWidget *rb1;
-  	GtkWidget *rb2;
-  	GtkWidget *rb3;
-	GtkWidget *image;
+
 	// Initialise GTK+
   	gtk_init(&argc, &argv);
 
