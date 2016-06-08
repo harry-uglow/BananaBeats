@@ -1,20 +1,27 @@
 #include <stdio.h>
 #include "utils.h" 
+#define NUM_OF_INSTRUMENTS 3
+#define NUM_OF_SOUNDFILES 12
 
-static symbolTable_t *initialiseSymbolTables(void) {
+// Symbol table array as global variable
+symbolTable_t *set[NUM_OF_INSTRUMENTS];
+
+static void initialiseSymbolTables(void) {
 	// Initialise array of symbol tables for each sound set (instrument) 
-	symbolTable_t set[3];
-	set[0] = SymbolTable_new();
-	set[1] = SymbolTable_new();
-	set[2] = SymbolTable_new();
+	for(int i = 0; i < NUM_OF_INSTRUMENTS; i++) {
+		set[i] = SymbolTable_new();
+	}
 
-	// TODO: Insert correct pin and sound values into symbol table once the sound files are added into sounds folder
-		
-	return set;
+	// Insert pin-sound entries into each symbol table for each instrument
+	for(int j = 0; j < NUM_OF_INSTRUMENTS; j++) {
+ 		
+		for(int k = 0; j < NUM_OF_SOUNDFILES; j++) {
+		} 
+	}
 }
 
-static void freeSymbolTables(symbolTable_t set[], int num_of_instruments) {
-	for(int i = 0; i < num_of_instruments; i++) {
-		SymbolTable_delete(&set[i]);
+static void freeSymbolTables(void) {
+	for(int i = 0; i < NUM_OF_INSTRUMENTS; i++) {
+		SymbolTable_delete(set[i]);
 	}
 }
