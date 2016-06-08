@@ -52,4 +52,10 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             printf("Somethings gone wrong\n");
             break;
     }
+
+    // Note: Insert demo Python call to play a sound here.
 }
+
+// Note: Create dummy function to be called by Python code.
+// printf("Input %i pressed", (%i referring to the pin that has been pressed));
+// Only do this when first touched.
