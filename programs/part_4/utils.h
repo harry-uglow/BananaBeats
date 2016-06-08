@@ -3,7 +3,7 @@
 
 typedef struct SymbolTableNode {
     int pin; // 'Key' of the symbol table, the pin number
-    char *sound // 'Value' of the symbol table (sound file)
+    char *sound; // 'Value' of the symbol table (sound file path)
     struct SymbolTableNode *pNextNode; // The next node (node linked to)
 } symbolTableNode_t;
 

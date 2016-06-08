@@ -37,9 +37,6 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
         pNext = pCurrent->pNextNode; // Update next node
         pCurrent = pNext;
     }
-
-    // TODO: uncomment this when bug is fixed
-    // free(symbolTable); // Free the table
 }
 
 // Add matching pin and sound to symbol table
@@ -61,7 +58,7 @@ void SymbolTable_put(int *newPin, char *newSound,
     }
 
     // Assign the key and value of the new node
-    newNode->pin = newPin;
+    newNode->pin = *newPin;
     newNode->sound = newSound;
 
     // Node links to current head of symbol table
