@@ -1,7 +1,8 @@
+from touchHat import *
 import sys
 import time
 
-import adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
+import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
 
 print('Adafruit MPR121 deviceacitive Touch Sensor Test')
@@ -21,9 +22,11 @@ while True:
     for i in range(12):
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
-            print('{0} touched!'.format(i))
+            # print('{0} touched!'.format(i))
+            touched()
         if not current_touched & pin_bit and last_touched & pin_bit:
-            print('{0} released!'.format(i))
+            # print('{0} released!'.format(i))
+            released()
     last_touched = current_touched
     time.sleep(0.1)
  
