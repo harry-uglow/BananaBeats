@@ -7,7 +7,9 @@ int main() {
 }
 
 static PyObject* py_touched(PyObject* self, PyObject* args) {
-    printf("I was touched lol\n");
+    int x;
+    PyArg_ParseTuple(args, "i", &x);
+    printf("I was touched in the %d pin lol\n", x);
     return Py_BuildValue("");
 }
 

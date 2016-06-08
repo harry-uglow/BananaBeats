@@ -23,7 +23,7 @@ while True:
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
             # print('{0} touched!'.format(i))
-            touched()
+            touched(i)
         if not current_touched & pin_bit and last_touched & pin_bit:
             # print('{0} released!'.format(i))
             released()
