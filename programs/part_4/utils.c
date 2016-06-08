@@ -1,9 +1,4 @@
-/*
- * Implementation of a symbol table using a linked list of key-value pairs,
- * where the key is a string
- */
-
-#include "symbolTable.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
