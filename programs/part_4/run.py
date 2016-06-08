@@ -1,29 +1,29 @@
 import sys
 import time
-import pygame
 
-import adafruit_libraries.MPR121 as MPR121
+import adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
-# Create instance of the MPR121 object
+
+print('Adafruit MPR121 deviceacitive Touch Sensor Test')
+
+# Create MPR121 instance.
 device = MPR121.MPR121()
 
-pygame.mixer.pre_init(44100, -16, 12, 512)
-pygame.init()
+if not device.begin():
+    print('Error initializing MPR121.  Check your wiring!')
+    sys.exit(1)
 
-# Last pin touched
+# Main loop to print a message every time a pin is touched.
+print('Press Ctrl-C to quit.')
 last_touched = device.touched()
-
-def loopIteration():
-    # Current pin touched
+while True:
     current_touched = device.touched()
     for i in range(12):
-        # 1 = touched, 0 = not touched 
         pin_bit = 1 << i
-        # First check if transitioned from not touched to touched.
         if current_touched & pin_bit and not last_touched & pin_bit:
             print('{0} touched!'.format(i))
-            # Call C function here TODO
-
-    # Update last pin touched
+        if not current_touched & pin_bit and last_touched & pin_bit:
+            print('{0} released!'.format(i))
     last_touched = current_touched
-
+    time.sleep(0.1)
+ 
