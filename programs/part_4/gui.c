@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 
 	// Add the box to the alignment container, and add that to the window.
   	gtk_container_add(GTK_CONTAINER(window), halign);
-  	gtk_container_add(GTK_CONTAINER(halign), vBox);
+  	gtk_container_add(GTK_CONTAINER(halign), vBoxRadioButtons);
 	// Show the window
   	gtk_widget_show_all(window);
 	

@@ -152,7 +152,7 @@ int firstPass(char **argv) {
 	return 1;
 }
 
-int initialiseAssembler() {
+int initialiseAssembler(void) {
 	// Allocate memory onto the heap for an array of instructions
 	instruction = calloc(MEM_SIZE, sizeof(assIns_t));
 
@@ -203,7 +203,7 @@ int writeToBinaryFile(char **argv) {
 	return 1;
 }
 
-void secondPass() {
+void secondPass(void) {
     numStoredConstants = 0;
 	for(int i = 0; i < address - numStoredConstants; i++) {
         assIns_t assIns = instruction[i];
