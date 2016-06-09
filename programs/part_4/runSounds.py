@@ -5,9 +5,6 @@ import pygame
 
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
-
-print('Adafruit MPR121 deviceacitive Touch Sensor Test')
-
 # Create MPR121 instance
 device = MPR121.MPR121()
 
