@@ -1,5 +1,5 @@
-#ifndef ARM11_19_SYMBOLTABLE_H
-#define ARM11_19_SYMBOLTABLE_H
+#ifndef utils_h
+#define utils_h
 
 typedef struct SymbolTableNode {
     int pin; // 'Key' of the symbol table, the pin number
@@ -18,7 +18,7 @@ symbolTable_t *SymbolTable_new(void);
 void SymbolTable_delete(symbolTable_t *symbolTable);
 
 // Add matching label and value to symbol table
-void SymbolTable_put(int *newPin, char *newSound,
+void SymbolTable_put(int newPin, char *newSound,
                      symbolTable_t *symbolTable);
 
 // Find value from given label

@@ -40,10 +40,10 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
 }
 
 // Add matching pin and sound to symbol table
-void SymbolTable_put(int *newPin, char *newSound,
+void SymbolTable_put(int newPin, char *newSound,
                      symbolTable_t *symbolTable) {
-    // Make sure no arguments are null
-    if (newPin == NULL || newSound == NULL || symbolTable == NULL) {
+    // Make sure no argument pointers are null
+    if (newSound == NULL || symbolTable == NULL) {
         printf("Error: null argument. Did not add entry to symbol table\n");
         return;
     }
@@ -58,7 +58,7 @@ void SymbolTable_put(int *newPin, char *newSound,
     }
 
     // Assign the key and value of the new node
-    newNode->pin = *newPin;
+    newNode->pin = newPin;
     newNode->sound = newSound;
 
     // Node links to current head of symbol table
