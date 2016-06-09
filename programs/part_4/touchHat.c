@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "symbolTable.h"
 #include "guiUtils.h"
+#include "touchHat.h"
 
 /** 
  *This function is called when a pin is touched. It takes as an argument the
@@ -67,12 +68,22 @@ static PyObject *py_gui(PyObject *self, PyObject *args) {
 }
 
 /**
+ * Initialise the map of sound files
+ */
+static PyObject *py_initSounds(PyObject *self, PyObject *args) {
+    initialiseSymbolTables();
+    return Py_BuildValue("");
+}
+
+
+/**
   * Array of methods for integration with Python script
   */
 static PyMethodDef touchHat_methods[] = {
     {"touched", py_touched, METH_VARARGS},
     {"released", py_released, METH_VARARGS},
     {"gui", py_gui, METH_VARARGS},
+    {"initSounds", py_initSounds, METH_VARARGS},
     {NULL, NULL}
 };
 
