@@ -1,31 +1,24 @@
 #include "utils.h"
 
-#define TRUE 1
-
 int32_t executeShift(int32_t value, int shiftType, int amount) {
     int32_t shiftedValue = 0;
-
-    switch (shiftType) {
+    switch(shiftType) {
         // logical shift left
         case 0:
             shiftedValue = value << amount;
             break;
-
-            // logical shift right
+        // logical shift right
         case 1:
             shiftedValue = (int)((unsigned int) value >> amount);
             break;
-
-            // arithmetic shift right
+        // arithmetic shift right
         case 2:
             shiftedValue = value >> amount;
             break;
-
-            // rotate right
+        // rotate right
         case 3:
             shiftedValue = (value >> amount) | (value << (32 - amount));
             break;
-
         default:
             printf("Error. executeShift() called with invalid shiftType");
             break;
@@ -35,36 +28,39 @@ int32_t executeShift(int32_t value, int shiftType, int amount) {
 
 int checkCond(int cond, int NZCV){
     int passesCond = 0;
-
-    switch (cond){
+    switch(cond){
+        // Equal
         case 0 :
-            // Equal
-            passesCond = 0x4 & NZCV;
+            passesCond = Z_BIT & NZCV;
             break;
+        // Not equal
         case 1 :
-            // Not equal
-            passesCond = !(0x4 & NZCV);
+            passesCond = !(Z_BIT & NZCV);
             break;
+        // Greater or equal
         case 10 :
-            // Greater or equal
-            passesCond = ((9 == (0x9 & NZCV)) || !(0x9 & NZCV));
+            passesCond = ((N_EQUALS_V_BITS == (N_EQUALS_V_BITS & NZCV)) ||
+                                               !(N_EQUALS_V_BITS & NZCV));
             break;
+        // Less than
         case 11 :
-            // Less than
-            passesCond = ((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV)));
+            passesCond = ((V_BIT == (N_EQUALS_V_BITS & NZCV)) ||
+                                     (N_BIT == (N_EQUALS_V_BITS & NZCV)));
             break;
+        // Greater than
         case 12 :
-            // Greater than
-            passesCond = (!(0x4 & NZCV) &&
-                          ((9 == (0x9 & NZCV)) || !(0x9 & NZCV)));
+            passesCond = (!(Z_BIT & NZCV) &&
+                          ((N_EQUALS_V_BITS == (N_EQUALS_V_BITS & NZCV)) || 
+                                               !(N_EQUALS_V_BITS & NZCV)));
             break;
+        // Less than or equal
         case 13 :
-            // Less than or equal
-            passesCond = ((0x4 & NZCV) ||
-                          ((1 == (0x9 & NZCV)) || (8 == (0x9 & NZCV))));
+            passesCond = ((Z_BIT & NZCV) ||
+                          ((V_BIT == (N_EQUALS_V_BITS & NZCV)) ||
+                           (N_BIT == (N_EQUALS_V_BITS & NZCV))));
             break;
+        // Always
         case 14 :
-            // Always
             passesCond = 1;
             break;
         default:
@@ -75,13 +71,12 @@ int checkCond(int cond, int NZCV){
 }
 
 int32_t reverseByteOrder(int32_t n) {
-    // Little-endian means retrieving multiple bytes from the memory in one go
-    // will retrieve them in the wrong byte order. This function reverses
-    // byte order.
-    int32_t byte3 = (0x000000FF & n) << 24;
-    int32_t byte2 = (0x0000FF00 & n) << 8;
-    int32_t byte1 = (0x00FF0000 & n) >> 8;
-    int32_t byte0 = (0xFF000000 & n) >> 24;
+    // This function reverses the byte order of the retrieved bytes 
+    // from memory since they are in little endian format.
+    int32_t byte3 = (MASK_BYTE_3 & n) << SHIFT_BYTE_3;
+    int32_t byte2 = (MASK_BYTE_2 & n) << SHIFT_BYTE_2;
+    int32_t byte1 = (MASK_BYTE_1 & n) >> SHIFT_BYTE_1;
+    int32_t byte0 = (MASK_BYTE_0 & n) >> SHIFT_BYTE_0;
     return (byte3 | byte2 | byte1 | byte0);
 }
 
@@ -142,7 +137,7 @@ void printFinalState(arm_t *state) {
 }
 
 int readFile(arm_t *state, char **argv) {
-    // Reading file input
+    // Open file input to read from
     FILE *finput = fopen(argv[1],"rb");
 
     // Check if file cannot be opened
@@ -151,10 +146,10 @@ int readFile(arm_t *state, char **argv) {
         return 0;
     }
 
-    // Loop to read binary file, one byte at a time and copy the
+    // Loop to read binary file, one byte at a time, and copy the
     // bytes into processor's memory until there are no more
     // bytes left to read in the file. byteInput is a temporary
-    // variable to store read byte on each iteration of the loop.
+    // variable to store the byte that's read on each iteration of the loop.
     int8_t byteInput;
     int8_t *pByteInput = &byteInput;
     int memPos = 0;
@@ -166,6 +161,7 @@ int readFile(arm_t *state, char **argv) {
         state->memory[memPos] = byteInput;
         memPos++;
     }
+
     // Finished reading file input
     fclose(finput);
     return 1;

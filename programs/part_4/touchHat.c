@@ -4,17 +4,23 @@
 #include "guiUtils.h"
 
 /** 
- *This function is called when a pin is touched. It takes as an argument the
- * number of the pin which was touched, and returns the path to the sound which
- * needs to be played as a string
+ * This function is called when a pin is touched. It takes as an argument the
+ * number of the pin which was touched
  */
 static PyObject *py_touched(PyObject *self, PyObject *args) {
     int pin; // Pin number touched (0-11)
     PyArg_ParseTuple(args, "i", &pin);
-    char *filepath; // Path to sound file
     // TODO: correct sound mode/set
-    filepath = (char*) *SymbolTable_get(pin, set[0]);
-    printf("I was touched in the %d pin lol\n", pin);
+    char *filepath = (char *) SymbolTable_get(pin, set[0]);
+    return Py_BuildValue("");
+}
+
+// Given pad number, returns address of sound file
+static PyObject *py_getSounds(PyObject *self, PyObject *args) {
+    int pin; // Pin number touched (0-11)
+    PyArg_ParseTuple(args, "i", &pin);
+    // TODO: correct sound mode/set
+    char *filepath = (char *) SymbolTable_get(pin, set[0]);
     return Py_BuildValue("s", filepath);
 }
 
@@ -25,7 +31,6 @@ static PyObject *py_touched(PyObject *self, PyObject *args) {
 static PyObject *py_released(PyObject* self, PyObject* args) {
     int pin; // Pin number released (0-11)
     PyArg_ParseTuple(args, "i", &pin);
-    printf("ahhhhhh... and release my %d pin\n", pin);
     return Py_BuildValue("");
 }
 
@@ -89,7 +94,6 @@ static PyObject *py_initSounds(PyObject *self, PyObject *args) {
     return Py_BuildValue("");
 }
 
-
 /**
   * Array of methods for integration with Python script
   */
@@ -97,6 +101,7 @@ static PyMethodDef touchHat_methods[] = {
     {"touched", py_touched, METH_VARARGS},
     {"released", py_released, METH_VARARGS},
     {"gui", py_gui, METH_VARARGS},
+    {"getSounds", py_getSounds, METH_VARARGS},
     {"initSounds", py_initSounds, METH_VARARGS},
     {NULL, NULL}
 };
