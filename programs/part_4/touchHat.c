@@ -32,8 +32,8 @@ static PyObject *py_released(PyObject* self, PyObject* args) {
  * This function is called as a separate process to set up and run the GUI.
  */
 static PyObject *py_gui(PyObject *self, PyObject *args) {
- 	// Initialise GTK+
-  	gtk_init(0, NULL);
+    // Initialise GTK+
+    gtk_init(0, NULL);
 
     // Set up the window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -63,7 +63,7 @@ static PyObject *py_gui(PyObject *self, PyObject *args) {
     
     // Enter the main loop
     gtk_main();
-	return Py_BuildValue("");
+    return Py_BuildValue("");
 }
 
 /**
