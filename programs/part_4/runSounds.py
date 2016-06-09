@@ -25,7 +25,9 @@ while True:
     for i in range(12):
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
-            sound = pygame.mixer.Sound(touched(i))
+            filename = touched(i)
+            print filename
+            sound = pygame.mixer.Sound(filename)
             sound.set_volume(1)
             sound.play
         if not current_touched & pin_bit and last_touched & pin_bit:
