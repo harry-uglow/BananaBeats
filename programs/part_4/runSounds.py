@@ -1,4 +1,5 @@
 from touchHat import *
+from multiprocessing import Process
 import sys
 import time
 import pygame
@@ -6,7 +7,8 @@ import pygame
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
 initSounds()
-gui()
+p = Process(target=gui)
+p.start()
 
 # Create MPR121 instance
 device = MPR121.MPR121()
