@@ -30,7 +30,7 @@ int firstPass(char **argv) {
         }
 
         // Skip blank lines
-        if(buffer[0] == '\n') {
+        if (buffer[0] == '\n') {
             continue;
         }
 
@@ -41,7 +41,7 @@ int firstPass(char **argv) {
         char *colonPosition = strchr(buffer, ':');
 
         // If there is then there is a label.
-        if(colonPosition) {
+        if (colonPosition) {
             colonPosition[0] = '\0';
             // Declare label string to hold label and act as buffer for token
             char *label = calloc(MAX_OPERAND_LENGTH, sizeof(char));
@@ -60,7 +60,7 @@ int firstPass(char **argv) {
             } while (colonPosition[0] == ' ');
             // If the char is a letter there is also an instruction on this
             // line. If not go to the next iteration for the next line.
-            if(*colonPosition) {
+            if (*colonPosition) {
                 buffer = colonPosition;
             } else {
                 continue;
@@ -75,9 +75,9 @@ int firstPass(char **argv) {
         strcpy(instruction[address].mnemonic, token);
  
         // Loop for up to 4 operands and assign operands to instruction at 'address'
-        for(int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 4; i++) {
             // If there are no more operands left then break from the loop
-            if(!rest || rest[0] == '\0') {
+            if (!rest || rest[0] == '\0') {
                 break;
             }
 
@@ -93,7 +93,7 @@ int firstPass(char **argv) {
             // copy it to the end of temp, add a null terminator for
             // temp string and increment the rest pointer to point to 
             // the next character after ']'
-            if(rest[0] == '[') {
+            if (rest[0] == '[') {
                 int j = 0;
                 while(rest[0] != ']') {
                     temp[j] = rest[0];
@@ -117,7 +117,7 @@ int firstPass(char **argv) {
             // copy it to the correct component of the assembly instruction
             // at 'address'. Otherwise do nothing since there is no operand
             // to add to the assembly instruction.
-            if(ops != NULL) {
+            if (ops != NULL) {
                 switch (i) {
                     case 1 :
                         strcpy(instruction[address].op1, ops);
@@ -141,11 +141,11 @@ int firstPass(char **argv) {
     }
 
     // Free memory allocated onto the heap for local variables
-    if(ops != NULL) {
+    if (ops != NULL) {
         free(ops);
     }
     
-    if(temp != NULL) {
+    if (temp != NULL) {
         free(temp);
     }
 
@@ -159,14 +159,14 @@ int initialiseAssembler(void) {
     instruction = calloc(MEM_SIZE, sizeof(assIns_t));
 
     // Check if memory allocation failed
-    if(instruction == NULL) {
+    if (instruction == NULL) {
         printf("Memory could not be allocated onto the heap.\n");
         return 0;
     }
     
     // Allocate memory for every component of each assIns_t in instruction
     // and initialise them with calloc
-    for(int i = 0; i < MEM_SIZE; i++) {
+    for (int i = 0; i < MEM_SIZE; i++) {
         instruction[i].mnemonic = calloc(MAX_MNEMONIC_LENGTH, sizeof(char));
         instruction[i].op1 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
         instruction[i].op2 = calloc(MAX_OPERAND_LENGTH, sizeof(char));
@@ -190,13 +190,13 @@ int writeToBinaryFile(char **argv) {
     FILE *foutput = fopen(argv[2], "wb");
 
     // Check if file cannot be opened
-    if(foutput == NULL) {
+    if (foutput == NULL) {
         printf("Could not open file %s\n", argv[2]);
         return 0;
     }
     
     // Write all of the encoded binary instructions into the output file
-    for(int i = 0; i < address * WORD_LENGTH; i++) {
+    for (int i = 0; i < address * WORD_LENGTH; i++) {
         fwrite(&memory[i], sizeof(int8_t), 1, foutput);
     }
 
@@ -207,7 +207,7 @@ int writeToBinaryFile(char **argv) {
 
 void secondPass(void) {
     numStoredConstants = 0;
-    for(int i = 0; i < address - numStoredConstants; i++) {
+    for (int i = 0; i < address - numStoredConstants; i++) {
         assIns_t assIns = instruction[i];
         int32_t ins = encode(&assIns);
         memory[WORD_LENGTH * i] = (int8_t)(MASK_BYTE_0 & ins);
@@ -222,24 +222,24 @@ void removeNewline(char *token) {
 }
 
 void freeInstructions(void) {
-    for(int i = 0; i < MEM_SIZE; i++) {
-        if(instruction[i].mnemonic != NULL) {
+    for (int i = 0; i < MEM_SIZE; i++) {
+        if (instruction[i].mnemonic != NULL) {
             free(instruction[i].mnemonic);
         }
         
-        if(instruction[i].op1 != NULL) {
+        if (instruction[i].op1 != NULL) {
             free(instruction[i].op1);
         }    
         
-        if(instruction[i].op2 != NULL) {
+        if (instruction[i].op2 != NULL) {
             free(instruction[i].op2);
         }    
         
-        if(instruction[i].op3 != NULL) {
+        if (instruction[i].op3 != NULL) {
             free(instruction[i].op3);
         }            
         
-        if(instruction[i].op4 != NULL) {
+        if (instruction[i].op4 != NULL) {
             free(instruction[i].op4);
         }
     }
