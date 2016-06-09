@@ -97,7 +97,7 @@ static PyObject *py_getInstrument(PyObject *self, PyObject *args) {
 }
 
 static PyObject *py_getVolume(PyObject *self, PyObject *args) {
-    return Py_BuildValue("i", volume);
+    return Py_BuildValue("i", currentVolume);
 }
 
 /**
@@ -110,6 +110,7 @@ static PyMethodDef touchHat_methods[] = {
     {"getSounds", py_getSounds, METH_VARARGS},
     {"initSounds", py_initSounds, METH_VARARGS},
     {"getInstrument", py_getInstrument, METH_VARARGS},
+    {"getVolume", py_getVolume, METH_VARARGS},
     {NULL, NULL}
 };
 
