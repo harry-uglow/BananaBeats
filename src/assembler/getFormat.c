@@ -19,6 +19,7 @@ instr_t *getFormat(assIns_t *assIns) {
     if (assIns->mnemonic[0] != '\0') {
         out->opMnemonic = mnemonicStringToEnum(assIns->mnemonic);
     }
+    
     // Condition applies to all instruction types
     setCond(out);
 
@@ -37,8 +38,6 @@ instr_t *getFormat(assIns_t *assIns) {
     } else {
         out->type = HALT;
     }
-
-
     return out;
 }
 
@@ -53,11 +52,13 @@ static void setCond(instr_t *ins) {
 static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
     // I will not be set unless otherwise specified.
     ins->setI = 0;
+
     // Not supporting optional case for now means that bit 4 will be 0,
     // the shiftType is irrelevant and the shift amount should be 0.
     ins->isRsShift = 0;
     ins->shiftType = 0;
     ins->shiftAmount = 0;
+    
     // S is 0 unless otherwise specifed.
     ins->setS = 0;
 
@@ -82,7 +83,7 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             // op1 and op2 specify registers Rn and Rm respectively.
             ins->Rn = getIntFromString(assIns->op1);
             ins->Rm = getIntFromString(assIns->op2);
-            if(assIns->op2[0] == IMM_CONST_SYM) {
+            if (assIns->op2[0] == IMM_CONST_SYM) {
                 ins->setI = 1;
             }
             break;
@@ -91,9 +92,11 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             if (assIns->op2[0] == EXPR_SYMBOL) {
                 // MOV currently doesn't work for constants > 0xFF
                 ins->setI = 1;
+                
                 // Note Rm actually represents Imm (from the spec) due to the
                 // overloading of Rm in the default case.
                 ins->Rm = getIntFromString(assIns->op2);
+                
                 if (ins->Rm && ins->Rm > MAX_8_BIT) {
                     // If the value is 0 this is unnecessary.
                     // If immVal ends in zeros, it can be shifted to attempt to
@@ -106,13 +109,12 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
                     }
                     ins->shiftAmount = (MAX_SHIFT - shiftAcc) % MAX_SHIFT;
                 }
+                
                 if (ins->Rm > MAX_8_BIT) {
                     // The program gives an error if the value cannot fit into
                     // the 8-bit immediate value.
                     printf("Invalid numeric constant in mov instruction.");
-                    //exit(1);
                 }
-
             } else if (assIns->op2[0] == REG_SYMBOL) {
                 ins->Rm = getIntFromString(assIns->op2);
             }
@@ -127,7 +129,7 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
         default:
             ins->Rd = getIntFromString(assIns->op1);
             ins->Rn = getIntFromString(assIns->op2);
-            if(assIns->op3[0] == '#') {
+            if (assIns->op3[0] == '#') {
                 ins->setI = 1;
             }
             // Note how where I is set to 1 Rm actually represents the Imm field

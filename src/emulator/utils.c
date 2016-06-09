@@ -89,8 +89,8 @@ void printFinalState(arm_t *state) {
     int cpsr = state->registers[REG_CPSR];
 
     // Print out contents of registers 0-9
-    for(int i = 0; i < 10; i++) {
-        if(state->registers[i] < 0 && state->registers[i] <= PRINT_LIMIT) {
+    for (int i = 0; i < 10; i++) {
+        if (state->registers[i] < 0 && state->registers[i] <= PRINT_LIMIT) {
             printf("$%i  :%12d (0x%08x)\n", i, state->registers[i],
                state->registers[i]);
         } else {
@@ -100,8 +100,8 @@ void printFinalState(arm_t *state) {
     }
 
     // Print out contents of registers 10-12
-    for(int j = 10; j < 13; j++) {
-        if(state->registers[j] < 0 && state->registers[j] <= PRINT_LIMIT) {
+    for (int j = 10; j < 13; j++) {
+        if (state->registers[j] < 0 && state->registers[j] <= PRINT_LIMIT) {
             printf("$%i :%12d (0x%08x)\n", j, state->registers[j],
                state->registers[j]);
         } else {
@@ -111,13 +111,13 @@ void printFinalState(arm_t *state) {
     }
 
     // Print out contents of PC and CPSR
-    if(pc < 0 && pc < PRINT_LIMIT) {
+    if (pc < 0 && pc < PRINT_LIMIT) {
         printf("PC  :%12d (0x%08x)\n", pc, pc);
     } else {
         printf("PC  :%11d (0x%08x)\n", pc, pc);
     }
     
-    if(cpsr < 0 && cpsr < PRINT_LIMIT) {
+    if (cpsr < 0 && cpsr < PRINT_LIMIT) {
         printf("CPSR:%12d (0x%08x)\n", cpsr, cpsr);
     } else {
         printf("CPSR:%11d (0x%08x)\n", cpsr, cpsr);
@@ -129,7 +129,7 @@ void printFinalState(arm_t *state) {
     int32_t *wordSizedMem = (int32_t *)state->memory;
     
     // Traverse through memory array & print out non-zero contents
-    for(int k = 0; k < MEM_SIZE / WORD_LENGTH; k++) {
+    for (int k = 0; k < MEM_SIZE / WORD_LENGTH; k++) {
         if (wordSizedMem[k] != 0) {
             printf("0x%08x: 0x%08x\n", k * WORD_LENGTH,
                    (reverseByteOrder(wordSizedMem[k])));
@@ -142,7 +142,7 @@ int readFile(arm_t *state, char **argv) {
     FILE *finput = fopen(argv[1],"rb");
 
     // Check if file cannot be opened
-    if(finput == NULL) {
+    if (finput == NULL) {
         printf("Could not open %s\n", argv[1]);
         return 0;
     }
@@ -157,7 +157,7 @@ int readFile(arm_t *state, char **argv) {
     while(TRUE) {
         int in = (int) fread(pByteInput, sizeof(int8_t), 1, finput);
         // Check if byte failed to read/no more bytes left to read
-        if(in != 1) {
+        if (in != 1) {
             break;
         }
         state->memory[memPos] = byteInput;

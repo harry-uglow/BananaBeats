@@ -148,7 +148,7 @@ void singleDataTransfer(arm_t *arm) {
     instr_t *ins = arm->instruction;
 
     int32_t offset = 0;
-    if(ins->setI) {
+    if (ins->setI) {
         int32_t rmVal = arm->registers[ins->Rm];
         offset = executeShift(rmVal, ins->shiftType, ins->shiftAmount);
     } else {
@@ -157,7 +157,7 @@ void singleDataTransfer(arm_t *arm) {
     }
 
     int32_t memAddr = arm->registers[ins->Rn];
-    if(ins->setP) {
+    if (ins->setP) {
         // Pre-indexing mode
         if (ins->setU) {
             memAddr += offset;
@@ -168,7 +168,7 @@ void singleDataTransfer(arm_t *arm) {
 
     int isGPIO = isGPIOAddress(memAddr);
     // Only perform valid memory accesses
-    if(!isGPIO && memAddr > MEM_SIZE) {
+    if (!isGPIO && memAddr > MEM_SIZE) {
         printf("Error: Out of bounds memory access at address 0x%08x\n",
                memAddr);
         return;
@@ -177,7 +177,7 @@ void singleDataTransfer(arm_t *arm) {
     // Perform the load or store operation
     if (ins->setL) {
         // Load
-        if((memAddr % WORD_LENGTH) != 0) {
+        if ((memAddr % WORD_LENGTH) != 0) {
             int32_t byte0 
                     = arm->memory[memAddr++] & MASK_END_BYTE;
             int32_t byte1
@@ -188,7 +188,7 @@ void singleDataTransfer(arm_t *arm) {
                     = (arm->memory[memAddr] & MASK_END_BYTE) << (3 * BYTE);
             arm->registers[ins->Rd] = byte3 | byte2 | byte1 | byte0;
         } else {
-            if(!isGPIO) {
+            if (!isGPIO) {
                 int32_t *wordSizedMem = (int32_t *) arm->memory;
                 arm->registers[ins->Rd] = wordSizedMem[memAddr / WORD_LENGTH];
             } else {
@@ -196,7 +196,7 @@ void singleDataTransfer(arm_t *arm) {
             }
         }
     } else {
-        if(!isGPIO) {
+        if (!isGPIO) {
             arm->memory[memAddr++]
                     = (int8_t) (arm->registers[ins->Rd] & MASK_END_BYTE);
             arm->memory[memAddr++] = (int8_t)
@@ -208,9 +208,9 @@ void singleDataTransfer(arm_t *arm) {
         }
     }
 
-    if(!ins->setP) {
+    if (!ins->setP) {
         // Post-indexing mode
-        if(ins->setU) {
+        if (ins->setU) {
             arm->registers[ins->Rn] += offset;
         } else {
             arm->registers[ins->Rn] -= offset;

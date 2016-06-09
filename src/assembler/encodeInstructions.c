@@ -64,7 +64,6 @@ static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
                 = (int8_t) ((MASK_BYTE_2 & newExpression) >> 16);
         memory[(WORD_LENGTH * address) + 3]
                 = (int8_t) ((MASK_BYTE_3 & newExpression) >> 24);
-
         // Calculate offset and override it
         // Address is the next free word in memory
         instr->offset = (WORD_LENGTH * address) - currAddress;
@@ -75,7 +74,7 @@ static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
         numStoredConstants++;
     }
 
-    if(instr->offset < 0) {
+    if (instr->offset < 0) {
         instr->setU = 0;
         instr->offset = -instr->offset;
     }
@@ -115,7 +114,7 @@ int32_t encode(assIns_t *instr) {
     int32_t binaryInstruction = 0;
     instr_t *format = getFormat(instr);
 
-    switch(format->type) {
+    switch (format->type) {
         case DATA_PROCESS:
             binaryInstruction = encodeDataProcessing(format);
             break;

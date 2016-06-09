@@ -19,7 +19,7 @@ static void decode(arm_t *state) {
     int32_t fetched = state->fetched;
 
     // Check whether the instruction is 'halt' i.e. all bits are 0
-    if(!fetched) {
+    if (!fetched) {
         toDecode->type = HALT;
         return;
     }
@@ -46,15 +46,15 @@ static void decode(arm_t *state) {
     // If !(bit 25) and bytes 7 through 4 have pattern 1001
     int multOrData = MASK_MULT_DATA & fetched;
 
-    if(MASK_BRANCH & fetched) {
+    if (MASK_BRANCH & fetched) {
         // If bit 27 is set then we have a Branch Instruction.
         toDecode->type = BRANCH;
         toDecode->offset = MASK_OFF_BRCH & fetched;
-    } else if(MASK_SDT & fetched) {
+    } else if (MASK_SDT & fetched) {
         // If bit 26 is set then it's a Single Data Transfer.
         toDecode->type = DATA_TRANSFER;
         toDecode->offset = MASK_OFF_DATA & fetched;
-    } else if(MULT_ID == multOrData) {
+    } else if (MULT_ID == multOrData) {
         // If !(bit 25) and bytes 7 through 4 have pattern 1001 then
         // it is a Multiply instruction
         toDecode->type = MULTIPLY;
@@ -68,7 +68,7 @@ static void decode(arm_t *state) {
         toDecode->type = DATA_PROCESS;
     }
 
-    if((DATA_PROCESS == toDecode->type && !toDecode->setI) ||
+    if ((DATA_PROCESS == toDecode->type && !toDecode->setI) ||
             (DATA_TRANSFER == toDecode->type && toDecode->setI)) {
         // Operand 2 is a register
         if (toDecode->isRsShift) {
@@ -81,7 +81,7 @@ static void decode(arm_t *state) {
             toDecode->shiftAmount = (MASK_SHFT_CONST & fetched)
                                     >> SHIFT_CONST_LAST;
         }
-    } else if(DATA_PROCESS == toDecode->type) {
+    } else if (DATA_PROCESS == toDecode->type) {
         // Operand 2 is an immediate value
         toDecode->op2 = (MASK_END_BYTE & fetched);
         // Calculate the rotation amount
@@ -93,7 +93,7 @@ static void decode(arm_t *state) {
 // Execute the decoded instruction
 static void execute(arm_t *state) {
     // Only perform valid memory accesses
-    if(state->registers[REG_PC] >= MEM_SIZE + PC_OFFSET) {
+    if (state->registers[REG_PC] >= MEM_SIZE + PC_OFFSET) {
         printf("Error: Attempting to execute an instruction stored outside \
                 machine memory.");
         exit(EXIT_FAILURE);
@@ -104,7 +104,7 @@ static void execute(arm_t *state) {
 
     // If the condition for the instruction passes, execute it
     // according to its type
-    if(checkCond(state->instruction->cond, NZCV)) {
+    if (checkCond(state->instruction->cond, NZCV)) {
         exec_t type = state->instruction->type;
         if (type == DATA_PROCESS) {
             dataProcessing(state);
@@ -122,15 +122,15 @@ static void execute(arm_t *state) {
 // One iteration of the pipeline cycle
 int iteratePipeline(arm_t *state) {
     // Execute if the instruction has been decoded
-    if(state->isDecoded) {
-        if(state->instruction->type == HALT) {
+    if (state->isDecoded) {
+        if (state->instruction->type == HALT) {
             return 0;
         }
         execute(state);
     }
 
     // Decode if the instruction has been fetched
-    if(state->isFetched) {
+    if (state->isFetched) {
         decode(state);
     }
 
