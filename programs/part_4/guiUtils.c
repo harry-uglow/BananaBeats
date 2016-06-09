@@ -27,6 +27,9 @@ void create_radio_buttons(GtkBox *vBox) {
     gtk_box_pack_start(vBox, rb1, TRUE, TRUE, 2);
     gtk_box_pack_start(vBox, rb2, TRUE, TRUE, 2);
     gtk_box_pack_start(vBox, rb3, TRUE, TRUE, 2);
+
+    // Default instrument is the drums.
+    instrument = DRUMS;
 }
 
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
@@ -53,9 +56,5 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             break;
     }
 
-    // Note: Insert demo Python call to play a sound here.
-}
 
-// Note: Create dummy function to be called by Python code.
-// printf("Input %i pressed", (%i referring to the pin that has been pressed));
-// Only do this when first touched.
+}
