@@ -1,4 +1,6 @@
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "guiUtils.h"
 
 void create_radio_buttons(GtkBox *vBox) {
@@ -29,6 +31,34 @@ void create_radio_buttons(GtkBox *vBox) {
     gtk_box_pack_start(vBox, rb3, TRUE, TRUE, 2);
 }
 
+void create_volume_control(GtkBox *vBox) {
+    // Define variables to create volume slider
+    gdouble VOLUME_MIN = 0;
+    gdouble VOLUME_MAX = 100;
+    gdouble VOLUME_STEP = 1;
+
+    // Create volume control with its label
+    vc = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, VOLUME_MIN, 
+                                  VOLUME_MAX, VOLUME_STEP);
+
+    g_object_set(vc, "width-request", 150, NULL);
+
+    // Set tooltip for the volume control
+    gtk_widget_set_tooltip_text(vc, VC_TOOLTIP);
+
+    // Create label
+    volumeLabel = gtk_label_new("Volume");
+
+    // When volume is changed vall adjust_volume
+    g_signal_connect(vc, "value-changed",
+                     G_CALLBACK(adjust_volume), (gpointer) window);
+
+    // Pack the volume control into vBox.
+    gtk_box_pack_start(vBox, vc, TRUE, TRUE, 2);
+    gtk_box_pack_start(vBox, volumeLabel, TRUE, TRUE, 2);
+
+}
+
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 
     // Need this check as function is also called for the deselected button.
@@ -54,6 +84,11 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
     }
 
     // Note: Insert demo Python call to play a sound here.
+}
+
+void adjust_volume(GtkScale *vc, gpointer window) {
+    currentVolume = gtk_range_get_value(GTK_RANGE(vc)) / 100;
+    printf("%f\n", currentVolume);
 }
 
 // Note: Create dummy function to be called by Python code.
