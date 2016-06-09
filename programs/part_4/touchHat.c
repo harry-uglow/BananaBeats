@@ -72,6 +72,7 @@ static PyObject *py_gui(PyObject *self, PyObject *args) {
 static PyMethodDef touchHat_methods[] = {
     {"touched", py_touched, METH_VARARGS},
     {"released", py_released, METH_VARARGS},
+    {"gui", py_gui, METH_VARARGS},
     {NULL, NULL}
 };
 
