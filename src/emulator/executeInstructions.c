@@ -232,23 +232,23 @@ void singleDataTransfer(arm_t *arm) {
 }
  
 void branch(arm_t *arm) {
-	// (2's complement) 24 bit offset in branch instruction
+    // (2's complement) 24 bit offset in branch instruction
     // shifted left 2 bits & sign extended to 32 bits
     int32_t branchOffset = (arm->instruction->offset) << 2;
     int32_t topBit = (MASK_I_BIT & branchOffset);
     int32_t signExtendBits = topBit ? MASK_SIGN_EX : 0;
     branchOffset |= signExtendBits;
 
-	// Offset is added to the PC register
+    // Offset is added to the PC register
     (arm->registers[REG_PC]) += branchOffset;
 
     // PC has changed and previously fetched instruction
     // is no longer valid so the pipeline is cleared.
     (arm->fetched) = 0;
 
-	// Clear fetched and decoded parts of pipeline
-	(arm->isFetched) = 0;
-	(arm->isDecoded) = 0;    
+    // Clear fetched and decoded parts of pipeline
+    (arm->isFetched) = 0;
+    (arm->isDecoded) = 0;    
 }
 
 static int isGPIOAddress(int32_t address) {

@@ -60,11 +60,11 @@
 
 // Structure of assembly instruction
 typedef struct assInstr {
-	char *mnemonic;
-	char *op1;
-	char *op2;
-	char *op3;
-	char *op4;
+    char *mnemonic;
+    char *op1;
+    char *op2;
+    char *op3;
+    char *op4;
 } assIns_t;
 
 // Structure of type of instructions
@@ -78,29 +78,29 @@ typedef enum executeType {
 
 // Mnemonic enum mapping instructions codes to numbers
 typedef enum mnemonic {
-	AND,
-	EOR,
-	SUB,
-	RSB,
-	ADD,
-	TST = 8,
-	TEQ = 9,
-	CMP = 10,
-	ORR = 12,
-	MOV = 13,
-	LSL,
-	MUL,
-	MLA,
-	LDR,
-	STR,
-	B,
-	BEQ,
-	BNE,
-	BGE = 30,
-	BLT = 31,
-	BGT = 32,
-	BLE = 33,
-	ANDEQ
+    AND,
+    EOR,
+    SUB,
+    RSB,
+    ADD,
+    TST = 8,
+    TEQ = 9,
+    CMP = 10,
+    ORR = 12,
+    MOV = 13,
+    LSL,
+    MUL,
+    MLA,
+    LDR,
+    STR,
+    B,
+    BEQ,
+    BNE,
+    BGE = 30,
+    BLT = 31,
+    BGT = 32,
+    BLE = 33,
+    ANDEQ
 } mnemonic_t;
 
 // Constants arising from mnemonic_t
@@ -123,19 +123,19 @@ typedef struct Instruction {
     int setL;
     int isRsShift;
     int shiftType;
-	int shiftAmount;
-	int Rn;
-	int Rd;
-	int Rs;
-	int Rm;
-	int opCode;
-	int calculateOffset;
-	int32_t offset;
+    int shiftAmount;
+    int Rn;
+    int Rd;
+    int Rs;
+    int Rm;
+    int opCode;
+    int calculateOffset;
+    int32_t offset;
     int32_t op2;
     exec_t type;
-	mnemonic_t opMnemonic;
-	int32_t SDTExpression;
-	int16_t targetAddress;
+    mnemonic_t opMnemonic;
+    int32_t SDTExpression;
+    int16_t targetAddress;
 } instr_t;
 
 #endif //ARM11_19_ASSEMBELER_DEFS_H
