@@ -1,5 +1,9 @@
 #include "guiUtils.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_DIGITS_NUMBER_OF_MODES 15
 
 int main(void) {
     // Initialise GTK+
@@ -37,7 +41,7 @@ int main(void) {
     g_signal_connect(window, "destroy",
                      G_CALLBACK(gtk_main_quit), NULL);
 
-    // Add the boxs to the window.
+    // Add the boxs to the windowg.
     gtk_container_add(GTK_CONTAINER(widgetContainer), vBoxRadioButtons);
     gtk_container_add(GTK_CONTAINER(widgetContainer), vBoxVolumeControl);
     gtk_container_add(GTK_CONTAINER(window), widgetContainer);
@@ -47,30 +51,22 @@ int main(void) {
     
     // Enter the main loop
     gtk_main();
-
-    enum Instrument previous_instrument = DRUMS; // Default instrument
+    
+    int previous_instrument = (int) instrument;
     int current_instrument = (int) instrument;
 
     while (1) {
+        current_instrument = (int) instrument;
+        // If there is a change
         if (current_instrument != previous_instrument) {
            // TODO: Stop current python process
-
-           // Run new process with new sound mode
-           switch (current_instrument) {
-               // DRUMS
-               case 0; 
-                   system("auxPython.py 0");
-                   break;
-               case 1: 
-                   system("auxPython.py 1");
-                   break;
-               case 2: 
-                   system("auxPython.py 2");
-                   break;
-               default:
-                   printf("Invalid sound mode.");
-                   break; 
+            
+            char *scriptAddress = "auxPython.py ";
+            char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
+            sprintf(systemCall, "%s%d", scriptAddress, current_instrument);
+            system(systemCall);
            }
+            previous_instrument = current_instrument;
         }
     }
 
