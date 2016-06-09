@@ -5,6 +5,8 @@ import pygame
 
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
+gui()
+
 # Create MPR121 instance
 device = MPR121.MPR121()
 

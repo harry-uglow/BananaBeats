@@ -23,18 +23,28 @@ On the first pass (\texttt{int firstPass(char **argv)} in \texttt{utils.c}), the
 
 The second pass (\texttt{void secondPass(void)} in \texttt{utils.c}) iterates through the array of assembly instructions. For each element in the array, the assembly instruction is encoded into a binary instruction and this binary instruction is placed into another array (\texttt{memory}) representing each byte of the output. To do this, it makes use of the supplementary function \texttt{int32\_t encode(assIns\_t *instr)} found in \texttt{encodeInstructions.c}. This function is given a formatted assembly instruction (with the use of \texttt{instr\_t *getFormat(assIns\_t *assIns)}) and encodes the instruction depending on the type of instruction that it is.\\
 
-After the second pass, the encoded instructions are written into the binary file, specified by the caller of the program, with the utility function \texttt{int writeToBinaryFile(char **argv)}. Finally, the arrays for the assembly and encoded binary instructions, the Symbol Table  and other data stored on the heap are removed with the utility function \texttt{void freeInstructions(void)} and \texttt{void SymbolTable\_delete(symbolTable\_t *symbolTable}.
+After the second pass, the encoded instructions are written into the binary file, specified by the caller of the program, with the utility function \texttt{int writeToBinaryFile(char **argv)}. Finally, the arrays for the assembly and encoded binary instructions, the Symbol Table  and other data stored on the heap are removed with the utility function \texttt{void freeInstructions(void)} and \texttt{void SymbolTable\_delete(symbolTable\_t *symbolTable}).
 
 \subsection{Extension plans}
 
 We came together as a group because we all have an interest in sound and music and wanted to create an extension based around this. The ideas we had included:
 \begin{itemize}
-\item Lights
+\item LED lights synchronised with music
+\item Chromatic tuner with LED lights and LCD display
+\item Visual equaliser 
+\item Touch-pad sound controller 
 \end{itemize}
+After much discussion, we decided to work on creating a touch-pad sound controller using fruit as the touch-pads. This would allow the users of sound controller to create music in a more quirky way whilst helping us to develop our programming skills in a field that we have little experience in. 
 
 \section{Raspberry Pi Drum Pads???}
 
+\subsection{Design}
+
+\subsection{Challenges}
+
 \section{Testing}
+
+\subsection{Testing evaluation}
 
 \section{Reflection}
 Group reflection
