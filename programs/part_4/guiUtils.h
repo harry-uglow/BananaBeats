@@ -17,7 +17,6 @@
 // Declare widgets as global variables
 GtkWidget *window;
 GtkWidget *vBoxRadioButtons;
-GtkWidget *halign;
 GtkWidget *rb1;
 GtkWidget *rb2;
 GtkWidget *rb3;
