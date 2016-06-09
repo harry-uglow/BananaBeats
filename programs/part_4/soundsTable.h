@@ -3,7 +3,7 @@
 
 #define NUM_OF_INSTRUMENTS 3
 
-#include "utils.h"
+#include "symbolTable.h"
 
 // Array of symbol tables as global variable
 symbolTable_t *set[NUM_OF_INSTRUMENTS];
