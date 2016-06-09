@@ -47,5 +47,32 @@ int main(void) {
     
     // Enter the main loop
     gtk_main();
+
+    enum Instrument previous_instrument = DRUMS; // Default instrument
+    int current_instrument = (int) instrument;
+
+    while (1) {
+        if (current_instrument != previous_instrument) {
+           // TODO: Stop current python process
+
+           // Run new process with new sound mode
+           switch (current_instrument) {
+               // DRUMS
+               case 0; 
+                   system("auxPython.py 0");
+                   break;
+               case 1: 
+                   system("auxPython.py 1");
+                   break;
+               case 2: 
+                   system("auxPython.py 2");
+                   break;
+               default:
+                   printf("Invalid sound mode.");
+                   break; 
+           }
+        }
+    }
+
     return EXIT_SUCCESS;
 }
