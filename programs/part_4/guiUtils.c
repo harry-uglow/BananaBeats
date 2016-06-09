@@ -32,6 +32,7 @@ void create_radio_buttons(GtkBox *vBox) {
 
     // Default instrument is the drums.
     instrument = DRUMS;
+    printf("%i\n", instrument);
 }
 
 void create_volume_control(GtkBox *vBox) {
