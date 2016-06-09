@@ -44,7 +44,7 @@ static PyObject *py_gui(PyObject *self, PyObject *args) {
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
     gtk_container_set_border_width(GTK_CONTAINER(window), 15);
     gtk_window_set_default_size(GTK_WINDOW(window), 300, 250);
-    gtk_window_set_title(GTK_WINDOW(window), "Sound mode: Drums");
+    gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
 
     // Create new box to hold the widgets
     widgetContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 30);
@@ -93,6 +93,9 @@ static PyObject *py_initSounds(PyObject *self, PyObject *args) {
 }
 
 static PyObject *py_getInstrument(PyObject *self, PyObject *args) {
+    if(instrument == DRUMS) {
+	printf("Drums\n");
+    }
     return Py_BuildValue("i", instrument);
 }
 
