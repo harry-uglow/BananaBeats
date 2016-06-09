@@ -23,11 +23,12 @@ sounds = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 def updateSoundArray(instrument, volume):
     if not updateSoundArray.lastIns == instrument:
+        updateSoundArray.lastIns = instrument
         for pin in range(12):
             soundfile = getSounds(pin)
             sounds[pin] = pygame.mixer.Sound(soundfile)
             sounds[pin].set_volume(volume)
-    updateSoundArray.lastIns = instrument
+
 updateSoundArray.lastIns = -1
 
 
