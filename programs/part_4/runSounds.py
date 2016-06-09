@@ -5,6 +5,7 @@ import pygame
 
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
+initSounds()
 gui()
 
 # Create MPR121 instance
