@@ -70,13 +70,14 @@ int checkCond(int cond, int NZCV){
     return passesCond;
 }
 
-int32_t reverseByteOrder(int32_t n) {
+int32_t reverseByteOrder(int32_t memWord) {
     // This function reverses the byte order of the retrieved bytes 
-    // from memory since they are in little endian format.
-    int32_t byte3 = (MASK_BYTE_3 & n) << SHIFT_BYTE_3;
-    int32_t byte2 = (MASK_BYTE_2 & n) << SHIFT_BYTE_2;
-    int32_t byte1 = (MASK_BYTE_1 & n) >> SHIFT_BYTE_1;
-    int32_t byte0 = (MASK_BYTE_0 & n) >> SHIFT_BYTE_0;
+    // from memory since they are in little endian format which is 
+    // wrong for the purposes of our project.
+    int32_t byte3 = (MASK_BYTE_3 & memWord) << SHIFT_BYTE_3;
+    int32_t byte2 = (MASK_BYTE_2 & memWord) << SHIFT_BYTE_2;
+    int32_t byte1 = (MASK_BYTE_1 & memWord) >> SHIFT_BYTE_1;
+    int32_t byte0 = (MASK_BYTE_0 & memWord) >> SHIFT_BYTE_0;
     return (byte3 | byte2 | byte1 | byte0);
 }
 
@@ -155,6 +156,7 @@ int readFile(arm_t *state, char **argv) {
     int memPos = 0;
     while(TRUE) {
         int in = (int) fread(pByteInput, sizeof(int8_t), 1, finput);
+        // Check if byte failed to read/no more bytes left to read
         if(in != 1) {
             break;
         }

@@ -17,12 +17,11 @@ symbolTable_t *SymbolTable_new(void) {
     // Exit the program if assigning to the heap has failed
     if (newSymbolTable == NULL) {
         printf("Error assigning new symbol table to the heap\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Make sure that the head node of the symbol table is null
     newSymbolTable->pFirstNode = NULL;
-
     return newSymbolTable;
 }
 
@@ -41,10 +40,7 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
     while (pCurrent) {
         pNext = pCurrent->pNextNode; // Update next node
         pCurrent = pNext;
-    }
-
-    // TODO: uncomment this when bug is fixed
-    // free(symbolTable); // Free the table
+    }  
 }
 
 // Add matching label and value to symbol table
@@ -62,7 +58,7 @@ void SymbolTable_put(char *newLabel, void *newValue,
     // Exit the program if assigning to the heap has failed
     if (newNode == NULL) {
         printf("Error assigning new node to the heap\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     // Assign the key and value of the new node

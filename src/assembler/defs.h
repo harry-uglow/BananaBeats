@@ -139,7 +139,3 @@ typedef struct Instruction {
 } instr_t;
 
 #endif //ARM11_19_ASSEMBELER_DEFS_H
-
-
-
-

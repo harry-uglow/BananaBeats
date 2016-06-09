@@ -9,6 +9,6 @@ int checkCond(int cond, int NZCV);
 int initialiseProcessor(arm_t *state);
 int readFile(arm_t *state, char **argv);
 void printFinalState(arm_t *state);
-int32_t reverseByteOrder(int32_t n);
+int32_t reverseByteOrder(int32_t memWord);
 
 #endif //ARM11_19_UTILS_H

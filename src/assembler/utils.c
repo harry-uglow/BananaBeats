@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <memory.h>
 
-
 int firstPass(char **argv) {
     // Open file input to read from
     FILE *finput = fopen(argv[1],"r");
@@ -29,15 +28,18 @@ int firstPass(char **argv) {
         while(buffer[0] == ' ') {
             buffer++;
         }
+
         // Skip blank lines
         if(buffer[0] == '\n') {
             continue;
         }
+
         // Remove '\n' character at the end of the string
         removeNewline(buffer);
 
         // Find if there is a colon in the line
         char *colonPosition = strchr(buffer, ':');
+
         // If there is then there is a label.
         if(colonPosition) {
             colonPosition[0] = '\0';
@@ -100,7 +102,6 @@ int firstPass(char **argv) {
                 }
                 temp[j] = rest[0];
                 temp[j + 1] = '\0';
-
                 // Copy the temp operand into the ops string
                 strcpy(ops, temp);
                 // Increment rest pointer to point to next character
@@ -111,6 +112,7 @@ int firstPass(char **argv) {
                 // Reassing the rest of the assembly instruction to rest
                 rest = strtok(NULL, "");
             }
+
             // If ops string is not null & contains an operand then 
             // copy it to the correct component of the assembly instruction
             // at 'address'. Otherwise do nothing since there is no operand
@@ -137,6 +139,7 @@ int firstPass(char **argv) {
         // Increment the address counter to hold the next assembly instruction to be tokenised
         address++;
     }
+
     // Free memory allocated onto the heap for local variables
     if(ops != NULL) {
         free(ops);
