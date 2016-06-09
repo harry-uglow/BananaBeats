@@ -1,11 +1,10 @@
-#include "guiUtils.h"
-#include <stdio.h>
+#include "gui.h
 
-int main(int argc, char** argv) {
+void gui_init() {
 	
 
 	// Initialise GTK+
-  	gtk_init(&argc, &argv);
+  	gtk_init(0, NULL);
 
 	// Set up the window
   	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -35,6 +34,4 @@ int main(int argc, char** argv) {
 	
 	// Enter the main loop
   	gtk_main();
-
-  	return 0;
 }
