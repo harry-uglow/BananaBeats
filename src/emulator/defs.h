@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-// CONSTANTS
+// Constants
 #define MEM_SIZE 65536
 #define WORD_LENGTH 4
 #define BIT_WORD_LENGTH 32
@@ -14,6 +14,7 @@
 #define NUMBER_OF_REGISTERS 17
 #define BYTE 8
 #define PRINT_LIMIT -1000000000
+#define TRUE 1
  
 // Useful bit numbers
 #define C_BIT            29
@@ -26,7 +27,11 @@
 #define SHIFT_T_LAST      5
 #define ROT_AMT_LAST      8
 #define SHIFT_CONST_LAST  7
-
+#define SHIFT_BYTE_3     24
+#define SHIFT_BYTE_2      8
+#define SHIFT_BYTE_1      8
+#define SHIFT_BYTE_0     24
+         
 // Mask macros for decode()
 #define MASK_I_BIT         0x02000000
 #define MASK_P_BIT         0x01000000
@@ -53,11 +58,23 @@
 #define MASK_RM            0x0000000F
 #define MULT_ID            0x00000090
 
-// Used in executeInstructions.c
-#define MASK_CARRY_BIT  0x100000000
-#define MASK_Z_BIT      0x40000000
-#define MASK_N_BIT      0x80000000
-#define MASK_ALL_BUT_Z  0xBFFFFFFF
+// Mask macros for executeInstructions.c
+#define MASK_CARRY_BIT     0x100000000
+#define MASK_Z_BIT         0x40000000
+#define MASK_N_BIT         0x80000000
+#define MASK_ALL_BUT_Z     0xBFFFFFFF
+
+// Mask macros for utils.c
+#define MASK_BYTE_3        0x000000FF
+#define MASK_BYTE_2        0x0000FF00
+#define MASK_BYTE_1        0x00FF0000
+#define MASK_BYTE_0        0xFF000000
+
+// NZCV bits for utils.c
+#define Z_BIT              0x4
+#define N_EQUALS_V_BITS    0x9
+#define V_BIT              0x1
+#define N_BIT              0x8
 
 // INSTRUCTION TYPES
 typedef enum executeType {
@@ -67,7 +84,6 @@ typedef enum executeType {
     BRANCH,
     HALT
 } exec_t;
-
 
 // INSTRUCTION FORMAT BITS
 typedef struct Instruction {
@@ -90,7 +106,6 @@ typedef struct Instruction {
     int32_t op2;
     exec_t type;
 } instr_t;
-
 
 // STATE OF PROCESSOR
 typedef struct ARM {

@@ -4,7 +4,7 @@
 
 
 int firstPass(char **argv) {
-    // Open file to read from
+    // Open file input to read from
     FILE *finput = fopen(argv[1],"r");
     
     // Check if assembly file cannot be opened
