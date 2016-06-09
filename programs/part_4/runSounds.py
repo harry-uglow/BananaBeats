@@ -1,5 +1,5 @@
 from touchHat import *
-from multiprocessing import Process
+import thread
 import sys
 import time
 import pygame
@@ -7,8 +7,7 @@ import pygame
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
 initSounds()
-p = Process(target=gui)
-p.start()
+thread.start_new_thread(gui, "")
 
 # Create MPR121 instance
 device = MPR121.MPR121()
@@ -23,10 +22,6 @@ sounds = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 def updateSoundArray(instrument, volume):
     if not updateSoundArray.lastIns == instrument:
-
-        print instrument
-        print volume
-
         updateSoundArray.lastIns = instrument
         for pin in range(12):
             soundfile = getSounds(pin)
