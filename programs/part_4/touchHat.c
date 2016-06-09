@@ -2,11 +2,6 @@
 #include <stdio.h>
 #include <utils.h>
 
-int main() {
-
-    return 0;
-}
-
 /** 
  *This function is called when a pin is touched. It takes as an argument the
  * number of the pin which was touched, and returns the path to the sound which
@@ -36,11 +31,11 @@ static PyObject* py_released(PyObject* self, PyObject* args) {
   * Array of methods for integration with Python script
   */
 static PyMethodDef touchHat_methods[] = {
-  {"touched", py_touched, METH_VARARGS},
-  {"released", py_released, METH_VARARGS},
-  {NULL, NULL}
+    {"touched", py_touched, METH_VARARGS},
+    {"released", py_released, METH_VARARGS},
+    {NULL, NULL}
 };
 
 void inittouchHat() {
-  (void) Py_InitModule("touchHat", touchHat_methods);
+    (void) Py_InitModule("touchHat", touchHat_methods);
 }
