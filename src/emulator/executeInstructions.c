@@ -3,7 +3,7 @@
 static int isGPIOAddress(int32_t address);
 
 void dataProcessing(arm_t *arm) {
-    // get value of Rm / execute shift (shiftType, shiftAmount)
+    // Get value of Rm / execute shift (shiftType, shiftAmount)
     instr_t *ins = arm->instruction;
     int32_t operand1 = arm->registers[ins->Rn];
     int setI = ins->setI;
@@ -24,52 +24,45 @@ void dataProcessing(arm_t *arm) {
         int type = ins->shiftType;
         int amount = ins->shiftAmount;
         int32_t bitToCarry = 0;
-        // switch on shift type here
+        // Switch on shift type here
         switch(type) {
             case 0:
                 bitToCarry = 2 ^ (BIT_WORD_LENGTH - (amount - 1));
                 carry = (rmVal & bitToCarry) >> (amount - 1);
                 break;
-
             case 1:
                 bitToCarry = 2 ^ (amount - 1);
                 carry = (rmVal & bitToCarry) >> (amount - 1);
                 break;
-
             case 2: 
                 bitToCarry = 2 ^ (amount - 1);
                 carry = (rmVal & bitToCarry) >> (amount - 1);
                 break;
-
             // Case for rotate is unnecessary as rotation has no carry
             default:
                 break;
         }
         operand2 = executeShift(rmVal, type, amount);
     }
+    
     int64_t op1_64 = operand1;
     int64_t op2_64 = operand2;
-
-    switch (opCode) {
+    switch(opCode) {
         case 0: // AND
             arm->registers[destReg] = (operand1 & operand2);
             temp = destReg;
             break;
-
         case 1: // EOR
             arm->registers[destReg] = (operand1 ^ operand2);
             temp = destReg;
             break;
-
         case 2: // Subtract
             arm->registers[destReg] = (operand1 - operand2);
             temp = destReg;
             carry = (int) ((MASK_CARRY_BIT & (op1_64 - op2_64))
                     >> BIT_WORD_LENGTH);
             carry = !carry;
-
             break;
-
         case 3: // Subtract (op2 - rn)
             arm->registers[destReg] = (operand2 - operand1);
             temp = destReg;
@@ -77,34 +70,28 @@ void dataProcessing(arm_t *arm) {
                     >> BIT_WORD_LENGTH);
             carry = !carry;
             break;
-
         case 4: // Addition
             arm->registers[destReg] = (operand1 + operand2);
             temp = destReg;
             carry = (int) ((MASK_CARRY_BIT & (op1_64 + op2_64))
                     >> BIT_WORD_LENGTH);
             break;
-
         case 8: // AND but result not written (tst)
             temp = (operand1 & operand2);
             break;
-
         case 9: // EOR but result not written (teq)
             temp = (operand1 ^ operand2);
             break;
-
         case 10: // Cmp
             temp = (operand1 - operand2);
             carry = (int) ((MASK_CARRY_BIT & (op1_64 - op2_64))
                     >> BIT_WORD_LENGTH);
             carry = !carry;
             break;
-            
         case 12: // OR (orr)
             arm->registers[destReg] = (operand1 | operand2);
             temp = destReg;
             break;
-
         case 13: // Move
             arm->registers[destReg] = operand2;
             temp = destReg;
@@ -115,10 +102,8 @@ void dataProcessing(arm_t *arm) {
             break;
     }
 
-
     // Update the CPSR register
     if (arm->instruction->setS) {
-
         // N bit set to bit 31 of the result
         int32_t nBit = temp & MASK_N_BIT;
         arm->registers[REG_CPSR] |= nBit;
@@ -170,6 +155,7 @@ void singleDataTransfer(arm_t *arm) {
         // Offset is an unsigned 12-bit immediate offset.
         offset = ins->offset;
     }
+
     int32_t memAddr = arm->registers[ins->Rn];
     if(ins->setP) {
         // Pre-indexing mode
@@ -192,7 +178,8 @@ void singleDataTransfer(arm_t *arm) {
     if (ins->setL) {
         // Load
         if((memAddr % WORD_LENGTH) != 0) {
-            int32_t byte0 = arm->memory[memAddr++] & MASK_END_BYTE;
+            int32_t byte0 
+                    = arm->memory[memAddr++] & MASK_END_BYTE;
             int32_t byte1
                     = (arm->memory[memAddr++] & MASK_END_BYTE) << BYTE;
             int32_t byte2
@@ -253,19 +240,19 @@ void branch(arm_t *arm) {
 
 static int isGPIOAddress(int32_t address) {
     switch(address) {
-        case 0x20200000:
+        case GPIO_0_TO_9:
             printf("One GPIO pin from 0 to 9 has been accessed\n");
             return 1;
-        case 0x20200004:
+        case GPIO_10_TO_19:
             printf("One GPIO pin from 10 to 19 has been accessed\n");
             return 1;
-        case 0x20200008:
+        case GPIO_20_TO_29:
             printf("One GPIO pin from 20 to 29 has been accessed\n");
             return 1;
-        case 0x2020001C:
+        case PIN_ON:
             printf("PIN ON\n");
             return 1;
-        case 0x20200028:
+        case PIN_OFF:
             printf("PIN OFF\n");
             return 1;
         default:

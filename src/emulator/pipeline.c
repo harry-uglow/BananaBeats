@@ -2,9 +2,10 @@
 
 // Fetch the instruction from the virtual memory
 static void fetch(arm_t *state) {
+    // Retrieve PC value 
     int32_t pc = state->registers[REG_PC];
     // Pointer to the 32-bit instruction
-    int32_t *wordSizedMem = (int32_t *)state->memory;
+    int32_t *wordSizedMem = (int32_t *) state->memory;
     // Load instruction into the current state
     state->fetched = wordSizedMem[pc / WORD_LENGTH];
     // Increment program counter register
@@ -16,13 +17,13 @@ static void fetch(arm_t *state) {
 static void decode(arm_t *state) {
     instr_t *toDecode = state->instruction;
     int32_t fetched = state->fetched;
-    state->isDecoded = 1;
 
     // Check whether the instruction is 'halt' i.e. all bits are 0
     if(!fetched) {
         toDecode->type = HALT;
         return;
     }
+
     // Sections of the instruction to be used as variables are selected and
     // set here. Where actual values will matter, the result is shifted
     // to the end. In the case of "set" variables, these will
@@ -86,8 +87,7 @@ static void decode(arm_t *state) {
         // Calculate the rotation amount
         toDecode->shiftAmount = 2 * ((MASK_ROTATE & fetched) >> ROT_AMT_LAST);
     }
-
-
+    state->isDecoded = 1;
 }
 
 // Execute the decoded instruction
@@ -96,11 +96,14 @@ static void execute(arm_t *state) {
     if(state->registers[REG_PC] >= MEM_SIZE + PC_OFFSET) {
         printf("Error: Attempting to execute an instruction stored outside \
                 machine memory.");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
+    // Retrieve NZCV bits from the CPSR register
     int NZCV = (MASK_NZCV & state->registers[REG_CPSR]) >> CPSR_LAST;
 
+    // If the condition for the instruction passes, execute it
+    // according to its type
     if(checkCond(state->instruction->cond, NZCV)) {
         exec_t type = state->instruction->type;
         if (type == DATA_PROCESS) {

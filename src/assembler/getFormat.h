@@ -4,7 +4,7 @@
 #include "defs.h"
 #include "symbolTable.h"
 
-    symbolTable_t table;
-    instr_t *getFormat(assIns_t *assIns);
+symbolTable_t table;
+instr_t *getFormat(assIns_t *assIns);
 
 #endif //ARM11_19_GETFORMAT_H

@@ -5,13 +5,8 @@ static int32_t encodeMultiply(instr_t *instr);
 static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress);
 static int32_t encodeBranch(instr_t *instr, int16_t currAddress);
 
-// Declare pointer to array of instructions
-// and address counter and symbol table
-
-
 static int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
-
     // Calculate shift
     if (instr->setI) {
         operand2 = instr->Rm & 0x000000FF;
@@ -39,10 +34,8 @@ static int32_t encodeDataProcessing(instr_t *instr) {
     binaryInstr |= instr->Rn << RN_BITS;
     binaryInstr |= instr->Rd << RD_BITS;
     binaryInstr |= operand2;
-
     return binaryInstr;
 }
-
 
 static int32_t encodeMultiply(instr_t *instr) {
     // Build the instruction via bit operations
@@ -55,20 +48,16 @@ static int32_t encodeMultiply(instr_t *instr) {
     binaryInstr |= instr->Rs << RS_BITS;
     binaryInstr |= MULT_PREDEFINED_BITS;
     binaryInstr |= instr->Rm;
-
     return binaryInstr;
 }
 
-
 static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
-
     // If SDT expr, then calculate offset, store it in memory
-
     if (instr->calculateOffset) {
-
         // Put this in memory at the end at the position:
         int32_t newExpression = instr->SDTExpression;
-        memory[WORD_LENGTH * address] = (int8_t) (MASK_BYTE_0 & newExpression);
+        memory[WORD_LENGTH * address] 
+                = (int8_t) (MASK_BYTE_0 & newExpression);
         memory[(WORD_LENGTH * address) + 1]
                 = (int8_t) ((MASK_BYTE_1 & newExpression) >> 8);
         memory[(WORD_LENGTH * address) + 2]
@@ -90,6 +79,7 @@ static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
         instr->setU = 0;
         instr->offset = -instr->offset;
     }
+
     // Build the instruction via bit operations
     int32_t binaryInstr = 0;
     binaryInstr |= instr->cond << COND_BITS;
@@ -101,10 +91,8 @@ static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
     binaryInstr |= instr->Rn << RN_BITS;
     binaryInstr |= instr->Rd << RD_BITS;
     binaryInstr |= instr->offset;
-
     return binaryInstr;
 }
-
 
 static int32_t encodeBranch(instr_t *instr, int16_t currAddress) {
     int16_t addressDiff
@@ -119,7 +107,6 @@ static int32_t encodeBranch(instr_t *instr, int16_t currAddress) {
     binaryInstr |= instr->cond << COND_BITS;
     binaryInstr |= BRANCH_PREDEFINED_BITS;
     binaryInstr |= offset;
-
     return binaryInstr;
 }
 
@@ -128,28 +115,23 @@ int32_t encode(assIns_t *instr) {
     int32_t binaryInstruction = 0;
     instr_t *format = getFormat(instr);
 
-    switch (format->type) {
+    switch(format->type) {
         case DATA_PROCESS:
             binaryInstruction = encodeDataProcessing(format);
             break;
-
         case MULTIPLY:
             binaryInstruction = encodeMultiply(format);
             break;
-
         case DATA_TRANSFER:
             binaryInstruction = encodeSingleDataTransfer(format, currAddress);
             break;
-
         case BRANCH:
             binaryInstruction = encodeBranch(format, currAddress);
             break;
-
         case HALT:
             binaryInstruction = HALT_PREDEFINED_INSTRUCTION;
             break;
     }
-
     currAddress += WORD_LENGTH;
     return binaryInstruction;
 }

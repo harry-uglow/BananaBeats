@@ -3,6 +3,7 @@
 
 #include "getFormat.h"
 
+// Global variables
 int address;
 int numStoredConstants;
 int8_t *memory;

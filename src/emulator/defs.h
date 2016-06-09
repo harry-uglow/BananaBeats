@@ -76,6 +76,13 @@
 #define V_BIT              0x1
 #define N_BIT              0x8
 
+// Macros for isGPIOAddress
+#define GPIO_0_TO_9        0x20200000
+#define GPIO_10_TO_19      0x20200004
+#define GPIO_20_TO_29      0x20200008
+#define PIN_ON             0x2020001C
+#define PIN_OFF            0x20200028
+
 // INSTRUCTION TYPES
 typedef enum executeType {
     DATA_PROCESS,
