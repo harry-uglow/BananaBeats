@@ -10,8 +10,6 @@
 static PyObject *py_touched(PyObject *self, PyObject *args) {
     int pin; // Pin number touched (0-11)
     PyArg_ParseTuple(args, "i", &pin);
-    // TODO: correct sound mode/set
-    char *filepath = (char *) SymbolTable_get(pin, set[0]);
     return Py_BuildValue("");
 }
 
@@ -20,7 +18,7 @@ static PyObject *py_getSounds(PyObject *self, PyObject *args) {
     int pin; // Pin number touched (0-11)
     PyArg_ParseTuple(args, "i", &pin);
     // TODO: correct sound mode/set
-    char *filepath = (char *) SymbolTable_get(pin, set[0]);
+    char *filepath = (char *) SymbolTable_get(pin, set[instrument]);
     return Py_BuildValue("s", filepath);
 }
 
@@ -94,6 +92,14 @@ static PyObject *py_initSounds(PyObject *self, PyObject *args) {
     return Py_BuildValue("");
 }
 
+static PyObject *py_getInstrument(PyObject *self, PyObject *args) {
+    return Py_BuildValue("i", instrument);
+}
+
+static PyObject *py_getVolume(PyObject *self, PyObject *args) {
+    return Py_BuildValue("i", currentVolume);
+}
+
 /**
   * Array of methods for integration with Python script
   */
@@ -103,6 +109,8 @@ static PyMethodDef touchHat_methods[] = {
     {"gui", py_gui, METH_VARARGS},
     {"getSounds", py_getSounds, METH_VARARGS},
     {"initSounds", py_initSounds, METH_VARARGS},
+    {"getInstrument", py_getInstrument, METH_VARARGS},
+    {"getVolume", py_getVolume, METH_VARARGS},
     {NULL, NULL}
 };
 

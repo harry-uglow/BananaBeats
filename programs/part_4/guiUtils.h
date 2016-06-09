@@ -15,6 +15,12 @@
 #define WIN_TITLE_RB2 "Instrument: Piano"
 #define WIN_TITLE_RB3 "Instrument: Airhorns"
 
+enum Instrument {
+    DRUMS,
+    PIANO,
+    MARIO
+} instrument;
+
 // Declare widgets as global variables
 GtkWidget *window;
 GtkWidget *widgetContainer;

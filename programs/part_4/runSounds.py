@@ -21,14 +21,25 @@ pygame.init()
 
 sounds = [0,0,0,0,0,0,0,0,0,0,0,0]
 
-for pin in range(12):
-    soundfile = getSounds(pin)
-    sounds[pin] = pygame.mixer.Sound(soundfile)
-    sounds[pin].set_volume(1)
+def updateSoundArray(instrument, volume):
+    if not updateSoundArray.lastIns == instrument:
+
+        print instrument
+        print volume
+
+        updateSoundArray.lastIns = instrument
+        for pin in range(12):
+            soundfile = getSounds(pin)
+            sounds[pin] = pygame.mixer.Sound(soundfile)
+            sounds[pin].set_volume(volume)
+
+updateSoundArray.lastIns = -1
+
 
 # Main loop to play the corroect sound every time a pin is touched
 last_touched = device.touched()
 while True:
+    updateSoundArray(getInstrument(), getVolume())
     current_touched = device.touched()
     for i in range(12):
         pin_bit = 1 << i

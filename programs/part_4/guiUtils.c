@@ -29,6 +29,9 @@ void create_radio_buttons(GtkBox *vBox) {
     gtk_box_pack_start(vBox, rb1, TRUE, TRUE, 2);
     gtk_box_pack_start(vBox, rb2, TRUE, TRUE, 2);
     gtk_box_pack_start(vBox, rb3, TRUE, TRUE, 2);
+
+    // Default instrument is the drums.
+    instrument = DRUMS;
 }
 
 void create_volume_control(GtkBox *vBox) {
@@ -70,27 +73,23 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
     const gchar *label = gtk_button_get_label(GTK_BUTTON(widget));
     switch(*label) {
         case 'D' :
+            instrument = DRUMS;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
             break;
         case 'P' :
+            instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
             break;
         case 'A' :
+            instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
             break;
         default:
             printf("Somethings gone wrong\n");
             break;
     }
-
-    // Note: Insert demo Python call to play a sound here.
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
     currentVolume = gtk_range_get_value(GTK_RANGE(vc)) / 100;
-    printf("%f\n", currentVolume);
 }
-
-// Note: Create dummy function to be called by Python code.
-// printf("Input %i pressed", (%i referring to the pin that has been pressed));
-// Only do this when first touched.
