@@ -11,10 +11,9 @@
 static PyObject *py_touched(PyObject *self, PyObject *args) {
     int pin; // Pin number touched (0-11)
     PyArg_ParseTuple(args, "i", &pin);
-    char *filepath; // Path to sound file
     // TODO: correct sound mode/set
-    filepath = (char*) *SymbolTable_get(pin, set[0]);
-    printf("I was touched in the %d pin lol\n", pin);
+    char *filepath = (char *) SymbolTable_get(pin, set[2]);
+    printf("I was touched in the %d pin lol\n%s\n", pin, filepath);
     return Py_BuildValue("s", filepath);
 }
 
