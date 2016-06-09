@@ -11,9 +11,9 @@
 // Initialise array of symbol tables for each sound set (instrument)
 void initialiseSymbolTables(void) {
     // Allocate heap memory for each symbol table
-	for(int i = 0; i < NUM_OF_INSTRUMENTS; i++) {
-		set[i] = SymbolTable_new();
-	}
+    for(int i = 0; i < NUM_OF_INSTRUMENTS; i++) {
+        set[i] = SymbolTable_new();
+    }
     
     // Insert pin-sound entries into each symbol table for each instrument
     for(int j = 0; j < NUM_OF_INSTRUMENTS; j++) { // For each sound mode
@@ -33,13 +33,13 @@ void initialiseSymbolTables(void) {
             char *toPut = malloc(sizeof(filePathToSound));
             strcpy(toPut, filePathToSound);
             SymbolTable_put(k, toPut, set[j]);
-		} 
-	}
+        } 
+    }
 }
 
 void freeSymbolTables(void) {
     // Iterate through array of symbol tables and delete
     for(int i = 0; i < NUM_OF_INSTRUMENTS; i++) {
         SymbolTable_delete(set[i]);
-	}
+    }
 }
