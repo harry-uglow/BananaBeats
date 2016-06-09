@@ -1,5 +1,5 @@
 from touchHat import *
-import thread
+from threading import Thread
 import sys
 import time
 import pygame
@@ -7,7 +7,8 @@ import pygame
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
 initSounds()
-thread.start_new_thread(gui, "")
+t = Thread(target=gui)
+t.start()
 
 # Create MPR121 instance
 device = MPR121.MPR121()
@@ -30,7 +31,8 @@ def updateSoundArray(instrument, volume):
 
 updateSoundArray.lastIns = -1
 
-
+print "yep"
+sys.stdout.flush()
 # Main loop to play the corroect sound every time a pin is touched
 last_touched = device.touched()
 while True:
