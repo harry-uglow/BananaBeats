@@ -1,31 +1,31 @@
 from touchHat import *
 import sys
 import time
+import pygame
 
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
-
-print('Adafruit MPR121 deviceacitive Touch Sensor Test')
-
-# Create MPR121 instance.
+# Create MPR121 instance
 device = MPR121.MPR121()
 
 if not device.begin():
-    print('Error initializing MPR121.  Check your wiring!')
     sys.exit(1)
 
-# Main loop to print a message every time a pin is touched.
-print('Press Ctrl-C to quit.')
+# Define audio file parameters TODO
+pygame.mixer.pre_init(44100, -16, 12, 512)
+pygame.init()
+
+# Main loop to play the corroect sound every time a pin is touched
 last_touched = device.touched()
 while True:
     current_touched = device.touched()
     for i in range(12):
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
-            # print('{0} touched!'.format(i))
-            touched(i)
+            sound = pygame.mixer.Sound(touched(i))
+            sound.set_volume(1)
+            sound.play
         if not current_touched & pin_bit and last_touched & pin_bit:
-            # print('{0} released!'.format(i))
             released(i)
     last_touched = current_touched
     time.sleep(0.08)

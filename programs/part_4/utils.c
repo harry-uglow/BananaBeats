@@ -1,9 +1,4 @@
-/*
- * Implementation of a symbol table using a linked list of key-value pairs,
- * where the key is a string
- */
-
-#include "symbolTable.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,16 +37,13 @@ void SymbolTable_delete(symbolTable_t *symbolTable) {
         pNext = pCurrent->pNextNode; // Update next node
         pCurrent = pNext;
     }
-
-    // TODO: uncomment this when bug is fixed
-    // free(symbolTable); // Free the table
 }
 
 // Add matching pin and sound to symbol table
-void SymbolTable_put(int *newPin, char *newSound,
+void SymbolTable_put(int newPin, char *newSound,
                      symbolTable_t *symbolTable) {
-    // Make sure no arguments are null
-    if (newPin == NULL || newSound == NULL || symbolTable == NULL) {
+    // Make sure no argument pointers are null
+    if (newSound == NULL || symbolTable == NULL) {
         printf("Error: null argument. Did not add entry to symbol table\n");
         return;
     }

@@ -1,6 +1,6 @@
 #include <Python.h>
 
-/*
+/**
  * Function to be called from Python
  */
 
@@ -12,7 +12,7 @@ static PyObject* py_myFunction(PyObject* self, PyObject* args)
   return Py_BuildValue("s", s);
 }
 
-/*
+/**
  * Another function to be called from Python
  */
 static PyObject* py_myOtherFunction(PyObject* self, PyObject* args)
@@ -29,7 +29,7 @@ static PyObject *py_tester(PyObject* self, PyObject* args) {
 
 }
 
-/*
+/**
  * Bind Python function names to our C functions
  */
 static PyMethodDef myModule_methods[] = {
@@ -39,7 +39,7 @@ static PyMethodDef myModule_methods[] = {
   {NULL, NULL}
 };
 
-/*
+/**
  * Python calls this to let us initialize our module
  */
 void initmyModule()
