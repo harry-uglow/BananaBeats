@@ -7,11 +7,12 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }    
 
-    // Read assembler file input 
+    // Read assembler file input and execute first pass 
     if(!firstPass(argv)) {
         return EXIT_FAILURE;
     }
 
+    // Execute second pass
     secondPass();
 
     // Write results of assembler to binary file specified by 2nd argument
@@ -27,8 +28,7 @@ int main(int argc, char **argv) {
         free(instruction);
     }
 
+    // Delete the symbol table after use
     SymbolTable_delete(&table);
-
-    // SymbolTable_delete(&table);
     return EXIT_SUCCESS;
 }

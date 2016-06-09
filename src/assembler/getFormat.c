@@ -77,7 +77,6 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
         case CMP :
         case TEQ :
         case TST :
-
             // S is set for tst, teq and cmp instructions
             ins->setS = 1;
             // op1 and op2 specify registers Rn and Rm respectively.
@@ -139,13 +138,13 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
 }
 
 static void getFormMult(instr_t *ins, assIns_t *assIns) {
-
     // Set A bit
     if (ins->opMnemonic == MUL) {
         ins->setA = 0;
     } else {
         ins->setA = 1;
     }
+
     // Set S bit
     ins->setS = 0;
 
@@ -153,7 +152,6 @@ static void getFormMult(instr_t *ins, assIns_t *assIns) {
     ins->Rm = getIntFromString(assIns->op2);
     ins->Rs = getIntFromString(assIns->op3);
     ins->Rn = getIntFromString(assIns->op4);
-
 }
 
 static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
@@ -207,7 +205,6 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
 }
 
 static void getFormBranch(instr_t *ins, assIns_t *assIns) {
-
     // Branch may or may not be needed. I'll get back to this.
     char *expression = assIns->op1;
     if (isdigit(*expression)) {
@@ -219,7 +216,7 @@ static void getFormBranch(instr_t *ins, assIns_t *assIns) {
             ins->targetAddress = *returnedPointer;
         } else {
             printf("Branch statement with undefined label. Exiting.");
-            exit(1);
+            exit(EXIT_FAILURE);
         }
     }
 }
@@ -242,7 +239,6 @@ static int getIntFromString(char *str) {
 }
 
 static mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
-    // Noddy solution but works
     if (!strcmp(mnemonic, "and")) {
         return AND;
     } else if (!strcmp(mnemonic, "eor")) {
@@ -291,6 +287,6 @@ static mnemonic_t mnemonicStringToEnum(char mnemonic[4]) {
         return ANDEQ;
     } else {
         printf("Invalid opcode mnemonic. Exiting program");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 }
