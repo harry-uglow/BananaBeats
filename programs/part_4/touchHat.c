@@ -17,8 +17,16 @@ static PyObject *py_touched(PyObject *self, PyObject *args) {
 static PyObject *py_getSounds(PyObject *self, PyObject *args) {
     int pin; // Pin number touched (0-11)
     PyArg_ParseTuple(args, "i", &pin);
-    // TODO: correct sound mode/set
     char *filepath = (char *) SymbolTable_get(pin, set[instrument]);
+    return Py_BuildValue("s", filepath);
+}
+
+// Given pad number and instrument mode number, returns address of sound file
+static PyObject *py_getSoundsFromInstrument(PyObject *self, PyObject *args) {
+    int pin; // Pin number touched (0-11)
+    int instr; // Instrument mode number
+    PyArg_ParseTuple(args, "ii", &pin, &instr);
+    char *filepath = (char *) SymbolTable_get(pin, set[instr]);
     return Py_BuildValue("s", filepath);
 }
 
@@ -111,6 +119,7 @@ static PyMethodDef touchHat_methods[] = {
     {"released", py_released, METH_VARARGS},
     {"gui", py_gui, METH_VARARGS},
     {"getSounds", py_getSounds, METH_VARARGS},
+    {"getSoundsFromInstrument", py_getSoundsFromInstrument, METH_VARARGS},
     {"initSounds", py_initSounds, METH_VARARGS},
     {"getInstrument", py_getInstrument, METH_VARARGS},
     {"getVolume", py_getVolume, METH_VARARGS},
