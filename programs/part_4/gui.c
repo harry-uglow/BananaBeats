@@ -1,4 +1,4 @@
-#include "gui.h
+#include "gui.h"
 
 void gui_init() {
     // Initialise GTK+
