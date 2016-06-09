@@ -13,6 +13,7 @@ static PyObject *py_touched(PyObject *self, PyObject *args) {
     PyArg_ParseTuple(args, "i", &pin);
     char *filepath; // Path to sound file
     // TODO: Get filepath from symbol tables
+    filepath = "sound.wav";
     printf("I was touched in the %d pin lol\n", pin);
     return Py_BuildValue("s", filepath);
 }
@@ -32,8 +33,8 @@ static PyObject *py_released(PyObject* self, PyObject* args) {
  * This function is called as a separate process to set up and run the GUI.
  */
 static PyObject *py_gui(PyObject *self, PyObject *args) {
- 	// Initialise GTK+
-  	gtk_init(0, NULL);
+    // Initialise GTK+
+    gtk_init(0, NULL);
 
     // Set up the window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
