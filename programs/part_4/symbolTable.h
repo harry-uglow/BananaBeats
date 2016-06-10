@@ -1,6 +1,10 @@
 #ifndef utils_h
 #define utils_h
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct SymbolTableNode {
     int pin; // 'Key' of the symbol table, the pin number
     char *sound; // 'Value' of the symbol table (sound file path)

@@ -1,8 +1,6 @@
 #ifndef initialiser_h
 #define initialiser_h
 
-#include <stdio.h>
-#include <string.h>
 #include "symbolTable.h"
 
 // Define numeric constants
