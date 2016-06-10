@@ -73,7 +73,7 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
             break;
-        case 'A' :
+        case 'M' :
             instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
             break;
