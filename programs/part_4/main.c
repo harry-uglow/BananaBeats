@@ -23,7 +23,7 @@ void *runPythonScript(void *pInstrument) {
 // be called as a separate thread.
 void *runGtkLoop(void *parameter) {
     gtk_main();
-    return NULL;
+    exit(0);
 }
 
 int main(void) {
