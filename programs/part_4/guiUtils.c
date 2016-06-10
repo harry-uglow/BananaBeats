@@ -26,25 +26,20 @@ void create_radio_buttons(GtkBox *vBox) {
                      G_CALLBACK(toggle_sound_mode), (gpointer) window);
 
     // Pack the radio buttons into vBox.
-    gtk_box_pack_start(vBox, rb1, TRUE, TRUE, 2);
-    gtk_box_pack_start(vBox, rb2, TRUE, TRUE, 2);
-    gtk_box_pack_start(vBox, rb3, TRUE, TRUE, 2);
+    gtk_box_pack_start(vBox, rb1, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(vBox, rb2, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(vBox, rb3, TRUE, TRUE, DEFAULT_PADDING);
 
     // Default instrument is the drums.
     instrument = DRUMS;
 }
 
 void create_volume_control(GtkBox *vBox) {
-    // Define variables to create volume slider
-    gdouble VOLUME_MIN = 0;
-    gdouble VOLUME_MAX = 100;
-    gdouble VOLUME_STEP = 1;
-
     // Create volume control with its label
     vc = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, VOLUME_MIN, 
                                   VOLUME_MAX, VOLUME_STEP);
 
-    g_object_set(vc, "width-request", 150, NULL);
+    g_object_set(vc, "width-request", VOLUME_CONTROL_WIDTH, NULL);
 
     // Set tooltip for the volume control
     gtk_widget_set_tooltip_text(vc, VC_TOOLTIP);
@@ -57,8 +52,8 @@ void create_volume_control(GtkBox *vBox) {
                      G_CALLBACK(adjust_volume), (gpointer) window);
 
     // Pack the volume control into vBox.
-    gtk_box_pack_start(vBox, vc, TRUE, TRUE, 2);
-    gtk_box_pack_start(vBox, volumeLabel, TRUE, TRUE, 2);
+    gtk_box_pack_start(vBox, vc, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(vBox, volumeLabel, TRUE, TRUE, DEFAULT_PADDING);
 
 }
 
@@ -91,5 +86,5 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
-    currentVolume = gtk_range_get_value(GTK_RANGE(vc)) / 100;
+    currentVolume = gtk_range_get_value(GTK_RANGE(vc)) / VOLUME_MAX;
 }

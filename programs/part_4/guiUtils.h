@@ -15,6 +15,14 @@
 #define WIN_TITLE_RB2 "Instrument: Piano"
 #define WIN_TITLE_RB3 "Instrument: Airhorns"
 
+// Define number constants
+#define DEFAULT_PADDING 2
+#define VOLUME_MIN 0
+#define VOLUME_MAX 100
+#define VOLUME_STEP 1
+#define VOLUME_CONTROL_WIDTH 150
+
+// Enum for the type of Instrument currently selected
 enum Instrument {
     DRUMS,
     PIANO,
@@ -35,7 +43,6 @@ GtkWidget *vc;
 
 // Declare volume as variable
 gdouble currentVolume;
-
 
 void create_radio_buttons(GtkBox *vBox);
 void create_volume_control(GtkBox *vBox);
