@@ -21,6 +21,7 @@
 #define VOLUME_MAX 100
 #define VOLUME_STEP 1
 #define VOLUME_CONTROL_WIDTH 150
+#define MAX_DIGITS_VOLUME_PERCENTAGE 3
 
 // Enum for the type of Instrument currently selected
 enum Instrument {

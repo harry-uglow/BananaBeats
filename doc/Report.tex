@@ -23,7 +23,9 @@ On the first pass (\texttt{int firstPass(char **argv)} in \texttt{utils.c}), the
 
 The second pass (\texttt{void secondPass(void)} in \texttt{utils.c}) iterates through the array of assembly instructions. For each element in the array, the assembly instruction is encoded into a binary instruction and this binary instruction is placed into another array (\texttt{memory}) representing each byte of the output. To do this, it makes use of the supplementary function \texttt{int32\_t encode(assIns\_t *instr)} found in \texttt{encodeInstructions.c}. This function is given a formatted assembly instruction (with the use of \texttt{instr\_t *getFormat(assIns\_t *assIns)}) and encodes the instruction depending on the type of instruction that it is.\\
 
-After the second pass, the encoded instructions are written into the binary file, specified by the caller of the program, with the utility function \texttt{int writeToBinaryFile(char **argv)}. Finally, the arrays for the assembly and encoded binary instructions, the Symbol Table  and other data stored on the heap are removed with the utility function \texttt{void freeInstructions(void)} and \texttt{void SymbolTable\_delete(symbolTable\_t *symbolTable)}.
+After the second pass, the encoded instructions are written into the binary file, specified by the caller of the program, with the utility function \texttt{int writeToBinaryFile(char **argv)}. Finally, the arrays for the assembly and encoded binary instructions, the Symbol Table  and other data stored on the heap are removed with the utility function \texttt{void freeInstructions(void)} and \texttt{void SymbolTable\_delete(symbolTable\_t *symbolTable)}.\\
+
+At time of writing our Parts I and II pass all tests apart from those making use of syntax which supporting is optional. However, Harry plans on adding support for this between now and our presentation.
 
 \subsection{Extension plans}
 
@@ -38,7 +40,7 @@ After much discussion, we decided to work on creating a touch-pad keyboard with 
 
 \section{The Extension: BananaBeats}
 	For the extension we have created a primitive keyboard application for the Raspberry Pi. The application takes input from an Adafruit Capacitive Touch HAT. This allows us to connect 12 wires and use them all as keys for our keyboard. To make our project particularly eye-catching we are using bananas as the keys. At submission time our GUI can select one of three sound sets, or "instruments". The first is a drum kit, the second a set of piano keys and the third is a selection of sound effects from Super Mario Bros. Our application also has a volume slider. We plan on making these features run more smoothly as well as adding more between now and our presentation.
-	
+
 \subsection{Design}
 	Our design for the GUI was to utilise GTK+ in order to create widgets allowing the user to interact with the program. Our initial aim was to create a simple but functional GUI but we hope to equip it with more features and make it look more interesting before we present next week. 
 	\\
@@ -69,9 +71,13 @@ This is the second group project this year in which I have been group leader. I 
  I also think I did well in the technical aspects of this project. I worked hard to understand C as fast as possible so that I could help the rest of my group and make sure we kept meeting project milestones in good time. I have been less proficient with the electronics side of this Raspberry Pi project including working to set up the Capacitive Touch HAT for our extension and in the future I will work to make sure I fully understand all aspects of a project.
 
 \subsection{Shayan}
+<<<<<<< HEAD
 I feel that our team worked extremely well together and ensured that we maintained good communication between one another. After initial discussions on our plan of action, we were allocated specific tasks by our group leader which gave us a concrete path to follow in completing the project. Whilst we all co-operated well and had no issues, I think that one area in which I could have improved was in my competence with and understanding of C since I did not learn it as quickly as I had imagined I would. This occasionally posed difficulties for me in completing the tasks I was allocated. \\
 
 On the other hand, I tried to inspect the code our group had written as carefully as possible to notice any minute problems. In future projects, I plan to spend more time improving my ability with the topic of the project to ensure that I can contribute without any issues.  
+=======
+I feel that our team worked extremely well together and ensured that we maintain good communication between one another. After initial discussions on our plan of action, we were allocated specific tasks by our group leader which gave us a concrete path to follow in completing the project. Whilst we all co-operated well and had no issues, I think that one area in which I could have improved was in my competency with and understanding of C since I did not learn it as quickly as I had imagined I would. This occasionally posed difficulties for me in completing the tasks I was allocated since I had to spend more time learning the language and troubleshooting my code. On the other hand, I tried to inspect the code our group had written as carefully as possible to notice any minute problems. In future projects, I plan to spend more time improving my ability with the topic of the project and my programming skills to ensure that I can contribute without any issues.  
+>>>>>>> 90a48745834d90198a8a9bd444a35a09ba72f2a5
 
 
 \subsection{Josh}

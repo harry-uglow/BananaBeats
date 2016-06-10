@@ -90,7 +90,6 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
         case MOV :
             ins->Rd = getIntFromString(assIns->op1);
             if (assIns->op2[0] == EXPR_SYMBOL) {
-                // MOV currently doesn't work for constants > 0xFF
                 ins->setI = 1;
                 
                 // Note Rm actually represents Imm (from the spec) due to the
@@ -207,7 +206,6 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
 }
 
 static void getFormBranch(instr_t *ins, assIns_t *assIns) {
-    // Branch may or may not be needed. I'll get back to this.
     char *expression = assIns->op1;
     if (isdigit(*expression)) {
         ins->targetAddress = (int16_t) getIntFromString(assIns->op1);

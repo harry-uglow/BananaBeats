@@ -23,6 +23,8 @@ void *runPythonScript(void *pInstrument) {
 // be called as a separate thread.
 void *runGtkLoop(void *parameter) {
     gtk_main();
+    system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");
     exit(0);
 }
 
@@ -83,7 +85,8 @@ int main(void) {
         // If there is a change
         if (current_instrument != previous_instrument) {
             // Stop Python process
-            system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | sudo awk '{print $2}' | sudo xargs kill -9");
+            system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");
             pthread_kill(threadPython, SIGQUIT);
             // Create new Python process
             pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);

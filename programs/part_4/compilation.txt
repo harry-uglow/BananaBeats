@@ -1,5 +1,0 @@
-gcc -Wall -c symbolTable.c -o symbolTable.o -std=c99
-gcc -Wall -c initialiser.c -o initialiser.o -std=c99
-gcc -Wall $(pkg-config --libs --cflags gtk+-3.0) -o guiUtils.o -c guiUtils.c -std=c99
-gcc -shared -I/usr/include/python2.7/ -lpython2.7 -o touchHat.so touchHat.c -fPIC $(pkg-config --cflags --libs gtk+-3.0) guiUtils.o symbolTable.o initialiser.o
-gcc main.c -o main $(pkg-config --libs --cflags gtk+-3.0) -lpthread
