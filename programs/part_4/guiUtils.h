@@ -55,6 +55,7 @@ GtkWidget *vc;
 
 // Declare volume as variable
 gdouble currentVolume;
+PyObject *pyFunCall;
 
 void create_radio_buttons(GtkBox *vBox);
 void create_volume_control(GtkBox *vBox);
