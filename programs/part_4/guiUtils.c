@@ -61,7 +61,7 @@ void create_volume_control(GtkBox *vBox) {
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 
     // Need this check as function is also called for the deselected button.
-    if(!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
+    if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         return;
     }
 
