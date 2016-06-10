@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "initialiser.h"
+#include "defs.h"
 
 // Initialise array of symbol tables for each sound set (instrument)
 void initialiseSymbolTables(void) {

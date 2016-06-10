@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "guiUtils.h"
+#include "defs.h"
 
 void create_radio_buttons(GtkBox *vBox) {
     // Create radio buttons with their labels. The first one's group is

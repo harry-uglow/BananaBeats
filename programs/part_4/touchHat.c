@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "initialiser.h"
 #include "guiUtils.h"
+#include "defs.h"
 
 /** 
  * This function is called when a pin is touched. It takes as an argument the
@@ -50,22 +51,24 @@ static PyObject *py_gui(PyObject *self, PyObject *args) {
     // Set up the window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-    gtk_container_set_border_width(GTK_CONTAINER(window), 15);
-    gtk_window_set_default_size(GTK_WINDOW(window), 300, 250);
+    gtk_container_set_border_width(GTK_CONTAINER(window), WINDOW_BORDER);
+    gtk_window_set_default_size(GTK_WINDOW(window), WINDOW_WIDTH, WINDOW_HEIGHT);
     gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
 
     // Create new box to hold the widgets
-    widgetContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 30);
+    widgetContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, WIDGET_SPACING);
     gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(widgetContainer, GTK_ALIGN_CENTER);
     
     // Create new vertical box with 1 pixel between elements as default.
-    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 
+            RADIO_BUTTON_SPACING);
     gtk_widget_set_halign(vBoxRadioButtons, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxRadioButtons, GTK_ALIGN_CENTER);
 
     // Create new vertical box for volume control
-    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 1);
+    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL,
+            VOLUME_CONTROL_SPACING);
     gtk_widget_set_halign(vBoxVolumeControl, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
 
