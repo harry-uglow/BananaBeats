@@ -34,7 +34,6 @@ while True:
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
             sounds[i].play()
-            print i
 	    touched(i)
 	if not current_touched & pin_bit and last_touched & pin_bit:
 	    released(i)
