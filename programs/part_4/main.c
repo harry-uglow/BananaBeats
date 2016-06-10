@@ -11,15 +11,13 @@ pthread_t threadGui;
 
 void *runPythonScript(void *pInstrument) {
     int newInstrument = *((int *) pInstrument);
-    char *scriptAddress = "auxPython.py ";
+    //TODO: CHANGE THIS BACK!!! char *scriptAddress = "auxPython.py";
+    char *scriptAddress = "test.py";
     char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
-    sprintf(systemCall, "%s%d", scriptAddress, newInstrument);
+    sprintf(systemCall, "python %s %d", scriptAddress, newInstrument);
+    printf("%s\n", systemCall);
     system(systemCall);
     return 0;
-}
-
-void createThread(int *pInstrument) {
-    pthread_create(&threadPython, NULL, runPythonScript, pInstrument);
 }
 
 void *runGtkLoop(void *parameter) {
@@ -71,25 +69,26 @@ int main(void) {
     // Show the window
     gtk_widget_show_all(window);
     
+    // Enter the main GUI loop
+    pthread_create(&threadGui, NULL, runGtkLoop, NULL);
+    
     int previous_instrument = (int) instrument;
     int current_instrument = (int) instrument;
     
-    createThread(&current_instrument);
+    pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
     
     while (1) {
         current_instrument = (int) instrument;
         // If there is a change
         if (current_instrument != previous_instrument) {
             // Stop Python process
-            pthread_join(threadPython, NULL);
+            pthread_kill(threadPython, SIGQUIT);
             // Create new Python process
-            createThread(&current_instrument);
+            pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
+            printf("yes\n");
             previous_instrument = current_instrument;
         }
     }
-    // Enter the main GUI loop
-    pthread_create(&threadGui, NULL, runGtkLoop, NULL);
-    
     pthread_join(threadGui, NULL);
     return 0;
 }

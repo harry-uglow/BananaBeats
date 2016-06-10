@@ -32,7 +32,6 @@ void create_radio_buttons(GtkBox *vBox) {
 
     // Default instrument is the drums.
     instrument = DRUMS;
-    printf("%i\n", instrument);
 }
 
 void create_volume_control(GtkBox *vBox) {
@@ -75,17 +74,14 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
     switch(*label) {
         case 'D' :
             instrument = DRUMS;
-	    printf("%i", instrument);
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
             break;
         case 'P' :
             instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
-	    printf("%i", instrument);
             break;
         case 'A' :
             instrument = MARIO;
-	    printf("%i", instrument);
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
             break;
         default:
