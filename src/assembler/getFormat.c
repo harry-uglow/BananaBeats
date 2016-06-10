@@ -90,7 +90,6 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
         case MOV :
             ins->Rd = getIntFromString(assIns->op1);
             if (assIns->op2[0] == EXPR_SYMBOL) {
-                // MOV currently doesn't work for constants > 0xFF
                 ins->setI = 1;
                 
                 // Note Rm actually represents Imm (from the spec) due to the
