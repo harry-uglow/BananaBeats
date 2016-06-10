@@ -1,4 +1,4 @@
-from touchHat import *
+from HUtouchHat import *
 import sys
 import time
 import pygame

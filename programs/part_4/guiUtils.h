@@ -1,6 +1,7 @@
 #ifndef PART_4_GUIUTILS_H
 #define PART_4_GUIUTILS_H
 
+#include <Python.h>
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <stdio.h>
