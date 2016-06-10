@@ -16,7 +16,7 @@ device = MPR121.MPR121()
 if not device.begin():
     sys.exit(1)
 
-pygame.mixer.pre_init(44100, -16, 12, 512)
+pygame.mixer.pre_init(44100, -16, 12, 2048)
 pygame.init()
 
 sounds = [0,0,0,0,0,0,0,0,0,0,0,0]
@@ -40,5 +40,5 @@ while True:
 	if not current_touched & pin_bit and last_touched & pin_bit:
 	    released(i)
     last_touched = current_touched
-    time.sleep(0.01) 
+    time.sleep(0.1) 
 
