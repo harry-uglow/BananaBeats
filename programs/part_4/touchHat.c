@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "initialiser.h"
 #include "guiUtils.h"
-#include "defs.h"
 
 /** 
  * This function is called when a pin is touched. It takes as an argument the
