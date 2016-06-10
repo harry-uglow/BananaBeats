@@ -87,5 +87,10 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
-    currentVolume = gtk_range_get_value(GTK_RANGE(vc)) / VOLUME_MAX;
+    currentVolume = gtk_range_get_value(GTK_RANGE(vc));
+    char *volumeCmdPre = "amixer set PCM -- ";
+    int sizeVolumeCmdPre = strlen(volumeCmdPre);
+    char volumeCmd[sizeVolumeCmdPre + MAX_DIGITS_VOLUME_PERCENTAGE + 2];
+    sprintf(volumeCmd, "%s%d%%", volumeCmdPre, (int) currentVolume);
+    system(volumeCmd);
 }
