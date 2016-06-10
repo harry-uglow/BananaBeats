@@ -23,7 +23,6 @@ sounds = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 for pin in range(12):
     soundfile = getSoundsFromInstrument(pin, instr)
-    print soundfile
     sounds[pin] = pygame.mixer.Sound(soundfile)
     sounds[pin].set_volume(1)
 
@@ -35,10 +34,9 @@ while True:
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
             sounds[i].play()
-            print i
-	    touched(i)
+	    touched(i) # This will be used to interact with the GUI in future
 	if not current_touched & pin_bit and last_touched & pin_bit:
-	    released(i)
+	    released(i) # This will be used to interact with the GUI in future
     last_touched = current_touched
-    time.sleep(0.1) 
+    time.sleep(0.01) 
 

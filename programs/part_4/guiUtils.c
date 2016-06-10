@@ -1,8 +1,5 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 #include "guiUtils.h"
-#include "defs.h"
 
 void create_radio_buttons(GtkBox *vBox) {
     // Create radio buttons with their labels. The first one's group is
@@ -46,7 +43,7 @@ void create_volume_control(GtkBox *vBox) {
     gtk_widget_set_tooltip_text(vc, VC_TOOLTIP);
 
     // Create label
-    volumeLabel = gtk_label_new("Volume");
+    volumeLabel = gtk_label_new(VOLUME_LABEL);
 
     // When volume is changed vall adjust_volume
     g_signal_connect(vc, "value-changed",
@@ -76,7 +73,7 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
             break;
-        case 'A' :
+        case 'M' :
             instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
             break;
@@ -87,5 +84,10 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
-    currentVolume = gtk_range_get_value(GTK_RANGE(vc)) / VOLUME_MAX;
+    currentVolume = gtk_range_get_value(GTK_RANGE(vc));
+    char *volumeCmdPre = "amixer set PCM -- ";
+    int sizeVolumeCmdPre = strlen(volumeCmdPre);
+    char volumeCmd[sizeVolumeCmdPre + MAX_DIGITS_VOLUME_PERCENTAGE + 2];
+    sprintf(volumeCmd, "%s%d%%", volumeCmdPre, (int) currentVolume);
+    system(volumeCmd);
 }
