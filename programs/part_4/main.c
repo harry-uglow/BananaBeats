@@ -1,7 +1,4 @@
 #include "guiUtils.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <pthread.h>
 
 #define MAX_DIGITS_NUMBER_OF_MODES 15

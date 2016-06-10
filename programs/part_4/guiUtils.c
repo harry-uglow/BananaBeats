@@ -1,8 +1,5 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 #include "guiUtils.h"
-#include "defs.h"
 
 void create_radio_buttons(GtkBox *vBox) {
     // Create radio buttons with their labels. The first one's group is
@@ -46,7 +43,7 @@ void create_volume_control(GtkBox *vBox) {
     gtk_widget_set_tooltip_text(vc, VC_TOOLTIP);
 
     // Create label
-    volumeLabel = gtk_label_new("Volume");
+    volumeLabel = gtk_label_new(VOLUME_LABEL);
 
     // When volume is changed vall adjust_volume
     g_signal_connect(vc, "value-changed",
