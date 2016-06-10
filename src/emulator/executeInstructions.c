@@ -25,7 +25,7 @@ void dataProcessing(arm_t *arm) {
         int amount = ins->shiftAmount;
         int32_t bitToCarry = 0;
         // Switch on shift type here
-        switch(type) {
+        switch (type) {
             case 0:
                 bitToCarry = 2 ^ (BIT_WORD_LENGTH - (amount - 1));
                 carry = (rmVal & bitToCarry) >> (amount - 1);
@@ -47,7 +47,7 @@ void dataProcessing(arm_t *arm) {
     
     int64_t op1_64 = operand1;
     int64_t op2_64 = operand2;
-    switch(opCode) {
+    switch (opCode) {
         case 0: // AND
             arm->registers[destReg] = (operand1 & operand2);
             temp = destReg;
@@ -221,7 +221,7 @@ void singleDataTransfer(arm_t *arm) {
 void branch(arm_t *arm) {
     // (2's complement) 24 bit offset in branch instruction
     // shifted left 2 bits & sign extended to 32 bits
-    int32_t branchOffset = (arm->instruction->offset) << 2;
+    int32_t branchOffset = (arm->instruction->offset) << BRANCH_SHIFT;
     int32_t topBit = (MASK_I_BIT & branchOffset);
     int32_t signExtendBits = topBit ? MASK_SIGN_EX : 0;
     branchOffset |= signExtendBits;
@@ -230,7 +230,7 @@ void branch(arm_t *arm) {
     (arm->registers[REG_PC]) += branchOffset;
 
     // PC has changed and previously fetched instruction
-    // is no longer valid so the pipeline is cleared.
+    // is no longer valid so the pipeline is cleared
     (arm->fetched) = 0;
 
     // Clear fetched and decoded parts of pipeline
@@ -239,7 +239,7 @@ void branch(arm_t *arm) {
 }
 
 static int isGPIOAddress(int32_t address) {
-    switch(address) {
+    switch (address) {
         case GPIO_0_TO_9:
             printf("One GPIO pin from 0 to 9 has been accessed\n");
             return 1;

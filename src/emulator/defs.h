@@ -31,6 +31,7 @@
 #define SHIFT_BYTE_2      8
 #define SHIFT_BYTE_1      8
 #define SHIFT_BYTE_0     24
+#define BRANCH_SHIFT      2
          
 // Mask macros for decode()
 #define MASK_I_BIT         0x02000000
