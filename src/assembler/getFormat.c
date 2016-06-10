@@ -207,7 +207,6 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
 }
 
 static void getFormBranch(instr_t *ins, assIns_t *assIns) {
-    // Branch may or may not be needed. I'll get back to this.
     char *expression = assIns->op1;
     if (isdigit(*expression)) {
         ins->targetAddress = (int16_t) getIntFromString(assIns->op1);

@@ -2,7 +2,7 @@
 
 int32_t executeShift(int32_t value, int shiftType, int amount) {
     int32_t shiftedValue = 0;
-    switch(shiftType) {
+    switch (shiftType) {
         // logical shift left
         case 0:
             shiftedValue = value << amount;
@@ -28,7 +28,7 @@ int32_t executeShift(int32_t value, int shiftType, int amount) {
 
 int checkCond(int cond, int NZCV){
     int passesCond = 0;
-    switch(cond){
+    switch (cond){
         // Equal
         case 0 :
             passesCond = Z_BIT & NZCV;
