@@ -19,6 +19,8 @@ void *runPythonScript(void *pInstrument) {
     return 0;
 }
 
+// gtk_main has been put into a separate function so that it can 
+// be called as a separate thread.
 void *runGtkLoop(void *parameter) {
     gtk_main();
     return NULL;
