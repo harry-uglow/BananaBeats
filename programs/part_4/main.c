@@ -1,4 +1,4 @@
-#include "guiUtils.h"
+#include "guiUtils.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,7 +6,8 @@
 
 #define MAX_DIGITS_NUMBER_OF_MODES 15
 
-pthread_t threadZero;
+pthread_t threadPython;
+pthread_t threadGui;
 
 void *runPythonScript(void *pInstrument) {
     int newInstrument = *((int *) pInstrument);
@@ -18,7 +19,12 @@ void *runPythonScript(void *pInstrument) {
 }
 
 void createThread(int *pInstrument) {
-    pthread_create(&threadZero, NULL, runPythonScript, pInstrument);
+    pthread_create(&threadPython, NULL, runPythonScript, pInstrument);
+}
+
+void *runGtkLoop(void *parameter) {
+    gtk_main();
+    return NULL;
 }
 
 int main(void) {
@@ -66,7 +72,7 @@ int main(void) {
     gtk_widget_show_all(window);
     
     // Enter the main loop
-    gtk_main();
+    pthread_create(&threadGui, NULL, runGtkLoop, NULL);
     
     int previous_instrument = (int) instrument;
     int current_instrument = (int) instrument;
@@ -78,13 +84,12 @@ int main(void) {
         // If there is a change
         if (current_instrument != previous_instrument) {
             // Stop Python process
-            pthread_join(threadZero, NULL);
+            pthread_join(threadPython, NULL);
             // Create new Python process
             createThread(&current_instrument);
-           }
             previous_instrument = current_instrument;
         }
     }
-
-    return EXIT_SUCCESS;
+    pthread_join(threadGui, NULL);
+    return 0;
 }
