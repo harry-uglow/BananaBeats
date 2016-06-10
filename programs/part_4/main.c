@@ -71,9 +71,6 @@ int main(void) {
     // Show the window
     gtk_widget_show_all(window);
     
-    // Enter the main loop
-    pthread_create(&threadGui, NULL, runGtkLoop, NULL);
-    
     int previous_instrument = (int) instrument;
     int current_instrument = (int) instrument;
     
@@ -90,6 +87,9 @@ int main(void) {
             previous_instrument = current_instrument;
         }
     }
+    // Enter the main GUI loop
+    pthread_create(&threadGui, NULL, runGtkLoop, NULL);
+    
     pthread_join(threadGui, NULL);
     return 0;
 }
