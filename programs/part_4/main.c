@@ -1,5 +1,6 @@
 #include "guiUtils.h"
 #include <pthread.h>
+#include <signal.h>
 
 #define MAX_DIGITS_NUMBER_OF_MODES 15
 
@@ -90,6 +91,4 @@ sudo awk '{print $2}' | sudo xargs kill -9");
             previous_instrument = current_instrument;
         }
     }
-    pthread_join(threadGui, NULL);
-    return 0;
 }
