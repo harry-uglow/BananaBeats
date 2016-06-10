@@ -1,28 +1,30 @@
-GTK_FLAGS = $(shell pkg-config --cflags --libs gtk+-3.0)
-PYTHON_FLAGS = -shared -I/usr/include/python2.7/ -lpython2.7 -fPIC
 CC      = gcc
-CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -pedantic $(GTK_FLAGS) $(PYTHON_FLAGS)
+CFLAGS  = -Wall -std=c99 -pedantic
+THREAD_FLAGS = -lpthread
+GTK_FLAGS = $$(pkg-config --cflags --libs gtk+-3.0)
+PYTHON_FLAGS = -shared -I/usr/include/python2.7/ -lpython2.7 -fPIC -rdynamic
 
 .SUFFIXES: .c .o .h
 .PHONY: all clean
 
-all: dummyMain
+all: main
 
-dummyMain: dummyMain.c touchHat.so
-touchHat.so: touchHat.c guiUtils.o symbolTable.o initialiser.o
-guiUtils.o: guiUtils.c 
-initialiser.o: initialiser.c
-symbolTable.o: symbolTable.c
+main: guiUtils.o touchHat.so
+	$(CC) $(CFLAGS) $(GTK_FLAGS) $(THREAD_FLAGS) guiUtils.o main.c -o main
 
-touchHat.c: initialiser.h guiUtils.h
-guiUtils.c: guiUtils.h
-initialiser.c: initialiser.h
-symbolTable.c: symbolTable.h
+touchHat.so: initialiser.o symbolTable.o guiUtils.o
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) touchHat.c symbolTable.o initialiser.o guiUtils.o -o touchHat.so
 
-initialiser.h: soundsTable.h
-soundsTable.h: symbolTable.h
+guiUtils.o:
+	$(CC) $(CFLAGS) $(GTK_FLAGS) -c guiUtils.c -o guiUtils.o
+
+initialiser.o:
+	$(CC) $(CFLAGS) -c initialiser.c -o initialiser.o
+
+symbolTable.o:
+	$(CC) $(CFLAGS) -c symbolTable.c -o symbolTable.o
 
 clean:
-	rm dummyMain
+	rm main
 	rm -rf $(wildcard *.o)
 	rm -rf $(wildcard *.so)
