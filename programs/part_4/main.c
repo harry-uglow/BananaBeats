@@ -38,6 +38,11 @@ int main(void) {
     gtk_window_set_default_size(GTK_WINDOW(window), 300, 250);
     gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
 
+    // Banana icon
+    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("icon.png", 256, 256,
+                                                        NULL);
+    gtk_window_set_icon(GTK_WINDOW(window), pIcon);
+
     // Create new box to hold the widgets
     widgetContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 30);
     gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
