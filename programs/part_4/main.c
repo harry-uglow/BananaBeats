@@ -2,8 +2,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
 
 #define MAX_DIGITS_NUMBER_OF_MODES 15
+
+pthread_t threadZero;
+
+void *runPythonScript(void *pInstrument) {
+    int newInstrument = *((int *) pInstrument);
+    char *scriptAddress = "auxPython.py ";
+    char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
+    sprintf(systemCall, "%s%d", scriptAddress, newInstrument);
+    system(systemCall);
+    return 0;
+}
+
+void createThread(int *pInstrument) {
+    pthread_create(&threadZero, NULL, runPythonScript, pInstrument);
+}
 
 int main(void) {
     // Initialise GTK+
@@ -54,17 +70,17 @@ int main(void) {
     
     int previous_instrument = (int) instrument;
     int current_instrument = (int) instrument;
-
+    
+    createThread(&current_instrument);
+    
     while (1) {
         current_instrument = (int) instrument;
         // If there is a change
         if (current_instrument != previous_instrument) {
-           // TODO: Stop current python process
-            
-            char *scriptAddress = "auxPython.py ";
-            char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
-            sprintf(systemCall, "%s%d", scriptAddress, current_instrument);
-            system(systemCall);
+            // Stop Python process
+            pthread_join(threadZero, NULL);
+            // Create new Python process
+            createThread(&current_instrument);
            }
             previous_instrument = current_instrument;
         }
