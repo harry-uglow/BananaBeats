@@ -23,7 +23,6 @@ sounds = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 for pin in range(12):
     soundfile = getSoundsFromInstrument(pin, instr)
-    print soundfile
     sounds[pin] = pygame.mixer.Sound(soundfile)
     sounds[pin].set_volume(1)
 

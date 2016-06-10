@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "soundsTable.h"
 #include "symbolTable.h"
 
 // Define numeric constants
