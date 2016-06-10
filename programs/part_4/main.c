@@ -11,8 +11,7 @@ pthread_t threadGui;
 
 void *runPythonScript(void *pInstrument) {
     int newInstrument = *((int *) pInstrument);
-    //TODO: CHANGE THIS BACK!!! char *scriptAddress = "auxPython.py";
-    char *scriptAddress = "test.py";
+    char *scriptAddress = "auxPython.py";
     char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
     sprintf(systemCall, "python %s %d", scriptAddress, newInstrument);
     printf("%s\n", systemCall);
@@ -82,10 +81,10 @@ int main(void) {
         // If there is a change
         if (current_instrument != previous_instrument) {
             // Stop Python process
+            system("ps aux | grep python | grep -v \"grep python\" | awk '{print $2}' | xargs kill -9");
             pthread_kill(threadPython, SIGQUIT);
             // Create new Python process
             pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
-            printf("yes\n");
             previous_instrument = current_instrument;
         }
     }
