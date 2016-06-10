@@ -4,8 +4,8 @@
 
 \begin{document}
 \sloppy
-\title{C Programming Project: Fruity Sound Controller}
-\author{Group 19: Harry Uglow, Shayan Khaksar-Ghalati, Maurice Yap and Joshua Cooper}
+\title{C Programming Project: BananaBeats}
+\author{Group 19: Harry Uglow, Joshua Cooper, Maurice Yap and Shayan Khaksar-Ghalati}
 
 \maketitle
 
@@ -39,6 +39,7 @@ We came together as a group because we all have an interest in sound and music a
 After much discussion, we decided to work on creating a touch-pad keyboard with a GUI. Our aim was to allow users to play pre-defined sounds mapped to 12 different keys and change the sound mapping (or instrument) through the GUI.
 
 \section{The Extension: BananaBeats}
+	For the extension we have created a primitive keyboard application for the Raspberry Pi. The application takes input from an Adafruit Capacitive Touch HAT. This allows us to connect 12 wires and use them all as keys for our keyboard. To make our project particularly eye-catching we are using bananas as the keys. At submission time our GUI can select one of three sound sets, or "instruments". The first is a drum kit, the second a set of piano keys and the third is a selection of sound effects from Super Mario Bros. Our application also has a volume slider. We plan on making these features run more smoothly as well as adding more between now and our presentation.
 
 \subsection{Design}
 	Our design for the GUI was to utilise GTK+ in order to create widgets allowing the user to interact with the program. Our initial aim was to create a simple but functional GUI but we hope to equip it with more features and make it look more interesting before we present next week. 
@@ -58,7 +59,11 @@ After much discussion, we decided to work on creating a touch-pad keyboard with 
 While we think that our lack of proper testing hasn't impeded our ability to complete the extension we think that perhaps in the future creating specific tests for each function may help. It could make pinpointing where the code is failing easier whilst we are still in the implementation phase more easily. However, we think that these sorts of tests may have been difficult to implement in themselves seeing as we make use of complex tools like multi-threading and graphics frameworks in our project.
 
 \section{Reflection}
-Group reflection
+As a group we always ensured that we were able to reach one another whenever necessary so that we could discuss the work that we were doing. This meant that aside from organising meetings over social media, we also found it easy to help others with any issues they faced without having to be in the same room. Furthermore, as a group we were very careful in ensuring that our commit messages on gitlab were clear and concise throughout the project.\\
+
+At the beginning of each part of the project we found logical ways of splitting up the workload, with Harry tracking everyone's progress to ensure that we were all on target to finish in a reasonable time. In addition to this, we discussed the fundamental code structure for each part, as a group, before we started on our individual tasks. This was vital in ensuring that we all understood how everyones work would link together. Overall, we had a great group dynamic which meant that we cooperated well and helped each other where necessary. \\
+
+In the future we feel we could make use of other organisation tools, so that it was even clearer what our current aims were. Having said this, none of us would have any issues completing another project in the same manner as this one.
 
 \subsection{Harry}
 This is the second group project this year in which I have been group leader. I feel like I greatly improved over last time for this project. I was much more proactive at organising meeting times for the group and dividing up the tasks for each part. My WebPA feedback was very positive as well and I think my group would agree with me on the points made above.\\
@@ -66,13 +71,19 @@ This is the second group project this year in which I have been group leader. I 
  I also think I did well in the technical aspects of this project. I worked hard to understand C as fast as possible so that I could help the rest of my group and make sure we kept meeting project milestones in good time. I have been less proficient with the electronics side of this Raspberry Pi project including working to set up the Capacitive Touch HAT for our extension and in the future I will work to make sure I fully understand all aspects of a project.
 
 \subsection{Shayan}
+<<<<<<< HEAD
+I feel that our team worked extremely well together and ensured that we maintained good communication between one another. After initial discussions on our plan of action, we were allocated specific tasks by our group leader which gave us a concrete path to follow in completing the project. Whilst we all co-operated well and had no issues, I think that one area in which I could have improved was in my competence with and understanding of C since I did not learn it as quickly as I had imagined I would. This occasionally posed difficulties for me in completing the tasks I was allocated. \\
+
+On the other hand, I tried to inspect the code our group had written as carefully as possible to notice any minute problems. In future projects, I plan to spend more time improving my ability with the topic of the project to ensure that I can contribute without any issues.  
+=======
 I feel that our team worked extremely well together and ensured that we maintain good communication between one another. After initial discussions on our plan of action, we were allocated specific tasks by our group leader which gave us a concrete path to follow in completing the project. Whilst we all co-operated well and had no issues, I think that one area in which I could have improved was in my competency with and understanding of C since I did not learn it as quickly as I had imagined I would. This occasionally posed difficulties for me in completing the tasks I was allocated since I had to spend more time learning the language and troubleshooting my code. On the other hand, I tried to inspect the code our group had written as carefully as possible to notice any minute problems. In future projects, I plan to spend more time improving my ability with the topic of the project and my programming skills to ensure that I can contribute without any issues.  
+>>>>>>> 90a48745834d90198a8a9bd444a35a09ba72f2a5
 
 
 \subsection{Josh}
 Over the course of this project I feel that I have greatly improved my communication skills, as our group was constantly in touch and discussing different aspects of the tasks at hand. On top of this I also feel like I am a lot more competent now with regards to writing clear and readable code. This is because of the fact that when working in a group you are required to think about how easy it will be for others to read the code that you have written, ensuring that you use concise comments throughout. \\
 
-At the beginning of the project I did however find it hard to get my head around the concept of memory management that is so vital when learning C. This meant that it took me a bit longer than it should have to write what I would class now as fairly simple code. In future projects I will make sure that I spend a sufficient amount of time learning the core concepts of the language I am using so that I am not slowed down by having to repeatedly look back to lecture slides/notes whilst writing my code.
+At the beginning of the project I did however find it hard to get my head around the concept of memory management that is so vital when learning C. This meant that it took me a bit longer than it should have to write what I would class now as fairly simple code. In future projects I will make sure that I spend a sufficient amount of time learning the core concepts of the language I am using so that I am not slowed down by having to repeatedly look back to lecture notes whilst writing my code.
 
 \subsection{Maurice}
 This project has been an enjoyable and valuable technical learning experience for me. I have been lucky to have ended up in a very good group, which communicates well, has a realistic and broad vision and is one where every single member "pulls their weight". Bringing over substantial experience in \textit{Python} and electronics, I was able to contribute to the group by spearheading the implementation of physical electronics in the project, In part 3, this involved creating the circuit to flash the LED using the Raspberry Pi's GPIO pins, resistors and a breadboard. Part 4's physical electronics involved joining wires, metal screws and a pin header to our auxiliary circuit board (\textit{Adafruit} Capacitive Touch HAT), which involved soldering and sourcing materials.\\
