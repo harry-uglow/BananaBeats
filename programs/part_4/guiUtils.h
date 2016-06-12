@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 // Define string constants
 #define RB1_LABEL "Drums"

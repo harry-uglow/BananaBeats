@@ -1,5 +1,5 @@
-#include "initialiser.h"
 #include "guiUtils.h"
+#include "initialiser.h"
 
 /** 
  * This function is called when a pin is touched. It takes as an argument the
