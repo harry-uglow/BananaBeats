@@ -37,7 +37,6 @@
 #define RADIO_BUTTON_SPACING 1
 #define VOLUME_CONTROL_SPACING 1
 
-
 // Enum for the type of Instrument currently selected
 enum Instrument {
     DRUMS,
@@ -47,10 +46,12 @@ enum Instrument {
 
 // Declare widgets as global variables
 GtkWidget *window;
+GtkWidget *controlContainer;
 GtkWidget *widgetContainer;
 GtkWidget *loadingContainer;
 GtkWidget *loadingGif;
 GtkWidget *loadingLabel;
+GtkWidget *hBoxLights;
 GtkWidget *vBoxRadioButtons;
 GtkWidget *vBoxVolumeControl;
 GtkWidget *volumeLabel;
@@ -59,6 +60,26 @@ GtkWidget *rb2;
 GtkWidget *rb3;
 GtkWidget *image;
 GtkWidget *vc;
+GtkWidget *light0;
+GtkWidget *light1;
+GtkWidget *light2;
+GtkWidget *light3;
+GtkWidget *light4;
+GtkWidget *light5;
+GtkWidget *light6;
+GtkWidget *light7;
+GtkWidget *light8;
+GtkWidget *light9;
+GtkWidget *light10;
+GtkWidget *light11;
+
+// Widgets for menu bar
+GtkWidget *menuBar;
+GtkWidget *fileMenu;
+GtkWidget *file;
+GtkWidget *about;
+GtkWidget *quit;
+GtkWidget *menuBox;
 
 // Declare animation for the loading gif
 GdkPixbufAnimation *animation;
