@@ -1,5 +1,22 @@
-
 #include "guiUtils.h"
+
+void create_loading_screen(GtkBox *vBox) {
+    // Set up the loading gif
+    animation = gdk_pixbuf_animation_new_from_file("hexLoader.gif", NULL);
+    loadingGif = gtk_image_new_from_animation(animation);
+
+    // Create label for loading screen
+    loadingLabel = gtk_label_new(LOADING_LABEL);
+
+    // Set up tooltips
+    gtk_widget_set_tooltip_text(loadingGif, LOADING_TOOLTIP);
+    gtk_widget_set_tooltip_text(loadingLabel, LOADING_LABEL);
+
+    // Pack the loading screen into vBox.
+    gtk_box_pack_start(vBox, loadingGif, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(vBox, loadingLabel, TRUE, TRUE, DEFAULT_PADDING);
+}
+
 
 void create_radio_buttons(GtkBox *vBox) {
     // Create radio buttons with their labels. The first one's group is
@@ -52,7 +69,6 @@ void create_volume_control(GtkBox *vBox) {
     // Pack the volume control into vBox.
     gtk_box_pack_start(vBox, vc, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(vBox, volumeLabel, TRUE, TRUE, DEFAULT_PADDING);
-
 }
 
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {

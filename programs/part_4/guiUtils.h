@@ -8,6 +8,8 @@
 #include <string.h>
 
 // Define string constants
+#define LOADING_LABEL "Loading..."
+#define LOADING_TOOLTIP "Patience is a virtue"
 #define RB1_LABEL "Drums"
 #define RB2_LABEL "Piano"
 #define RB3_LABEL "Mario"
@@ -45,6 +47,9 @@ enum Instrument {
 // Declare widgets as global variables
 GtkWidget *window;
 GtkWidget *widgetContainer;
+GtkWidget *loadingContainer;
+GtkWidget *loadingGif;
+GtkWidget *loadingLabel;
 GtkWidget *vBoxRadioButtons;
 GtkWidget *vBoxVolumeControl;
 GtkWidget *volumeLabel;
@@ -54,10 +59,17 @@ GtkWidget *rb3;
 GtkWidget *image;
 GtkWidget *vc;
 
+// Declare animation for the loading gif
+GdkPixbufAnimation *animation;
+
+// Declare number to indicate whether loading finished
+int finishedLoading;
+
 // Declare volume as variable
 gdouble currentVolume;
 PyObject *pyFunCall;
 
+void create_loading_screen(GtkBox *vBox);
 void create_radio_buttons(GtkBox *vBox);
 void create_volume_control(GtkBox *vBox);
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window);
