@@ -10,13 +10,13 @@ PYTHON_FLAGS = -shared -I/usr/include/python2.7/ -lpython2.7 -fPIC -rdynamic
 all: main
 
 main: guiUtils.o touchHat.so
-	$(CC) $(CFLAGS) $(GTK_FLAGS) $(THREAD_FLAGS) guiUtils.o main.c -o main
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) $(THREAD_FLAGS) guiUtils.o main.c -o main
 
 touchHat.so: initialiser.o symbolTable.o guiUtils.o
 	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) touchHat.c symbolTable.o initialiser.o guiUtils.o -o touchHat.so
 
 guiUtils.o:
-	$(CC) $(CFLAGS) $(GTK_FLAGS) -c guiUtils.c -o guiUtils.o
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c guiUtils.c -o guiUtils.o
 
 initialiser.o:
 	$(CC) $(CFLAGS) -c initialiser.c -o initialiser.o

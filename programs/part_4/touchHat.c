@@ -1,5 +1,3 @@
-#include <Python.h>
-#include <stdio.h>
 #include "initialiser.h"
 #include "guiUtils.h"
 
