@@ -1,5 +1,4 @@
 from touchHat import *
-from pythonUtils import *
 import sys
 import time
 import pygame
@@ -25,6 +24,9 @@ def updateSoundArray(instr):
         print soundfile
         sounds[pin] = pygame.mixer.Sound(soundfile)
         sounds[pin].set_volume(1)
+
+passFunction(updateSoundArray)
+updateSoundArray(0)
 
 # Main loop to play the corroect sound every time a pin is touched
 last_touched = device.touched()

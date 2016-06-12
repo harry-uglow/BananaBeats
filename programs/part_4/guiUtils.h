@@ -43,7 +43,7 @@ enum Instrument {
     DRUMS,
     PIANO,
     MARIO
-} instrument;
+};
 
 // Declare widgets as global variables
 GtkWidget *window;
@@ -68,7 +68,11 @@ int finishedLoading;
 
 // Declare volume as variable
 gdouble currentVolume;
-PyObject *pyFunCall;
+
+// Global variables for Python function calls
+PyObject *pyFunction;
+PyObject *arguments;
+PyObject *output;
 
 void create_loading_screen(GtkBox *vBox);
 void create_radio_buttons(GtkBox *vBox);

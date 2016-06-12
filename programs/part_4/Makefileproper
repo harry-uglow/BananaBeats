@@ -8,16 +8,16 @@ PYTHON_FLAGS = -shared -I/usr/include/python2.7/ -lpython2.7 -fPIC -rdynamic
 .PHONY: all clean
 
 all: main.o touchHat.so
-	$(CC) $(CFLAGS) -o HUmain main.o guiUtils.o $(GTK_FLAGS) $(PYTHON_FLAGS)
+	$(CC) -o main main.o guiUtils.o $(GTK_FLAGS)
 
 main.o: guiUtils.o
-	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) $(THREAD_FLAGS) -c HUmain.c -o main.o
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) $(THREAD_FLAGS) -c main.c -o main.o
 
 touchHat.so: touchHat.o initialiser.o symbolTable.o
-	$(CC) $(PYTHON_FLAGS) $(GTK_FLAGS) touchHat.o initialiser.o symbolTable.o -o touchHat.so
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) touchHat.o initialiser.o symbolTable.o -o touchHat.so
 
 touchHat.o:
-	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c HUtouchHat.c -o touchHat.o
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c touchHat.c -o touchHat.o
 
 guiUtils.o:
 	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c guiUtils.c -o guiUtils.o
@@ -29,6 +29,6 @@ symbolTable.o:
 	$(CC) $(CFLAGS) -c symbolTable.c -o symbolTable.o
 
 clean:
-	rm HUmain
+	rm main
 	rm -rf $(wildcard *.o)
 	rm -rf $(wildcard *.so)

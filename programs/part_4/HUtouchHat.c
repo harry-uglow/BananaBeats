@@ -1,8 +1,8 @@
-#include <Python.h>
 #include "guiUtils.h"
+#include "initialiser.h"
 
 
-static PyObject *py_getVolume(PyObject *dummy, PyObject *args)
+static PyObject *py_passFunctionObject(PyObject *dummy, PyObject *args)
 {
     PyObject *result = NULL;
     PyObject *temp;
@@ -13,8 +13,8 @@ static PyObject *py_getVolume(PyObject *dummy, PyObject *args)
             return NULL;
         }
         Py_XINCREF(temp);         /* Add a reference to new callback */
-        Py_XDECREF(pyFunCall);  /* Dispose of previous callback */
-        pyFunCall = temp;       /* Remember new callback */
+        Py_XDECREF(pyFunction);  /* Dispose of previous callback */
+        pyFunction = temp;       /* Remember new callback */
         /* Boilerplate to return "None" */
         Py_INCREF(Py_None);
         result = Py_None;
@@ -63,15 +63,15 @@ static PyObject *py_initSounds(PyObject *self, PyObject *args) {
 /**
   * Array of methods for integration with Python script
   */
-static PyMethodDef HUtouchHat_methods[] = {
+static PyMethodDef touchHat_methods[] = {
     {"touched", py_touched, METH_VARARGS},
     {"released", py_released, METH_VARARGS},
     {"getSoundsFromInstrument", py_getSoundsFromInstrument, METH_VARARGS},
     {"initSounds", py_initSounds, METH_VARARGS},
-    {"getVolume", py_getVolume, METH_VARARGS},
+    {"passFunction", py_passFunctionObject, METH_VARARGS},
     {NULL, NULL}
 };
 
-void initHUtouchHat() {
-    (void) Py_InitModule("HUtouchHat", HUtouchHat_methods);
+void inittouchHat() {
+    (void) Py_InitModule("touchHat", touchHat_methods);
 }

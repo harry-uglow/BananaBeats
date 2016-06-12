@@ -44,9 +44,6 @@ void create_radio_buttons(GtkBox *vBox) {
     gtk_box_pack_start(vBox, rb1, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(vBox, rb2, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(vBox, rb3, TRUE, TRUE, DEFAULT_PADDING);
-
-    // Default instrument is the drums.
-    instrument = DRUMS;
 }
 
 void create_volume_control(GtkBox *vBox) {
@@ -82,20 +79,27 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
     const gchar *label = gtk_button_get_label(GTK_BUTTON(widget));
     switch(*label) {
         case 'D' :
-            instrument = DRUMS;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
+            arguments = Py_BuildValue("(i)", DRUMS);
             break;
         case 'P' :
-            instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
+            arguments = Py_BuildValue("(i)", PIANO);
             break;
         case 'M' :
-            instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
+            arguments = Py_BuildValue("(i)", MARIO);
             break;
         default:
             printf("Somethings gone wrong\n");
             break;
+    } 
+    output = PyEval_CallObject(pyFunction, arguments);
+    Py_DECREF(arguments);
+    if (output != NULL) {
+        Py_DECREF(output);
+    } else {
+        // Handle when Python function throws an error
     }
 }
 
