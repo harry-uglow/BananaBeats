@@ -1,4 +1,5 @@
-from HUtouchHat import *
+from touchHat import *
+from pythonUtils import *
 import sys
 import time
 import pygame
@@ -38,5 +39,5 @@ while True:
 	if not current_touched & pin_bit and last_touched & pin_bit:
 	    released(i)
     last_touched = current_touched
-    time.sleep(0.1) 
+    time.sleep(0.01) 
 

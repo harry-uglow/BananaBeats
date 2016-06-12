@@ -1,8 +1,5 @@
 #include <Python.h>
-#include <stdio.h>
-#include "initialiser.h"
 #include "guiUtils.h"
-#include "defs.h"
 
 
 static PyObject *py_getVolume(PyObject *dummy, PyObject *args)
