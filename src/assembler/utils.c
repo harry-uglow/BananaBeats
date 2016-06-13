@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <memory.h>
 
+static void removeWhiteSpaceAtEnd(char *str) {
+    while(str[strlen(str) - 1] == ' ') {
+        str[strlen(str) - 1] = '\0';
+    }
+}
+
 int firstPass(char **argv) {
     // Open file input to read from
     FILE *finput = fopen(argv[1],"r");
@@ -68,7 +74,7 @@ int firstPass(char **argv) {
         }
 
         // Extract first token in string (the mnemonic)
-        token = strtok(buffer, TOK_DELIM);
+        token = strtok(buffer, MNEMONIC_DELIM);
         // Rest will hold the rest of the string (the operands)
         rest = strtok(NULL, "");
         // Assign token as value of mnemonic in the instruction at 'address'
@@ -112,6 +118,8 @@ int firstPass(char **argv) {
                 // Reassing the rest of the assembly instruction to rest
                 rest = strtok(NULL, "");
             }
+
+            removeWhiteSpaceAtEnd(ops);
 
             // If ops string is not null & contains an operand then 
             // copy it to the correct component of the assembly instruction
