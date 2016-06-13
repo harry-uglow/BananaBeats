@@ -29,7 +29,7 @@
 #define MAX_LINE_LENGTH 511
 #define MAX_MNEMONIC_LENGTH 6
 #define MAX_OPERAND_LENGTH 50
-#define TOK_DELIM ", \n\0"
+#define TOK_DELIM ",\n\0"
 
 // Encode Bit Shift Amounts
 #define COND_BITS 28
