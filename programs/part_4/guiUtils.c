@@ -1,126 +1,126 @@
 #include "guiUtils.h"
 
 void create_twelve_lights(GtkBox *hBox) {
-	// All lights turned off at first
-	for(int i = 0; i < 12; i++) {
-		turn_light_off(i);
-	}
-	
-	// Set tooltips
-	gtk_widget_set_tooltip_text(light0, "Pin 0");
-	gtk_widget_set_tooltip_text(light1, "Pin 1");
-	gtk_widget_set_tooltip_text(light2, "Pin 2");
-	gtk_widget_set_tooltip_text(light3, "Pin 3");
-	gtk_widget_set_tooltip_text(light4, "Pin 4");
-	gtk_widget_set_tooltip_text(light5, "Pin 5");
-	gtk_widget_set_tooltip_text(light6, "Pin 6");
-	gtk_widget_set_tooltip_text(light7, "Pin 7");
-	gtk_widget_set_tooltip_text(light8, "Pin 8");
-	gtk_widget_set_tooltip_text(light9, "Pin 9");
-	gtk_widget_set_tooltip_text(light10, "Pin 10");
-	gtk_widget_set_tooltip_text(light11, "Pin 11");
-	
-	// Pack the lights into hBox
-	gtk_box_pack_start(hBox, light0, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light1, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light2, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light3, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light4, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light5, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light6, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light7, TRUE, TRUE, DEFAULT_PADDING);
-	gtk_box_pack_start(hBox, light8, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light9, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING); 
-	gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING); 
+    // All lights turned off at first
+    for(int i = 0; i < 12; i++) {
+        turn_light_off(i);
+    }
+    
+    // Set tooltips
+    gtk_widget_set_tooltip_text(light0, "Pin 0");
+    gtk_widget_set_tooltip_text(light1, "Pin 1");
+    gtk_widget_set_tooltip_text(light2, "Pin 2");
+    gtk_widget_set_tooltip_text(light3, "Pin 3");
+    gtk_widget_set_tooltip_text(light4, "Pin 4");
+    gtk_widget_set_tooltip_text(light5, "Pin 5");
+    gtk_widget_set_tooltip_text(light6, "Pin 6");
+    gtk_widget_set_tooltip_text(light7, "Pin 7");
+    gtk_widget_set_tooltip_text(light8, "Pin 8");
+    gtk_widget_set_tooltip_text(light9, "Pin 9");
+    gtk_widget_set_tooltip_text(light10, "Pin 10");
+    gtk_widget_set_tooltip_text(light11, "Pin 11");
+    
+    // Pack the lights into hBox
+    gtk_box_pack_start(hBox, light0, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light1, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light2, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light3, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light4, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light5, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light6, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light7, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light8, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light9, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING); 
 }
 
 void turn_light_on(int pin) {
-	switch (pin) {
-		case 0:
-			light0 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 1:
-			light1 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 2:
-			light2 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 3:
-			light3 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 4:
-			light4 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 5:
-			light5 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 6:
-			light6 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 7:
-			light7 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 8:
-			light8 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 9:
-			light9 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 10:
-			light10 = gtk_image_new_from_file("Images/on.png");
-			break;
-		case 11:
-			light11 = gtk_image_new_from_file("Images/on.png");
-			break;
-		default: 
-			// Should not reach this stage if correct pin is selected
-			break;
-	}
+    switch (pin) {
+        case 0:    
+            light0 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 1:
+            light1 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 2:
+            light2 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 3:
+            light3 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 4:
+            light4 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 5:
+            light5 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 6:
+            light6 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 7:
+            light7 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 8:
+            light8 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 9:
+            light9 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 10:
+            light10 = gtk_image_new_from_file("Images/on.png");
+            break;
+        case 11:
+            light11 = gtk_image_new_from_file("Images/on.png");
+            break;
+        default: 
+            // Should not reach this stage if correct pin is selected
+            break;
+    }
 }
 
 void turn_light_off(int pin) {
-	switch (pin) {
-		case 0:
-			light0 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 1:
-			light1 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 2:
-			light2 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 3:
-			light3 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 4:
-			light4 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 5:
-			light5 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 6:
-			light6 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 7:
-			light7 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 8:
-			light8 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 9:
-			light9 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 10:
-			light10 = gtk_image_new_from_file("Images/off.png");
-			break;
-		case 11:
-			light11 = gtk_image_new_from_file("Images/off.png");
-			break;
-		default: 
-			// Should not reach this stage if correct pin is selected
-			break;
-	}
+    switch (pin) {
+        case 0:
+            light0 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 1:
+            light1 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 2:
+            light2 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 3:
+            light3 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 4:
+            light4 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 5:
+            light5 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 6:
+            light6 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 7:
+            light7 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 8:
+            light8 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 9:
+            light9 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 10:
+            light10 = gtk_image_new_from_file("Images/off.png");
+            break;
+        case 11:
+            light11 = gtk_image_new_from_file("Images/off.png");
+            break;
+        default: 
+            // Should not reach this stage if correct pin is selected
+            break;
+    }
 }
 
 void create_loading_screen(GtkBox *vBox) {
@@ -136,13 +136,13 @@ void create_loading_screen(GtkBox *vBox) {
 }
 
 void create_radio_buttons(GtkBox *vBox) {
-    // Create radio buttons with their labels. The first one's group is
-    // unspecified and the others are placed into the same group as rb1.
-    rb1 = gtk_radio_button_new_with_label(NULL, RB1_LABEL);
+    // Create radio buttons with their labels (No labels). The first one's 
+    // group is unspecified and the others are placed into the same group as rb1.
+    rb1 = gtk_radio_button_new_with_label(NULL, NULL);
     rb2 = gtk_radio_button_new_with_label_from_widget
-            (GTK_RADIO_BUTTON(rb1), RB2_LABEL);
+            (GTK_RADIO_BUTTON(rb1), NULL);
     rb3 = gtk_radio_button_new_with_label_from_widget
-            (GTK_RADIO_BUTTON(rb1), RB3_LABEL);
+            (GTK_RADIO_BUTTON(rb1), NULL);
 
     // Set tooltips for the radio buttons
     gtk_widget_set_tooltip_text(rb1, RB1_TOOLTIP);
@@ -176,17 +176,12 @@ void create_volume_control(GtkBox *vBox) {
     // Set tooltip for the volume control
     gtk_widget_set_tooltip_text(vc, VC_TOOLTIP);
 
-    // Create label
-    volumeLabel = gtk_label_new(VOLUME_LABEL);
-
     // When volume is changed vall adjust_volume
     g_signal_connect(vc, "value-changed",
                      G_CALLBACK(adjust_volume), (gpointer) window);
 
     // Pack the volume control into vBox.
     gtk_box_pack_start(vBox, vc, TRUE, TRUE, DEFAULT_PADDING);
-    gtk_box_pack_start(vBox, volumeLabel, TRUE, TRUE, DEFAULT_PADDING);
-
 }
 
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
