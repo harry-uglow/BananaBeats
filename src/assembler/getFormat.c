@@ -134,6 +134,32 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             // Note how where I is set to 1 Rm actually represents the Imm field
             // of Operand 2 as seen in the spec. In this way Rm is overloaded.
             ins->Rm = getIntFromString(assIns->op3);
+            // OPTIONAL CASE
+            if(*assIns->op4) {
+                char *shiftStr = strtok(assIns->op4, MNEMONIC_DELIM);
+                if(shiftStr[2] != 'l') {
+                    switch(*shiftStr) {
+                        case 'r':
+                            ins->shiftType++;
+                        case 'a':
+                            ins->shiftType++;
+                        case 'l':
+                            ins->shiftType++;
+                            break;
+                        default:
+                            printf("Bad shift type in a data processing\
+                                    instruction");
+                            break;
+                    }
+                }
+                char *shiftAmountStr = strtok(NULL, "");
+                if(*shiftAmountStr == 'r') {
+                    ins->isRsShift = 1;
+                    ins->Rs = getIntFromString(shiftAmountStr);
+                } else {
+                    ins->shiftAmount = getIntFromString(shiftAmountStr);
+                }
+            }
             break;
     }
 }
