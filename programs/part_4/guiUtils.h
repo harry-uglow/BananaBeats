@@ -1,12 +1,15 @@
 #ifndef PART_4_GUIUTILS_H
 #define PART_4_GUIUTILS_H
 
+#include <Python.h>
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 // Define string constants
+#define LOADING_LABEL "Loading..."
+#define LOADING_TOOLTIP "Patience is a virtue"
 #define RB1_LABEL "Drums"
 #define RB2_LABEL "Piano"
 #define RB3_LABEL "Mario"
@@ -24,7 +27,7 @@
 #define VOLUME_MIN 0
 #define VOLUME_MAX 100
 #define VOLUME_STEP 1
-#define VOLUME_CONTROL_WIDTH 150
+#define VOLUME_CONTROL_WIDTH 400
 #define MAX_DIGITS_VOLUME_PERCENTAGE 3
 #define WINDOW_WIDTH 300
 #define WINDOW_HEIGHT 250
@@ -43,7 +46,12 @@ enum Instrument {
 
 // Declare widgets as global variables
 GtkWidget *window;
+GtkWidget *controlContainer;
 GtkWidget *widgetContainer;
+GtkWidget *loadingContainer;
+GtkWidget *loadingGif;
+GtkWidget *loadingLabel;
+GtkWidget *hBoxLights;
 GtkWidget *vBoxRadioButtons;
 GtkWidget *vBoxVolumeControl;
 GtkWidget *volumeLabel;
@@ -52,10 +60,33 @@ GtkWidget *rb2;
 GtkWidget *rb3;
 GtkWidget *image;
 GtkWidget *vc;
+GtkWidget *light0;
+GtkWidget *light1;
+GtkWidget *light2;
+GtkWidget *light3;
+GtkWidget *light4;
+GtkWidget *light5;
+GtkWidget *light6;
+GtkWidget *light7;
+GtkWidget *light8;
+GtkWidget *light9;
+GtkWidget *light10;
+GtkWidget *light11;
+
+// Declare animation for the loading gif
+GdkPixbufAnimation *animation;
+
+// Declare number to indicate whether loading finished
+int finishedLoading;
 
 // Declare volume as variable
 gdouble currentVolume;
+PyObject *pyFunCall;
 
+void create_twelve_lights(GtkBox *hBox);
+void turn_light_on(int pin);
+void turn_light_off(int pin);
+void create_loading_screen(GtkBox *vBox);
 void create_radio_buttons(GtkBox *vBox);
 void create_volume_control(GtkBox *vBox);
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window);
