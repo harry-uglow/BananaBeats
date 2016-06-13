@@ -26,12 +26,39 @@ sudo awk '{print $2}' | sudo xargs kill -9");
     exit(0);
 }
 
+gboolean quitLoadingScreen(gpointer data) {
+    gtk_widget_destroy((GtkWidget*)data);
+    gtk_widget_show_all(window);
+    return (FALSE);
+}
+
 int main(void) {
-printf("helooooooo");
     // Initialise GTK+
     gtk_init(0, NULL);
+ 
+    // Create loading window
+    loadingWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title (GTK_WINDOW (loadingWindow), "Loading...");
+    gtk_container_set_border_width (GTK_CONTAINER (loadingWindow), 0);
+    gtk_widget_set_size_request (loadingWindow, 400, 300);
+    gtk_window_set_decorated(GTK_WINDOW (loadingWindow), FALSE);
+    gtk_window_set_position(GTK_WINDOW(loadingWindow), GTK_WIN_POS_CENTER);
+    gtk_window_set_resizable(GTK_WINDOW(loadingWindow), FALSE);
+    
+    // Create new box to hold the loading widgets
+    loadingContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10); 
+    gtk_widget_set_halign(loadingContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(loadingContainer, GTK_ALIGN_CENTER);
 
-printf("helooooooo");
+    // Create loading screen
+    create_loading_screen(GTK_BOX(loadingContainer));
+
+    gtk_container_add(GTK_CONTAINER(loadingWindow), loadingContainer);
+    gtk_widget_show_all(loadingWindow);
+
+    // Enter the main loop
+    g_timeout_add (5000, quitLoadingScreen, loadingWindow);
+
     // Set up the window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
@@ -84,10 +111,8 @@ printf("helooooooo");
     gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
     gtk_container_add(GTK_CONTAINER(window), widgetContainer);
 
-    // Show the window
-    gtk_widget_show_all(window);
+    gtk_widget_hide(window);
     
-printf("helooooooo");
     // Enter the main GUI loop
     pthread_create(&threadGui, NULL, runGtkLoop, NULL);
     
