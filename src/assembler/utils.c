@@ -115,7 +115,7 @@ int firstPass(char **argv) {
             } else {
                 // Copy next tokenised operand into ops string
                 strcpy(ops, strtok(rest, TOK_DELIM));
-                // Reassing the rest of the assembly instruction to rest
+                // Reassign the rest of the assembly instruction to rest
                 rest = strtok(NULL, "");
             }
 

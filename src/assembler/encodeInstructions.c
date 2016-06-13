@@ -4,6 +4,7 @@ static int32_t encodeDataProcessing(instr_t *instr);
 static int32_t encodeMultiply(instr_t *instr);
 static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress);
 static int32_t encodeBranch(instr_t *instr, int16_t currAddress);
+static int buildShift(instr_t *instr);
 
 static int32_t encodeDataProcessing(instr_t *instr) {
     int operand2 = 0;
@@ -12,16 +13,8 @@ static int32_t encodeDataProcessing(instr_t *instr) {
         operand2 = instr->Rm & 0x000000FF;
         operand2 |= (instr->shiftAmount) << IMMVAL_SHIFTAMOUNT_BITS;
     } else {
-        int shift = instr->isRsShift;
-        shift |= (instr->shiftType) << SHIFT_TYPE_BITS;
         operand2 = instr->Rm;
-        if (instr->isRsShift) {
-            // Shift by Rs
-            shift |= (instr->Rs) << SHIFT_RS_BITS;
-        } else {
-            // Shift by constant
-            shift |= (instr->shiftAmount) << REG_SHIFTAMOUNT_BITS;
-        }
+        int shift = buildShift(instr);
         operand2 |= shift << SHIFT_BITS;
     }
 
@@ -72,9 +65,12 @@ static int32_t encodeSingleDataTransfer(instr_t *instr, int16_t currAddress) {
         // Increment the address counter and numStoredConstants
         address++;
         numStoredConstants++;
-    }
-
-    if (instr->offset < 0) {
+    } else if (instr->setI) {
+        // Just in case
+        instr->offset = instr->Rm;
+        int shift = buildShift(instr);
+        instr->offset |= (shift << SHIFT_BITS);
+    } else if (instr->offset < 0) {
         instr->setU = 0;
         instr->offset = -instr->offset;
     }
@@ -133,4 +129,17 @@ int32_t encode(assIns_t *instr) {
     }
     currAddress += WORD_LENGTH;
     return binaryInstruction;
+}
+
+static int buildShift(instr_t *instr) {
+    int shift = instr->isRsShift;
+    shift |= (instr->shiftType) << SHIFT_TYPE_BITS;
+    if (instr->isRsShift) {
+        // Shift by Rs
+        shift |= (instr->Rs) << SHIFT_RS_BITS;
+    } else {
+        // Shift by constant
+        shift |= (instr->shiftAmount) << REG_SHIFTAMOUNT_BITS;
+    }
+    return shift;
 }
