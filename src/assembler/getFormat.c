@@ -10,6 +10,7 @@ static void getFormMult(instr_t *ins, assIns_t *assIns);
 static void getFormDatTran(instr_t *ins, assIns_t *assIns);
 static void getFormBranch(instr_t *ins, assIns_t *assIns);
 static int getIntFromString(char *str);
+static void getFormatShiftedRegister(instr_t *ins, char *rmAndShift);
 
 // Function intended to fill the necessary formatting fields in
 // struct Instruction to aid encoding.
@@ -136,29 +137,7 @@ static void getFormDatProc(instr_t *ins, assIns_t *assIns) {
             ins->Rm = getIntFromString(assIns->op3);
             // OPTIONAL CASE
             if(*assIns->op4) {
-                char *shiftStr = strtok(assIns->op4, MNEMONIC_DELIM);
-                if(shiftStr[2] != 'l') {
-                    switch(*shiftStr) {
-                        case 'r':
-                            ins->shiftType++;
-                        case 'a':
-                            ins->shiftType++;
-                        case 'l':
-                            ins->shiftType++;
-                            break;
-                        default:
-                            printf("Bad shift type in a data processing\
-                                    instruction");
-                            break;
-                    }
-                }
-                char *shiftAmountStr = strtok(NULL, "");
-                if(*shiftAmountStr == 'r') {
-                    ins->isRsShift = 1;
-                    ins->Rs = getIntFromString(shiftAmountStr);
-                } else {
-                    ins->shiftAmount = getIntFromString(shiftAmountStr);
-                }
+                getFormatShiftedRegister(ins, assIns->op4);
             }
             break;
     }
@@ -228,37 +207,32 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
         } else {
             // Offset from a shifted register
             ins->setI = 1;
+            if(*part2 == '-') {
+                ins->setU = 0;
+                // - sign will mess up getIntFromString so move past it.
+                part2++;
+            }
             ins->Rm = getIntFromString(strtok(part2, TOK_DELIM));
-            char *shiftStr = strtok(NULL, MNEMONIC_DELIM);
-            ins->shiftType = 0;
-            if(shiftStr[2] != 'l') {
-                switch(*shiftStr) {
-                    case 'r':
-                        ins->shiftType++;
-                    case 'a':
-                        ins->shiftType++;
-                    case 'l':
-                        ins->shiftType++;
-                        break;
-                    default:
-                        printf("Bad shift type in a data processing\
-                                    instruction");
-                        break;
-                }
-            }
-            char *shiftAmountStr = strtok(NULL, "");
-            if(*shiftAmountStr == 'r') {
-                ins->isRsShift = 1;
-                ins->Rs = getIntFromString(shiftAmountStr);
-            } else {
-                ins->shiftAmount = getIntFromString(shiftAmountStr);
-            }
+            getFormatShiftedRegister(ins, strtok(NULL, ""));
         }
     }
-    if (strcmp(assIns->op3, "")) {
+    if (*assIns->op3) {
         // Post-indexing
         ins->setP = 0;
-        ins->offset = getIntFromString(assIns->op3);
+        if(*assIns->op3 == '#') {
+            // Constant offset
+            ins->offset = getIntFromString(assIns->op3);
+        } else {
+            // Offset from a shifted register
+            ins->setI = 1;
+            if(*assIns->op3 == '-') {
+                ins->setU = 0;
+                // - sign will mess up getIntFromString so move past it.
+                assIns->op3++;
+            }
+            ins->Rm = getIntFromString(strtok(assIns->op3, TOK_DELIM));
+            getFormatShiftedRegister(ins, strtok(NULL, ""));
+        }
     }
 }
 
@@ -275,6 +249,33 @@ static void getFormBranch(instr_t *ins, assIns_t *assIns) {
             printf("Branch statement with undefined label. Exiting.");
             exit(EXIT_FAILURE);
         }
+    }
+}
+
+static void getFormatShiftedRegister(instr_t *ins, char *shift) {
+    char *shiftStr = strtok(shift, MNEMONIC_DELIM);
+    ins->shiftType = 0;
+    if(shiftStr[2] != 'l') {
+        switch(*shiftStr) {
+            case 'r':
+                ins->shiftType++;
+            case 'a':
+                ins->shiftType++;
+            case 'l':
+                ins->shiftType++;
+                break;
+            default:
+                printf("Bad shift type in a data processing\
+                                    instruction");
+                break;
+        }
+    }
+    char *shiftAmountStr = strtok(NULL, "");
+    if(*shiftAmountStr == 'r') {
+        ins->isRsShift = 1;
+        ins->Rs = getIntFromString(shiftAmountStr);
+    } else {
+        ins->shiftAmount = getIntFromString(shiftAmountStr);
     }
 }
 
