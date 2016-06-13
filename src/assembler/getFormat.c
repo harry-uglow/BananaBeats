@@ -219,10 +219,41 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
     char *part1;
     char *part2;
     part1 = strtok(assIns->op2, SDT_OP2_SPLIT);
-    part2 = strtok(NULL, SDT_OP2_SPLIT);
+    part2 = strtok(NULL, "");
     ins->Rn = getIntFromString(part1);
     if (part2) {
-        ins->offset = getIntFromString(part2);
+        if(*part2 == '#') {
+            // Constant offset
+            ins->offset = getIntFromString(part2);
+        } else {
+            // Offset from a shifted register
+            ins->setI = 1;
+            ins->Rm = getIntFromString(strtok(part2, TOK_DELIM));
+            char *shiftStr = strtok(NULL, MNEMONIC_DELIM);
+            ins->shiftType = 0;
+            if(shiftStr[2] != 'l') {
+                switch(*shiftStr) {
+                    case 'r':
+                        ins->shiftType++;
+                    case 'a':
+                        ins->shiftType++;
+                    case 'l':
+                        ins->shiftType++;
+                        break;
+                    default:
+                        printf("Bad shift type in a data processing\
+                                    instruction");
+                        break;
+                }
+            }
+            char *shiftAmountStr = strtok(NULL, "");
+            if(*shiftAmountStr == 'r') {
+                ins->isRsShift = 1;
+                ins->Rs = getIntFromString(shiftAmountStr);
+            } else {
+                ins->shiftAmount = getIntFromString(shiftAmountStr);
+            }
+        }
     }
     if (strcmp(assIns->op3, "")) {
         // Post-indexing
