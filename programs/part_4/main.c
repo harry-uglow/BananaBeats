@@ -28,6 +28,7 @@ sudo awk '{print $2}' | sudo xargs kill -9");
 }
 
 int main(void) {
+printf("Started\n");
     // Initialise GTK+
     gtk_init(0, NULL);
 
