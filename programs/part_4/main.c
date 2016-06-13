@@ -103,7 +103,7 @@ int main(void) {
     gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
 
     // Create new box to hold the control widgets (radio buttons and sound)
-    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1095);
+    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1050);
     gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
 
