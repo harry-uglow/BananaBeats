@@ -207,13 +207,16 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
         } else {
             // Offset from a shifted register
             ins->setI = 1;
-            if(*part2 == '-') {
+            if (*part2 == '-') {
                 ins->setU = 0;
                 // - sign will mess up getIntFromString so move past it.
                 part2++;
             }
             ins->Rm = getIntFromString(strtok(part2, TOK_DELIM));
-            getFormatShiftedRegister(ins, strtok(NULL, ""));
+            char *restOfString = strtok(NULL, "");
+            if (restOfString && *restOfString) {
+                getFormatShiftedRegister(ins, restOfString);
+            }
         }
     }
     if (*assIns->op3) {
@@ -231,7 +234,10 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
                 assIns->op3++;
             }
             ins->Rm = getIntFromString(strtok(assIns->op3, TOK_DELIM));
-            getFormatShiftedRegister(ins, strtok(NULL, ""));
+            char *restOfString = strtok(NULL, "");
+            if(restOfString && *restOfString) {
+                getFormatShiftedRegister(ins, restOfString);
+            }
         }
     }
 }
