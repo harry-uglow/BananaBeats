@@ -1,5 +1,145 @@
-
 #include "guiUtils.h"
+
+void create_twelve_lights(GtkBox *hBox) {
+    // All lights turned off at first
+    for(int i = 0; i < 12; i++) {
+        turn_light_off(i);
+    }
+
+    // Set tooltips
+    gtk_widget_set_tooltip_text(light0, "Pin 0");
+    gtk_widget_set_tooltip_text(light1, "Pin 1");
+    gtk_widget_set_tooltip_text(light2, "Pin 2");
+    gtk_widget_set_tooltip_text(light3, "Pin 3");
+    gtk_widget_set_tooltip_text(light4, "Pin 4");
+    gtk_widget_set_tooltip_text(light5, "Pin 5");
+    gtk_widget_set_tooltip_text(light6, "Pin 6");
+    gtk_widget_set_tooltip_text(light7, "Pin 7");
+    gtk_widget_set_tooltip_text(light8, "Pin 8");
+    gtk_widget_set_tooltip_text(light9, "Pin 9");
+    gtk_widget_set_tooltip_text(light10, "Pin 10");
+    gtk_widget_set_tooltip_text(light11, "Pin 11");
+
+    // Pack the lights into hBox
+    gtk_box_pack_start(hBox, light0, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light1, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light2, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light3, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light4, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light5, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light6, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light7, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light8, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light9, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING);
+}
+
+void turn_light_on(int pin) {
+    switch (pin) {
+        case 0:
+            light0 = gtk_image_new_from_file("on.png");
+            break;
+        case 1:
+            light1 = gtk_image_new_from_file("on.png");
+            break;
+        case 2:
+            light2 = gtk_image_new_from_file("on.png");
+            break;
+        case 3:
+            light3 = gtk_image_new_from_file("on.png");
+            break;
+        case 4:
+            light4 = gtk_image_new_from_file("on.png");
+            break;
+        case 5:
+            light5 = gtk_image_new_from_file("on.png");
+            break;
+        case 6:
+            light6 = gtk_image_new_from_file("on.png");
+            break;
+        case 7:
+            light7 = gtk_image_new_from_file("on.png");
+            break;
+        case 8:
+            light8 = gtk_image_new_from_file("on.png");
+            break;
+        case 9:
+            light9 = gtk_image_new_from_file("on.png");
+            break;
+        case 10:
+            light10 = gtk_image_new_from_file("on.png");
+            break;
+        case 11:
+            light11 = gtk_image_new_from_file("on.png");
+            break;
+        default:
+            // Should not reach this stage if correct pin is selected
+            break;
+    }
+}
+
+void turn_light_off(int pin) {
+    switch (pin) {
+        case 0:
+            light0 = gtk_image_new_from_file("off.png");
+            break;
+        case 1:
+            light1 = gtk_image_new_from_file("off.png");
+            break;
+        case 2:
+            light2 = gtk_image_new_from_file("off.png");
+            break;
+        case 3:
+            light3 = gtk_image_new_from_file("off.png");
+            break;
+        case 4:
+            light4 = gtk_image_new_from_file("off.png");
+            break;
+        case 5:
+            light5 = gtk_image_new_from_file("off.png");
+            break;
+        case 6:
+            light6 = gtk_image_new_from_file("off.png");
+            break;
+        case 7:
+            light7 = gtk_image_new_from_file("off.png");
+            break;
+        case 8:
+            light8 = gtk_image_new_from_file("off.png");
+            break;
+        case 9:
+            light9 = gtk_image_new_from_file("off.png");
+            break;
+        case 10:
+            light10 = gtk_image_new_from_file("off.png");
+            break;
+        case 11:
+            light11 = gtk_image_new_from_file("off.png");
+            break;
+        default:
+            // Should not reach this stage if correct pin is selected
+            break;
+    }
+}
+
+void create_loading_screen(GtkBox *vBox) {
+    // Set up the loading gif
+    animation = gdk_pixbuf_animation_new_from_file("hexLoader.gif", NULL);
+    loadingGif = gtk_image_new_from_animation(animation);
+
+    // Create label for loading screen
+    loadingLabel = gtk_label_new(LOADING_LABEL);
+
+    // Set up tooltips
+    gtk_widget_set_tooltip_text(loadingGif, LOADING_TOOLTIP);
+    gtk_widget_set_tooltip_text(loadingLabel, LOADING_LABEL);
+
+    // Pack the loading screen into vBox.
+    gtk_box_pack_start(vBox, loadingGif, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(vBox, loadingLabel, TRUE, TRUE, DEFAULT_PADDING);
+}
+
 
 void create_radio_buttons(GtkBox *vBox) {
     // Create radio buttons with their labels. The first one's group is
@@ -27,9 +167,6 @@ void create_radio_buttons(GtkBox *vBox) {
     gtk_box_pack_start(vBox, rb1, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(vBox, rb2, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(vBox, rb3, TRUE, TRUE, DEFAULT_PADDING);
-
-    // Default instrument is the drums.
-    instrument = DRUMS;
 }
 
 void create_volume_control(GtkBox *vBox) {
@@ -52,7 +189,6 @@ void create_volume_control(GtkBox *vBox) {
     // Pack the volume control into vBox.
     gtk_box_pack_start(vBox, vc, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(vBox, volumeLabel, TRUE, TRUE, DEFAULT_PADDING);
-
 }
 
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
@@ -66,20 +202,27 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
     const gchar *label = gtk_button_get_label(GTK_BUTTON(widget));
     switch(*label) {
         case 'D' :
-            instrument = DRUMS;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
+            arguments = Py_BuildValue("(i)", DRUMS);
             break;
         case 'P' :
-            instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
+            arguments = Py_BuildValue("(i)", PIANO);
             break;
         case 'M' :
-            instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
+            arguments = Py_BuildValue("(i)", MARIO);
             break;
         default:
             printf("Somethings gone wrong\n");
             break;
+    } 
+    output = PyEval_CallObject(pyFunction, arguments);
+    Py_DECREF(arguments);
+    if (output != NULL) {
+        Py_DECREF(output);
+    } else {
+        // Handle when Python function throws an error
     }
 }
 

@@ -1,6 +1,27 @@
 #include "guiUtils.h"
 #include "initialiser.h"
 
+
+static PyObject *py_passFunctionObject(PyObject *dummy, PyObject *args)
+{
+    PyObject *result = NULL;
+    PyObject *temp;
+
+    if (PyArg_ParseTuple(args, "O:set_callback", &temp)) {
+        if (!PyCallable_Check(temp)) {
+            PyErr_SetString(PyExc_TypeError, "parameter must be callable");
+            return NULL;
+        }
+        Py_XINCREF(temp);         /* Add a reference to new callback */
+        Py_XDECREF(pyFunction);  /* Dispose of previous callback */
+        pyFunction = temp;       /* Remember new callback */
+        /* Boilerplate to return "None" */
+        Py_INCREF(Py_None);
+        result = Py_None;
+    }
+    return result;
+}
+
 /** 
  * This function is called when a pin is touched. It takes as an argument the
  * number of the pin which was touched. It will be used for future GUI functions
@@ -38,6 +59,7 @@ static PyObject *py_initSounds(PyObject *self, PyObject *args) {
     return Py_BuildValue("");
 }
 
+
 /**
   * Array of methods for integration with Python script
   */
@@ -46,6 +68,7 @@ static PyMethodDef touchHat_methods[] = {
     {"released", py_released, METH_VARARGS},
     {"getSoundsFromInstrument", py_getSoundsFromInstrument, METH_VARARGS},
     {"initSounds", py_initSounds, METH_VARARGS},
+    {"passFunction", py_passFunctionObject, METH_VARARGS},
     {NULL, NULL}
 };
 
