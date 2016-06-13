@@ -45,6 +45,7 @@ enum Instrument {
 } instrument;
 
 // Declare widgets as global variables
+GtkWidget *loadingWindow;
 GtkWidget *window;
 GtkWidget *controlContainer;
 GtkWidget *widgetContainer;

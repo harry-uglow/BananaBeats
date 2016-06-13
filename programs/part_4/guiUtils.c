@@ -125,19 +125,14 @@ void turn_light_off(int pin) {
 
 void create_loading_screen(GtkBox *vBox) {
     // Set up the loading gif
-    animation = gdk_pixbuf_animation_new_from_file("hexLoader.gif", NULL);
+    animation = gdk_pixbuf_animation_new_from_file("Images/hexLoader.gif", NULL);
     loadingGif = gtk_image_new_from_animation(animation);
-
-    // Create label for loading screen
-    loadingLabel = gtk_label_new(LOADING_LABEL);
 
     // Set up tooltips
     gtk_widget_set_tooltip_text(loadingGif, LOADING_TOOLTIP);
-    gtk_widget_set_tooltip_text(loadingLabel, LOADING_LABEL);
 
     // Pack the loading screen into vBox.
     gtk_box_pack_start(vBox, loadingGif, TRUE, TRUE, DEFAULT_PADDING);
-    gtk_box_pack_start(vBox, loadingLabel, TRUE, TRUE, DEFAULT_PADDING);
 }
 
 void create_radio_buttons(GtkBox *vBox) {
