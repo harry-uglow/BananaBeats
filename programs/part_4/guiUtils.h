@@ -42,7 +42,7 @@ enum Instrument {
     DRUMS,
     PIANO,
     MARIO
-};
+} instrument;
 
 // Declare widgets as global variables
 GtkWidget *window;
