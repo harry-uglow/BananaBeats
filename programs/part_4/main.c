@@ -27,9 +27,11 @@ sudo awk '{print $2}' | sudo xargs kill -9");
 }
 
 int main(void) {
+printf("helooooooo");
     // Initialise GTK+
     gtk_init(0, NULL);
 
+printf("helooooooo");
     // Set up the window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
@@ -85,6 +87,7 @@ int main(void) {
     // Show the window
     gtk_widget_show_all(window);
     
+printf("helooooooo");
     // Enter the main GUI loop
     pthread_create(&threadGui, NULL, runGtkLoop, NULL);
     
