@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L
 #include "guiUtils.h"
 #include <pthread.h>
 #include <signal.h>
@@ -5,7 +6,13 @@
 #define MAX_DIGITS_NUMBER_OF_MODES 15
 
 pthread_t threadPython;
+pthread_t threadStartupSound;
 pthread_t threadGui;
+
+void *playStartupSound(void *pInstrument) {
+    system("aplay sounds/startup.wav");
+    return 0;
+}
 
 void *runPythonScript(void *pInstrument) {
     int newInstrument = *((int *) pInstrument);
@@ -21,8 +28,9 @@ void *runPythonScript(void *pInstrument) {
 // be called as a separate thread.
 void *runGtkLoop(void *parameter) {
     gtk_main();
-   /* system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
-sudo awk '{print $2}' | sudo xargs kill -9"); */
+    system("aplay sounds/shutdown.wav");
+    system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");
     exit(0);
 }
 
@@ -109,8 +117,8 @@ int main(void) {
     create_twelve_lights(GTK_BOX(hBoxLights));
 
     // When the window is closed exit the program.
-    g_signal_connect(window, "destroy",
-                     G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(window, "destroy", 
+                       G_CALLBACK(gtk_main_quit), NULL);
 
     // Add the boxes to the window.
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxRadioButtons);
@@ -120,7 +128,9 @@ int main(void) {
 	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 165, 320);
     gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 65, 690);
 	gtk_container_add(GTK_CONTAINER(window), layout);
-    //gtk_widget_hide(window);
+
+    // Windows starup sound
+    pthread_create(&threadStartupSound, NULL, playStartupSound, NULL);
     
     // Enter the main GUI loop
     pthread_create(&threadGui, NULL, runGtkLoop, NULL);
