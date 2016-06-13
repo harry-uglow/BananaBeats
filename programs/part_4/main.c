@@ -18,7 +18,7 @@ void *runPythonScript(void *pInstrument) {
     int newInstrument = *((int *) pInstrument);
     char *scriptAddress = "auxPython.py";
     char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
-    sprintf(systemCall, "python %s %d", scriptAddress, newInstrument);
+    sprintf(systemCall, "sudo python %s %d", scriptAddress, newInstrument);
     printf("%s\n", systemCall);
     system(systemCall);
     return 0;
