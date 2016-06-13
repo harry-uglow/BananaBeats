@@ -28,7 +28,6 @@ sudo awk '{print $2}' | sudo xargs kill -9");
 }
 
 int main(void) {
-printf("Started\n");
     // Initialise GTK+
     gtk_init(0, NULL);
 
@@ -38,24 +37,6 @@ printf("Started\n");
     gtk_container_set_border_width(GTK_CONTAINER(window), 15);
     gtk_window_set_default_size(GTK_WINDOW(window), 300, 250);
     gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
-	
-	// Set up and create menu 
-	// TODO: extract this out to guiUtils.c later
-	menuBox = gtk_box_new(FALSE, 0);
-
-	menuBar = gtk_menu_bar_new();
-	fileMenu = gtk_menu_new();
-
-	file = gtk_menu_item_new_with_label("File");
-	about = gtk_menu_item_new_with_label("About");
-	quit = gtk_menu_item_new_with_label("Quit");
-
-
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), fileMenu);
-    gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), about);
-    gtk_menu_shell_append(GTK_MENU_SHELL(fileMenu), quit);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menuBar), file);
-    gtk_box_pack_start(GTK_BOX(menuBox), menuBar, FALSE, FALSE, 0);
 
     // Banana icon
     GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("icon.png", 256, 256,
@@ -63,7 +44,7 @@ printf("Started\n");
     gtk_window_set_icon(GTK_WINDOW(window), pIcon);
 
     // Create new box to hold the widgets
-    widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 30);
+    widgetContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 30);
     gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(widgetContainer, GTK_ALIGN_CENTER);
     
@@ -77,34 +58,19 @@ printf("Started\n");
     gtk_widget_set_halign(vBoxVolumeControl, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
 
-	// Create new box to hold the control widgets (radio buttons and sound)
-	controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 70);
-    gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
-
     // Create the radio buttons and pack the into vBoxRadioButtons.
     create_radio_buttons(GTK_BOX(vBoxRadioButtons));
 
     // Create the volume control and pack it into vBoxVolumeControl
     create_volume_control(GTK_BOX(vBoxVolumeControl));
-	
-	// Create the 12 lights and pack it into hBoxLights
-	create_twelve_lights(GTK_BOX(hBoxLights));
 
     // When the window is closed exit the program.
     g_signal_connect(window, "destroy",
                      G_CALLBACK(gtk_main_quit), NULL);
 
-  	// When 'Quit' is clicked, exit the program.
-    g_signal_connect(G_OBJECT(quit), "activate",
-                    G_CALLBACK(gtk_main_quit), NULL);
-
-    // Add the boxs to the window.
-    gtk_container_add(GTK_CONTAINER(controlContainer), vBoxRadioButtons);
-    gtk_container_add(GTK_CONTAINER(controlContainer), vBoxVolumeControl);
-    gtk_container_add(GTK_CONTAINER(widgetContainer), menuBox);
-    gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
-    gtk_container_add(GTK_CONTAINER(widgetContainer), controlContainer);
+    // Add the boxs to the windowg.
+    gtk_container_add(GTK_CONTAINER(widgetContainer), vBoxRadioButtons);
+    gtk_container_add(GTK_CONTAINER(widgetContainer), vBoxVolumeControl);
     gtk_container_add(GTK_CONTAINER(window), widgetContainer);
 
     // Show the window
