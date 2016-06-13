@@ -8,6 +8,7 @@
 pthread_t threadPython;
 pthread_t threadStartupSound;
 pthread_t threadGui;
+pthread_t threadInstrLoop;
 
 void *playStartupSound(void *pInstrument) {
     system("aplay sounds/startup.wav");
@@ -32,6 +33,10 @@ void *runGtkLoop(void *parameter) {
     system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
 sudo awk '{print $2}' | sudo xargs kill -9");
     exit(0);
+}
+
+void *instrLoop(void *parameter) {
+    
 }
 
 gboolean quitLoadingScreen(gpointer data) {
@@ -132,6 +137,8 @@ int main(void) {
     
     pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
     
+    
+    // TODO: move this loop to the function, thread it
     while (1) {
         current_instrument = (int) instrument;
         // If there is a change
