@@ -80,7 +80,8 @@ int firstPass(char **argv) {
         // Assign token as value of mnemonic in the instruction at 'address'
         strcpy(instruction[address].mnemonic, token);
  
-        // Loop for up to 4 operands and assign operands to instruction at 'address'
+        // Loop for up to 4 operands and assign operands
+        // to instruction at 'address'
         for (int i = 1; i <= 4; i++) {
             // If there are no more operands left then break from the loop
             if (!rest || rest[0] == '\0') {
@@ -92,13 +93,7 @@ int firstPass(char **argv) {
                 rest++;
             }
         
-            // Check if current expression is a bracketed expression
-            // and if it is then iterate through the characters and 
-            // copy them to the temp string until the you encounter 
-            // a ']' character. Once the end bracket is reached then 
-            // copy it to the end of temp, add a null terminator for
-            // temp string and increment the rest pointer to point to 
-            // the next character after ']'
+            // Treat an expression in square brackets as one operand
             if (rest[0] == '[') {
                 int j = 0;
                 while(rest[0] != ']') {

@@ -119,7 +119,7 @@ static void execute(arm_t *state) {
 
 }
 
-// One iteration of the pipeline cycle
+// Emulate the pipeline model for all instructions
 void runPipeline(arm_t *state) {
     while (state->instruction->type != HALT) {
         // Execute if the instruction has been decoded
