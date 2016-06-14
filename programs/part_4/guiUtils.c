@@ -38,40 +38,40 @@ void create_twelve_lights(GtkBox *hBox) {
 void turn_light_on(int pin) {
     switch (pin) {
         case 0:
-            gtk_image_set_from_file(GTK_IMAGE(light0), "Images/off.png");
+            light0 = gtk_image_new_from_file("Images/on.png");
             break;
         case 1:
-            gtk_image_set_from_file(GTK_IMAGE(light1), "Images/off.png");
+            light1 = gtk_image_new_from_file("Images/on.png");
             break;
         case 2:
-            gtk_image_set_from_file(GTK_IMAGE(light2), "Images/off.png");
+            light2 = gtk_image_new_from_file("Images/on.png");
             break;
         case 3:
-            gtk_image_set_from_file(GTK_IMAGE(light3), "Images/off.png");
+            light3 = gtk_image_new_from_file("Images/on.png");
             break;
         case 4:
-            gtk_image_set_from_file(GTK_IMAGE(light4), "Images/off.png");
+            light4 = gtk_image_new_from_file("Images/on.png");
             break;
         case 5:
-            gtk_image_set_from_file(GTK_IMAGE(light5), "Images/off.png");
+            light5 = gtk_image_new_from_file("Images/on.png");
             break;
         case 6:
-            gtk_image_set_from_file(GTK_IMAGE(light6), "Images/off.png");
+            light6 = gtk_image_new_from_file("Images/on.png");
             break;
         case 7:
-            gtk_image_set_from_file(GTK_IMAGE(light7), "Images/off.png");
+            light7 = gtk_image_new_from_file("Images/on.png");
             break;
         case 8:
-            gtk_image_set_from_file(GTK_IMAGE(light8), "Images/off.png");
+            light8 = gtk_image_new_from_file("Images/on.png");
             break;
         case 9:
-            gtk_image_set_from_file(GTK_IMAGE(light9), "Images/off.png");
+            light9 = gtk_image_new_from_file("Images/on.png");
             break;
         case 10:
-            gtk_image_set_from_file(GTK_IMAGE(light10), "Images/off.png");
+            light10 = gtk_image_new_from_file("Images/on.png");
             break;
         case 11:
-            gtk_image_set_from_file(GTK_IMAGE(light11), "Images/off.png");
+            light11 = gtk_image_new_from_file("Images/on.png");
             break;
         default: 
             // Should not reach this stage if correct pin is selected
@@ -82,40 +82,40 @@ void turn_light_on(int pin) {
 void turn_light_off(int pin) {
     switch (pin) {
         case 0:
-            gtk_image_set_from_file(GTK_IMAGE(light0), "Images/off.png");
+            light0 = gtk_image_new_from_file("Images/off.png");
             break;
         case 1:
-            gtk_image_set_from_file(GTK_IMAGE(light1), "Images/off.png");
+            light1 = gtk_image_new_from_file("Images/off.png");
             break;
         case 2:
-            gtk_image_set_from_file(GTK_IMAGE(light2), "Images/off.png");
+            light2 = gtk_image_new_from_file("Images/off.png");
             break;
         case 3:
-            gtk_image_set_from_file(GTK_IMAGE(light3), "Images/off.png");
+            light3 = gtk_image_new_from_file("Images/off.png");
             break;
         case 4:
-            gtk_image_set_from_file(GTK_IMAGE(light4), "Images/off.png");
+            light4 = gtk_image_new_from_file("Images/off.png");
             break;
         case 5:
-            gtk_image_set_from_file(GTK_IMAGE(light5), "Images/off.png");
+            light5 = gtk_image_new_from_file("Images/off.png");
             break;
         case 6:
-            gtk_image_set_from_file(GTK_IMAGE(light6), "Images/off.png");
+            light6 = gtk_image_new_from_file("Images/off.png");
             break;
         case 7:
-            gtk_image_set_from_file(GTK_IMAGE(light7), "Images/off.png");
+            light7 = gtk_image_new_from_file("Images/off.png");
             break;
         case 8:
-            gtk_image_set_from_file(GTK_IMAGE(light8), "Images/off.png");
+            light8 = gtk_image_new_from_file("Images/off.png");
             break;
         case 9:
-            gtk_image_set_from_file(GTK_IMAGE(light9), "Images/off.png");
+            light9 = gtk_image_new_from_file("Images/off.png");
             break;
         case 10:
-            gtk_image_set_from_file(GTK_IMAGE(light10), "Images/off.png");
+            light10 = gtk_image_new_from_file("Images/off.png");
             break;
         case 11:
-            gtk_image_set_from_file(GTK_IMAGE(light11), "Images/off.png");
+            light11 = gtk_image_new_from_file("Images/off.png");
             break;
         default: 
             // Should not reach this stage if correct pin is selected
