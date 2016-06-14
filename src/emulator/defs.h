@@ -96,20 +96,12 @@ typedef enum executeType {
 // INSTRUCTION FORMAT BITS
 typedef struct Instruction {
     int cond;
-    int setI;
-    int setP;
-    int setU;
-    int setA;
-    int setS;
-    int setL;
-    int isRsShift;
     int opCode;
+    int setI, setP, setU, setA, setS, setL;
+    int Rn, Rd, Rs, Rm;
     int shiftType;
     int shiftAmount;
-    int Rn;
-    int Rd;
-    int Rs;
-    int Rm;
+    int isRsShift;
     int32_t offset;
     int32_t op2;
     exec_t type;

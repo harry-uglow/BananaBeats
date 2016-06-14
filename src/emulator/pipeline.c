@@ -29,6 +29,7 @@ static void decode(arm_t *state) {
     // to the end. In the case of "set" variables, these will
     // be used as booleans and no shift is required.
     toDecode->cond =      (MASK_COND & fetched) >> COND_LAST;
+    toDecode->opCode =    (MASK_OPCODE & fetched) >> OPCODE_LAST;
     toDecode->setI =       MASK_I_BIT & fetched;
     toDecode->setP =       MASK_P_BIT & fetched;
     toDecode->setU =       MASK_U_BIT & fetched;
@@ -36,7 +37,6 @@ static void decode(arm_t *state) {
     toDecode->setS =       MASK_S_BIT & fetched;
     toDecode->setL =       toDecode->setS;
     toDecode->isRsShift =  MASK_RS_SHIFT_BIT & fetched;
-    toDecode->opCode =    (MASK_OPCODE & fetched) >> OPCODE_LAST;
     toDecode->Rn =        (MASK_RN & fetched) >> RN_LAST;
     toDecode->Rd =        (MASK_RD & fetched) >> RD_LAST;
     toDecode->Rs =        (MASK_RS & fetched) >> RS_LAST;
@@ -120,21 +120,17 @@ static void execute(arm_t *state) {
 }
 
 // One iteration of the pipeline cycle
-int iteratePipeline(arm_t *state) {
-    // Execute if the instruction has been decoded
-    if (state->isDecoded) {
-        if (state->instruction->type == HALT) {
-            return 0;
+void runPipeline(arm_t *state) {
+    while (state->instruction->type != HALT) {
+        // Execute if the instruction has been decoded
+        if (state->isDecoded) {
+            execute(state);
         }
-        execute(state);
+        // Decode if the instruction has been fetched
+        if (state->isFetched) {
+            decode(state);
+        }
+        // Fetch the next instruction
+        fetch(state);
     }
-
-    // Decode if the instruction has been fetched
-    if (state->isFetched) {
-        decode(state);
-    }
-
-    // Fetch the next instruction
-    fetch(state);
-    return 1;
 }

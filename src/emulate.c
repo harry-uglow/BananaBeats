@@ -16,9 +16,7 @@ int main(int argc, char **argv) {
     }
 
     // Execute main loop for fetch-decode-execute cycle
-    while(iteratePipeline(&arm)) {
-        continue;
-    }
+    runPipeline(&arm);
 
     // Print state information to standard output
     printFinalState(&arm);

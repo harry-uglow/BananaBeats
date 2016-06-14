@@ -3,6 +3,6 @@
 
 #include "executeInstructions.h"
 
-int iteratePipeline(arm_t *state);
+void runPipeline(arm_t *state);
 
 #endif //ARM11_19_PIPELINE_H

@@ -116,20 +116,12 @@ typedef enum mnemonic {
 // Structure of instruction format
 typedef struct Instruction {
     int cond;
-    int setI;
-    int setP;
-    int setU;
-    int setA;
-    int setS;
-    int setL;
-    int isRsShift;
+    int opCode;
+    int setI, setP, setU, setA, setS, setL;
+    int Rn, Rd, Rs, Rm;
     int shiftType;
     int shiftAmount;
-    int Rn;
-    int Rd;
-    int Rs;
-    int Rm;
-    int opCode;
+    int isRsShift;
     int calculateOffset;
     int32_t offset;
     int32_t op2;
