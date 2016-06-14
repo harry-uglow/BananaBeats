@@ -50,6 +50,7 @@ sudo awk '{print $2}' | sudo xargs kill -9");
             // Create new Python process
             pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
             previous_instrument = current_instrument;
+            sleep(2);
         }
     }
 }
@@ -107,6 +108,11 @@ int main(void) {
     gtk_widget_set_halign(hBoxLights, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
 
+
+    // Banana icon
+    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("Images/icon.png", 256, 256,NULL);
+    gtk_window_set_icon(GTK_WINDOW(window), pIcon);
+
     // Create new vertical box to hold the widgets
 	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 195);
     gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
@@ -161,5 +167,19 @@ int main(void) {
     pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
     pthread_create(&threadInstrLoop, NULL, instrLoop, NULL);
     
-while (1) {}
+    while (1) {
+        char inputString[4];
+        scanf("%s", inputString);
+        printf("%s\n" ,inputString);
+        char action = inputString[0]; // either 't' touched or 'r' released
+        char *inputStringAfterFirstLetter = inputString + 1;
+        int pin = atoi(inputStringAfterFirstLetter);
+        printf("%d\n", pin);
+        if (action == 't') {
+            turn_light_on(pin);printf("turn on %d\n", pin);
+        } else {
+            // Else it must be released
+            turn_light_off(pin);
+        }
+    }
 }
