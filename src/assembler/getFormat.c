@@ -201,7 +201,11 @@ static void getFormDatTran(instr_t *ins, assIns_t *assIns) {
     part2 = strtok(NULL, "");
     ins->Rn = getIntFromString(part1);
     if (part2) {
-        if(strstr(part2, "#")) {
+        // Skip spaces at the beginning of a line
+        while(*part2 == ' ') {
+            part2++;
+        }
+        if(*part2 == '#') {
             // Constant offset
             ins->offset = getIntFromString(part2);
         } else {
