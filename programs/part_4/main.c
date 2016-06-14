@@ -10,6 +10,9 @@ pthread_t threadStartupSound;
 pthread_t threadGui;
 pthread_t threadInstrLoop;
 
+int previous_instrument;
+int current_instrument;
+
 void *playStartupSound(void *pInstrument) {
     system("aplay sounds/startup.wav");
     return 0;
@@ -36,7 +39,20 @@ sudo awk '{print $2}' | sudo xargs kill -9");
 }
 
 void *instrLoop(void *parameter) {
-    
+    while (1) {
+        current_instrument = (int) instrument;
+        // If there is a change
+        if (current_instrument != previous_instrument) {
+            // Stop Python process
+            system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");
+            pthread_kill(threadPython, SIGQUIT);
+            // Create new Python process
+            pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
+            previous_instrument = current_instrument;
+            sleep(2);
+        }
+    }
 }
 
 gboolean quitLoadingScreen(gpointer data) {
@@ -92,6 +108,11 @@ int main(void) {
     gtk_widget_set_halign(hBoxLights, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
 
+
+    // Banana icon
+    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("Images/icon.png", 256, 256,NULL);
+    gtk_window_set_icon(GTK_WINDOW(window), pIcon);
+
     // Create new vertical box to hold the widgets
 	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 195);
     gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
@@ -140,24 +161,25 @@ int main(void) {
     // Enter the main GUI loop
     pthread_create(&threadGui, NULL, runGtkLoop, NULL);
     
-    int previous_instrument = (int) instrument;
-    int current_instrument = (int) instrument;
+    previous_instrument = (int) instrument;
+    current_instrument = (int) instrument;
     
     pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
+    pthread_create(&threadInstrLoop, NULL, instrLoop, NULL);
     
-    
-    // TODO: move this loop to the function, thread it
     while (1) {
-        current_instrument = (int) instrument;
-        // If there is a change
-        if (current_instrument != previous_instrument) {
-            // Stop Python process
-            system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
-sudo awk '{print $2}' | sudo xargs kill -9");
-            pthread_kill(threadPython, SIGQUIT);
-            // Create new Python process
-            pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
-            previous_instrument = current_instrument;
+        char inputString[4];
+        scanf("%s", inputString);
+        printf("%s\n" ,inputString);
+        char action = inputString[0]; // either 't' touched or 'r' released
+        char *inputStringAfterFirstLetter = inputString + 1;
+        int pin = atoi(inputStringAfterFirstLetter);
+        printf("%d\n", pin);
+        if (action == 't') {
+            turn_light_on(pin);printf("turn on %d\n", pin);
+        } else {
+            // Else it must be released
+            turn_light_off(pin);
         }
     }
 }
