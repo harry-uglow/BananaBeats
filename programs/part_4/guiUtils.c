@@ -6,11 +6,6 @@ void create_background(void) {
     gtk_layout_put(GTK_LAYOUT(layout), background, 0, 0);
 }
 
-gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
-    printf("Drawing\n");
-    return TRUE;
-}
-
 void create_twelve_lights(GtkBox *hBox) {
     //Set images
     light0 = gtk_image_new_from_file("images/off.png");
@@ -256,6 +251,11 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             printf("Somethings gone wrong\n");
             break;
     }
+}
+
+gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
+    printf("Drawing\n");
+    return TRUE;
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
