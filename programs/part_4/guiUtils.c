@@ -6,6 +6,11 @@ void create_background(void) {
     gtk_layout_put(GTK_LAYOUT(layout), background, 0, 0);
 }
 
+gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
+    printf("Drawing\n");
+    return TRUE;
+}
+
 void create_twelve_lights(GtkBox *hBox) {
     //Set images
     light0 = gtk_image_new_from_file("images/off.png");
@@ -34,19 +39,19 @@ void create_twelve_lights(GtkBox *hBox) {
     gtk_widget_set_tooltip_text(light9, "Pin 9");
     gtk_widget_set_tooltip_text(light10, "Pin 10");
     gtk_widget_set_tooltip_text(light11, "Pin 11");
-    
+
     // Pack the lights into hBox
-    gtk_box_pack_start(hBox, light0, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light1, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light2, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light3, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light4, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light5, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light6, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light0, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light1, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light2, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light3, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light4, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light5, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light6, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(hBox, light7, TRUE, TRUE, DEFAULT_PADDING);
-    gtk_box_pack_start(hBox, light8, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light9, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light8, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light9, TRUE, TRUE, DEFAULT_PADDING);
+    gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING);
 
     g_signal_connect(G_OBJECT(light0), "draw", G_CALLBACK(toggle_light), NULL);
@@ -168,7 +173,7 @@ void create_loading_screen(GtkBox *vBox) {
 }
 
 void create_radio_buttons(GtkBox *vBox) {
-    // Create radio buttons with their labels (No labels). The first one's 
+    // Create radio buttons with their labels (No labels). The first one's
     // group is unspecified and the others are placed into the same group as rb1
     rb1 = gtk_radio_button_new_with_label(NULL, RB1_LABEL);
     rb2 = gtk_radio_button_new_with_label_from_widget
@@ -200,7 +205,7 @@ void create_radio_buttons(GtkBox *vBox) {
 
 void create_volume_control(GtkBox *vBox) {
     // Create volume control with its label
-    vc = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, VOLUME_MIN, 
+    vc = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, VOLUME_MIN,
                                   VOLUME_MAX, VOLUME_STEP);
 
     // Set default start volume to 70
@@ -251,11 +256,6 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             printf("Somethings gone wrong\n");
             break;
     }
-}
-
-gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
-    printf("Drawing\n");
-    return TRUE;
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
