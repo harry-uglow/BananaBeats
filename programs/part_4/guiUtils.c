@@ -293,6 +293,23 @@ void create_radio_buttons(GtkBox *vBox) {
     rb3 = gtk_radio_button_new_with_label_from_widget
             (GTK_RADIO_BUTTON(rb1), RB3_LABEL);
 
+    PangoFontDescription *font;
+    GdkRGBA defaultColor = {1, 1, 1, 1};
+    GdkRGBA selectedColor = {1, 1, 0, 1};
+    GdkRGBA *white = &defaultColor;
+    GdkRGBA *yellow = &selectedColor;
+    font = pango_font_description_from_string("Montserrat 30");
+    gtk_widget_override_font(rb1, font);
+    gtk_widget_override_font(rb2, font);
+    gtk_widget_override_font(rb3, font);
+    gtk_widget_override_color(rb1, GTK_STATE_FLAG_NORMAL, white);
+    gtk_widget_override_color(rb2, GTK_STATE_FLAG_NORMAL , white);
+    gtk_widget_override_color(rb3, GTK_STATE_FLAG_NORMAL, white);
+    gtk_widget_override_color(rb1, GTK_STATE_FLAG_ACTIVE, yellow);
+    gtk_widget_override_color(rb2, GTK_STATE_FLAG_ACTIVE , yellow);
+    gtk_widget_override_color(rb3, GTK_STATE_FLAG_ACTIVE, yellow);
+
+
     // Set tooltips for the radio buttons
     gtk_widget_set_tooltip_text(rb1, RB1_TOOLTIP);
     gtk_widget_set_tooltip_text(rb2, RB2_TOOLTIP);
