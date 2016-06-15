@@ -7,11 +7,20 @@ void create_background(void) {
 }
 
 void create_twelve_lights(GtkBox *hBox) {
-    // All lights turned off at first
-    for(int i = 0; i < 12; i++) {
-        turn_light_off(i);
-    }
-    
+    //Set images
+    light0 = gtk_widget_new_from_file("images/off.png");
+    light1 = gtk_widget_new_from_file("images/off.png");
+    light2 = gtk_widget_new_from_file("images/off.png");
+    light3 = gtk_widget_new_from_file("images/off.png");
+    light4 = gtk_widget_new_from_file("images/off.png");
+    light5 = gtk_widget_new_from_file("images/off.png");
+    light6 = gtk_widget_new_from_file("images/off.png");
+    light7 = gtk_widget_new_from_file("images/off.png");
+    light8 = gtk_widget_new_from_file("images/off.png");
+    light9 = gtk_widget_new_from_file("images/off.png");
+    light10 = gtk_widget_new_from_file("images/off.png");
+    light11 = gtk_widget_new_from_file("images/off.png");
+
     // Set tooltips
     gtk_widget_set_tooltip_text(light0, "Pin 0");
     gtk_widget_set_tooltip_text(light1, "Pin 1");
@@ -48,40 +57,40 @@ void turn_light_on(int pin) {
     printf("Function on called with the %d pin.\n", pin);
     switch (pin) {
         case 0:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light0), "images/on.png");
             break;
         case 1:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light1), "images/on.png");
             break;
         case 2:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light2), "images/on.png");
             break;
         case 3:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light3), "images/on.png");
             break;
         case 4:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light4), "images/on.png");
             break;
         case 5:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light5), "images/on.png");
             break;
         case 6:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light6), "images/on.png");
             break;
         case 7:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light7), "images/on.png");
             break;
         case 8:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light8), "images/on.png");
             break;
         case 9:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light9), "images/on.png");
             break;
         case 10:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light10), "images/on.png");
             break;
         case 11:
-            gtk_image_set_from_file(light0, "images/on.png");
+            gtk_image_set_from_file(GTK_IMAGE(light11), "images/on.png");
             break;
         default:
             // Should not reach this stage if correct pin is selected
@@ -93,51 +102,51 @@ void turn_light_off(int pin) {
     printf("Function off called with the %d pin.\n", pin);
     switch (pin) {
         case 0:
-            light0 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light0), "images/off.png");
             gtk_widget_queue_draw(light0);
             break;
         case 1:
-            light1 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light1), "images/off.png");
             gtk_widget_queue_draw(light1);
             break;
         case 2:
-            light2 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light2), "images/off.png");
             gtk_widget_queue_draw(light2);
             break;
         case 3:
-            light3 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light3), "images/off.png");
             gtk_widget_queue_draw(light3);
             break;
         case 4:
-            light4 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light4), "images/off.png");
             gtk_widget_queue_draw(light4);
             break;
         case 5:
-            light5 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light5), "images/off.png");
             gtk_widget_queue_draw(light5);
             break;
         case 6:
-            light6 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light6), "images/off.png");
             gtk_widget_queue_draw(light6);
             break;
         case 7:
-            light7 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light7), "images/off.png");
             gtk_widget_queue_draw(light7);
             break;
         case 8:
-            light8 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light8), "images/off.png");
             gtk_widget_queue_draw(light8);
             break;
         case 9:
-            light9 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light9), "images/off.png");
             gtk_widget_queue_draw(light9);
             break;
         case 10:
-            light10 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light10), "images/off.png");
             gtk_widget_queue_draw(light10);
             break;
         case 11:
-            light11 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_set_from_file(GTK_IMAGE(light11), "images/off.png");
             gtk_widget_queue_draw(light11);
             break;
         default:
