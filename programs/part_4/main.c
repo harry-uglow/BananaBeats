@@ -82,6 +82,10 @@ int main(void) {
     // Create loading screen
     create_loading_screen(GTK_BOX(loadingContainer));
     
+    iconContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    
+    create_sound_mode(GTK_BOX(iconContainer));
+
     // Display loading screen
     gtk_container_add(GTK_CONTAINER(loadingWindow), loadingContainer);
     gtk_widget_show_all(loadingWindow);
@@ -124,7 +128,7 @@ int main(void) {
     gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
 
     // Create new box to hold the control widgets (radio buttons and sound)
-    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1050);
+    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 250);
     gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
 
@@ -143,6 +147,7 @@ int main(void) {
 
     // Add the boxes to the window.
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxRadioButtons);
+    gtk_container_add(GTK_CONTAINER(controlContainer), iconContainer);
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxVolumeControl);
     gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
     // Layout of widgets over background image aligned
