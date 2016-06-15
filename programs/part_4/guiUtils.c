@@ -102,51 +102,51 @@ void turn_light_off(int pin) {
     printf("Function off called with the %d pin.\n", pin);
     switch (pin) {
         case 0:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light0), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light0), "images/off.png");
             gtk_widget_queue_draw(light0);
             break;
         case 1:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light1), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light1), "images/off.png");
             gtk_widget_queue_draw(light1);
             break;
         case 2:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light2), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light2), "images/off.png");
             gtk_widget_queue_draw(light2);
             break;
         case 3:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light3), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light3), "images/off.png");
             gtk_widget_queue_draw(light3);
             break;
         case 4:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light4), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light4), "images/off.png");
             gtk_widget_queue_draw(light4);
             break;
         case 5:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light5), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light5), "images/off.png");
             gtk_widget_queue_draw(light5);
             break;
         case 6:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light6), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light6), "images/off.png");
             gtk_widget_queue_draw(light6);
             break;
         case 7:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light7), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light7), "images/off.png");
             gtk_widget_queue_draw(light7);
             break;
         case 8:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light8), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light8), "images/off.png");
             gtk_widget_queue_draw(light8);
             break;
         case 9:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light9), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light9), "images/off.png");
             gtk_widget_queue_draw(light9);
             break;
         case 10:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light10), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light10), "images/off.png");
             gtk_widget_queue_draw(light10);
             break;
         case 11:
-            light0 = gtk_image_set_from_file(GTK_IMAGE(light11), "images/off.png");
+            gtk_image_set_from_file(GTK_IMAGE(light11), "images/off.png");
             gtk_widget_queue_draw(light11);
             break;
         default:
