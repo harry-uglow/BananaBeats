@@ -38,58 +38,50 @@ void create_twelve_lights(GtkBox *hBox) {
     gtk_box_pack_start(hBox, light8, TRUE, TRUE, DEFAULT_PADDING); 
     gtk_box_pack_start(hBox, light9, TRUE, TRUE, DEFAULT_PADDING); 
     gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING); 
-    gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING); 
+    gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING);
+
+    g_signal_connect(G_OBJECT(light0), "draw", G_CALLBACK(toggle_light), NULL);
+    printf("Lights created\n");
 }
 
 void turn_light_on(int pin) {
+    printf("Function on called with the %d pin.\n", pin);
     switch (pin) {
         case 0:
-            light0 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light0);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 1:
-            light1 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light1);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 2:
-            light2 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light2);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 3:
-            light3 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light3);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 4:
-            light4 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light4);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 5:
-            light5 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light5);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 6:
-            light6 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light6);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 7:
-            light7 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light7);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 8:
-            light8 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light8);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 9:
-            light9 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light9);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 10:
-            light10 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light10);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         case 11:
-            light11 = gtk_image_new_from_file("images/on.png");
-            gtk_widget_queue_draw(light11);
+            gtk_image_set_from_file(light0, "images/on.png");
             break;
         default:
             // Should not reach this stage if correct pin is selected
@@ -98,6 +90,7 @@ void turn_light_on(int pin) {
 }
 
 void turn_light_off(int pin) {
+    printf("Function off called with the %d pin.\n", pin);
     switch (pin) {
         case 0:
             light0 = gtk_image_new_from_file("images/off.png");
@@ -249,6 +242,10 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             printf("Somethings gone wrong\n");
             break;
     }
+}
+
+gboolean toggle_light(GTKWidget *widget, GdkEventExpose *event) {
+    printf("Drawing\n");
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
