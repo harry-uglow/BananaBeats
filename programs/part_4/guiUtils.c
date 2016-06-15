@@ -13,7 +13,7 @@ void create_sound_mode(GtkBox *hBox) {
     marioIcon = gtk_image_new_from_file("images/mario.png");
 
     // Set default icon to drums
-    currentIcon = drumsIcon;   
+    currentIcon = (GtkImage *) drumsIcon;   
 
     gtk_box_pack_start(hBox, currentIcon, TRUE, TRUE, DEFAULT_PADDING);
 }
