@@ -8,18 +8,18 @@ void create_background(void) {
 
 void create_twelve_lights(GtkBox *hBox) {
     //Set images
-    light0 = gtk_widget_new_from_file("images/off.png");
-    light1 = gtk_widget_new_from_file("images/off.png");
-    light2 = gtk_widget_new_from_file("images/off.png");
-    light3 = gtk_widget_new_from_file("images/off.png");
-    light4 = gtk_widget_new_from_file("images/off.png");
-    light5 = gtk_widget_new_from_file("images/off.png");
-    light6 = gtk_widget_new_from_file("images/off.png");
-    light7 = gtk_widget_new_from_file("images/off.png");
-    light8 = gtk_widget_new_from_file("images/off.png");
-    light9 = gtk_widget_new_from_file("images/off.png");
-    light10 = gtk_widget_new_from_file("images/off.png");
-    light11 = gtk_widget_new_from_file("images/off.png");
+    light0 = gtk_image_new_from_file("images/off.png");
+    light1 = gtk_image_new_from_file("images/off.png");
+    light2 = gtk_image_new_from_file("images/off.png");
+    light3 = gtk_image_new_from_file("images/off.png");
+    light4 = gtk_image_new_from_file("images/off.png");
+    light5 = gtk_image_new_from_file("images/off.png");
+    light6 = gtk_image_new_from_file("images/off.png");
+    light7 = gtk_image_new_from_file("images/off.png");
+    light8 = gtk_image_new_from_file("images/off.png");
+    light9 = gtk_image_new_from_file("images/off.png");
+    light10 = gtk_image_new_from_file("images/off.png");
+    light11 = gtk_image_new_from_file("images/off.png");
 
     // Set tooltips
     gtk_widget_set_tooltip_text(light0, "Pin 0");
