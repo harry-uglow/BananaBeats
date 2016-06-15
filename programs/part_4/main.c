@@ -106,8 +106,8 @@ int main(void) {
     create_background();
  
     // Create the 12 lights and pack it into 
-    hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    gtk_widget_set_halign(hBoxLights, GTK_ALIGN_CENTER);
+    hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 45);
+    gtk_widget_set_halign(hBoxLights, GTK_ALIGN_END);
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
 
     // Banana icon
@@ -125,7 +125,7 @@ int main(void) {
     gtk_widget_set_valign(vBoxRadioButtons, GTK_ALIGN_CENTER);
 
     // Create new vertical box for volume control
-    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
+    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 40);
     gtk_widget_set_halign(vBoxVolumeControl, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
 
@@ -152,12 +152,12 @@ int main(void) {
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxVolumeControl);
     gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
     // Layout of widgets over background image aligned
-	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 220, 320);
+	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 215, 320);
     gtk_layout_put(GTK_LAYOUT(layout), iconContainer, 665, 150);
-    gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 200, 690);
+    gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 80, 690);
 	gtk_container_add(GTK_CONTAINER(window), layout);
 
-    // Windows starup sound
+    // Windows startup sound
     pthread_create(&threadStartupSound, NULL, playStartupSound, NULL);
     
     // Enter the main GUI loop

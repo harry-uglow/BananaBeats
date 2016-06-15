@@ -11,9 +11,10 @@ void create_sound_mode(GtkBox *hBox) {
     drumsIcon = gtk_image_new_from_file("images/drums.png");
 
     // Set default icon to drums
-    currentIcon = drumsIcon;   
+    currentSoundMode = drumsIcon;   
 
-    gtk_box_pack_start(hBox, currentIcon, TRUE, TRUE, DEFAULT_PADDING);
+    // Pack the current sound mode image into hBox
+    gtk_box_pack_start(hBox, currentSoundMode, TRUE, TRUE, DEFAULT_PADDING);
 }
 
 void create_twelve_lights(GtkBox *hBox) {
@@ -59,7 +60,8 @@ void create_twelve_lights(GtkBox *hBox) {
     gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING);
 
-    g_signal_connect(G_OBJECT(light0), "draw", G_CALLBACK(toggle_light), NULL);
+// TODO: The line below makes the first light icon disappear, is it needed???
+//    g_signal_connect(G_OBJECT(light0), "draw", G_CALLBACK(toggle_light), window);
     printf("Lights created\n");
 }
 
@@ -202,7 +204,7 @@ void create_volume_control(GtkBox *vBox) {
                                   VOLUME_MAX, VOLUME_STEP);
 
     // Set default start volume to 70
-    gtk_range_set_value(vc, DEFAULT_START_VOLUME);
+    gtk_range_set_value(GTK_RANGE(vc), DEFAULT_START_VOLUME);
 
     g_object_set(vc, "width-request", VOLUME_CONTROL_WIDTH, NULL);
 
@@ -233,17 +235,20 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
         case 'D' :
             instrument = DRUMS;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
-            gtk_image_set_from_file(GTK_IMAGE(currentIcon), "images/drums.png");
+            // Change current sound mode image to drums
+            gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/drums.png");
             break;
         case 'P' :
             instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
-            gtk_image_set_from_file(GTK_IMAGE(currentIcon), "images/piano.png");
+            // Change current sound mode image to piano
+            gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/piano.png");
             break;
         case 'M' :
             instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
-            gtk_image_set_from_file(GTK_IMAGE(currentIcon), "images/mario.png");
+            // Change current sound mode image to mario 
+            gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/mario.png");
             break;
         default:
             printf("Somethings gone wrong\n");
