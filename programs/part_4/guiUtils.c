@@ -77,6 +77,7 @@ void turn_light_on(int pin) {
             // Should not reach this stage if correct pin is selected
             break;
     }
+    gtk_widget_show_all(window);
 }
 
 void turn_light_off(int pin) {
@@ -121,6 +122,7 @@ void turn_light_off(int pin) {
             // Should not reach this stage if correct pin is selected
             break;
     }
+    gtk_widget_show_all(window);
 }
 
 void create_loading_screen(GtkBox *vBox) {
