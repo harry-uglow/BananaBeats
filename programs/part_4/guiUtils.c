@@ -139,7 +139,7 @@ void create_loading_screen(GtkBox *vBox) {
 
 void create_radio_buttons(GtkBox *vBox) {
     // Create radio buttons with their labels (No labels). The first one's 
-    // group is unspecified and the others are placed into the same group as rb1.
+    // group is unspecified and the others are placed into the same group as rb1
     rb1 = gtk_radio_button_new_with_label(NULL, RB1_LABEL);
     rb2 = gtk_radio_button_new_with_label_from_widget
             (GTK_RADIO_BUTTON(rb1), RB2_LABEL);
@@ -173,11 +173,12 @@ void create_volume_control(GtkBox *vBox) {
     vc = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, VOLUME_MIN, 
                                   VOLUME_MAX, VOLUME_STEP);
 
+    // Set default start volume to 70
     gtk_range_set_value(vc, DEFAULT_START_VOLUME);
 
     g_object_set(vc, "width-request", VOLUME_CONTROL_WIDTH, NULL);
 
-    // Create label for loading screen
+    // Create empty label for alignment purposes
     loadingLabel = gtk_label_new(NULL);
 
     // Set tooltip for the volume control
@@ -193,7 +194,6 @@ void create_volume_control(GtkBox *vBox) {
 }
 
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
-
     // Need this check as function is also called for the deselected button.
     if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         return;
