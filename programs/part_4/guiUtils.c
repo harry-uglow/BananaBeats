@@ -7,10 +7,8 @@ void create_background(void) {
 }
 
 void create_sound_mode(GtkBox *hBox) {
-    // Set up image icons for current sound mode
+    // Set up image icon for default current sound mode
     drumsIcon = gtk_image_new_from_file("images/drums.png");
-    pianoIcon = gtk_image_new_from_file("images/piano.png");
-    marioIcon = gtk_image_new_from_file("images/mario.png");
 
     // Set default icon to drums
     currentIcon = drumsIcon;   

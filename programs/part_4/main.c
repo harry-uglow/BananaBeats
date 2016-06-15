@@ -19,10 +19,10 @@ void *playStartupSound(void *pInstrument) {
 }
 
 void *runPythonScript(void *pInstrument) {
-    int newInstrument = *((int *) pInstrument);
+    //int newInstrument = *((int *) pInstrument);
     char *scriptAddress = "auxPython.py";
     char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
-    sprintf(systemCall, "sudo python %s %d", scriptAddress, newInstrument);
+    //sprintf(systemCall, "sudo python %s %d", scriptAddress, newInstrument);
     printf("%s\n", systemCall);
     system(systemCall);
     return 0;
@@ -33,8 +33,8 @@ void *runPythonScript(void *pInstrument) {
 void *runGtkLoop(void *parameter) {
     gtk_main();
     system("aplay sounds/shutdown.wav");
-    system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
-sudo awk '{print $2}' | sudo xargs kill -9");
+   /* system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");*/
     exit(0);
 }
 
@@ -44,8 +44,8 @@ void *instrLoop(void *parameter) {
         // If there is a change
         if (current_instrument != previous_instrument) {
             // Stop Python process
-            system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
-sudo awk '{print $2}' | sudo xargs kill -9");
+            /*system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");*/
             pthread_kill(threadPython, SIGQUIT);
             // Create new Python process
             pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
@@ -56,7 +56,7 @@ sudo awk '{print $2}' | sudo xargs kill -9");
 }
 
 gboolean quitLoadingScreen(gpointer data) {
-    gtk_widget_destroy((GtkWidget*)data);
+    gtk_widget_destroy((GtkWidget *)data);
     gtk_widget_show_all(window);
     return (FALSE);
 }
@@ -83,7 +83,9 @@ int main(void) {
     create_loading_screen(GTK_BOX(loadingContainer));
     
     iconContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-    
+    gtk_widget_set_halign(iconContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(iconContainer, GTK_ALIGN_CENTER);
+
     create_sound_mode(GTK_BOX(iconContainer));
 
     // Display loading screen
@@ -104,7 +106,7 @@ int main(void) {
     create_background();
  
     // Create the 12 lights and pack it into 
-    hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 50);
+    hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
     gtk_widget_set_halign(hBoxLights, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
 
@@ -118,17 +120,17 @@ int main(void) {
     gtk_widget_set_valign(widgetContainer, GTK_ALIGN_CENTER);
 
     // Create new vertical box with 1 pixel between elements as default.
-    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 45);
+    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 65);
     gtk_widget_set_halign(vBoxRadioButtons, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxRadioButtons, GTK_ALIGN_CENTER);
 
     // Create new vertical box for volume control
-    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
     gtk_widget_set_halign(vBoxVolumeControl, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
 
     // Create new box to hold the control widgets (radio buttons and sound)
-    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 250);
+    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1000);
     gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
 
@@ -147,12 +149,12 @@ int main(void) {
 
     // Add the boxes to the window.
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxRadioButtons);
-    gtk_container_add(GTK_CONTAINER(controlContainer), iconContainer);
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxVolumeControl);
     gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
     // Layout of widgets over background image aligned
-	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 165, 320);
-    gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 65, 690);
+	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 220, 320);
+    gtk_layout_put(GTK_LAYOUT(layout), iconContainer, 665, 150);
+    gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 200, 690);
 	gtk_container_add(GTK_CONTAINER(window), layout);
 
     // Windows starup sound
