@@ -233,14 +233,17 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
         case 'D' :
             instrument = DRUMS;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
+            gtk_image_set_from_file(currentIcon, "images/drums.png");
             break;
         case 'P' :
             instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
+            gtk_image_set_from_file(currentIcon, "images/piano.png");
             break;
         case 'M' :
             instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
+            gtk_image_set_from_file(currentIcon, "images/mario.png");
             break;
         default:
             printf("Somethings gone wrong\n");
