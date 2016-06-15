@@ -115,51 +115,39 @@ void turn_light_off(int pin) {
     switch (pin) {
         case 0:
             gtk_image_set_from_file(GTK_IMAGE(light0), "images/off.png");
-            gtk_widget_queue_draw(light0);
             break;
         case 1:
             gtk_image_set_from_file(GTK_IMAGE(light1), "images/off.png");
-            gtk_widget_queue_draw(light1);
             break;
         case 2:
             gtk_image_set_from_file(GTK_IMAGE(light2), "images/off.png");
-            gtk_widget_queue_draw(light2);
             break;
         case 3:
             gtk_image_set_from_file(GTK_IMAGE(light3), "images/off.png");
-            gtk_widget_queue_draw(light3);
             break;
         case 4:
             gtk_image_set_from_file(GTK_IMAGE(light4), "images/off.png");
-            gtk_widget_queue_draw(light4);
             break;
         case 5:
             gtk_image_set_from_file(GTK_IMAGE(light5), "images/off.png");
-            gtk_widget_queue_draw(light5);
             break;
         case 6:
             gtk_image_set_from_file(GTK_IMAGE(light6), "images/off.png");
-            gtk_widget_queue_draw(light6);
             break;
         case 7:
             gtk_image_set_from_file(GTK_IMAGE(light7), "images/off.png");
-            gtk_widget_queue_draw(light7);
             break;
         case 8:
             gtk_image_set_from_file(GTK_IMAGE(light8), "images/off.png");
-            gtk_widget_queue_draw(light8);
             break;
         case 9:
             gtk_image_set_from_file(GTK_IMAGE(light9), "images/off.png");
-            gtk_widget_queue_draw(light9);
             break;
         case 10:
             gtk_image_set_from_file(GTK_IMAGE(light10), "images/off.png");
-            gtk_widget_queue_draw(light10);
             break;
         case 11:
             gtk_image_set_from_file(GTK_IMAGE(light11), "images/off.png");
-            gtk_widget_queue_draw(light11);
             break;
         default:
             // Should not reach this stage if correct pin is selected
@@ -267,6 +255,8 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 
 gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
     printf("Drawing\n");
+    gtk_image_set_from_file(GTK_IMAGE(widget), "images/on.png");
+    gtk_widget_queue_draw(widget);
     return TRUE;
 }
 
