@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -Wall -std=c99 -pedantic
+CFLAGS  = -Wall -std=c99 -pedantic -g
 THREAD_FLAGS = -lpthread
 GTK_FLAGS = $$(pkg-config --cflags --libs gtk+-3.0)
 PYTHON_FLAGS = -shared -I/usr/include/python2.7/ -lpython2.7 -fPIC -rdynamic
@@ -8,7 +8,7 @@ PYTHON_FLAGS = -shared -I/usr/include/python2.7/ -lpython2.7 -fPIC -rdynamic
 .PHONY: all clean
 
 all: main.o touchHat.so
-	$(CC) -o main main.o guiUtils.o $(GTK_FLAGS) $(THREAD_FLAGS) -lpython2.7
+	$(CC) -g -o main main.o guiUtils.o $(GTK_FLAGS) $(THREAD_FLAGS) -lpython2.7
 
 main.o: guiUtils.o
 	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c main.c -o main.o
