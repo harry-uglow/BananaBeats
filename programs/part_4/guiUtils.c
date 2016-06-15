@@ -1,5 +1,11 @@
 #include "guiUtils.h"
 
+void create_background(void) {
+    layout = gtk_layout_new(NULL, NULL);
+    background = gtk_image_new_from_file("images/background.png");
+    gtk_layout_put(GTK_LAYOUT(layout), background, 0, 0);
+}
+
 void create_twelve_lights(GtkBox *hBox) {
     // All lights turned off at first
     for(int i = 0; i < 12; i++) {
@@ -39,6 +45,7 @@ void create_twelve_lights(GtkBox *hBox) {
 }
 
 void turn_light_on(int pin) {
+    printf("Function on called with the %d pin.\n", pin);
     switch (pin) {
         case 0:
             gtk_image_set_from_file(light0, "images/on.png");
@@ -83,6 +90,7 @@ void turn_light_on(int pin) {
 }
 
 void turn_light_off(int pin) {
+    printf("Function off called with the %d pin.\n", pin);
     switch (pin) {
         case 0:
             light0 = gtk_image_new_from_file("images/off.png");
