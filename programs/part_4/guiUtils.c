@@ -255,7 +255,7 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 
 gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
     printf("Drawing\n");
-    gtk_image_set_from_file(GTK_IMAGE(widget), "images/on.png");
+    gtk_widget_show_all(widget);
     return TRUE;
 }
 
