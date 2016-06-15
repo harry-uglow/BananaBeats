@@ -1,5 +1,108 @@
 #include "guiUtils.h"
 
+void run_loading_screen(void) {
+    // Create loading window
+    loadingWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title (GTK_WINDOW (loadingWindow), "Loading...");
+    gtk_container_set_border_width (GTK_CONTAINER (loadingWindow), 0);
+    gtk_widget_set_size_request (loadingWindow, 400, 300);
+    gtk_window_set_decorated(GTK_WINDOW (loadingWindow), FALSE);
+    gtk_window_set_position(GTK_WINDOW(loadingWindow), GTK_WIN_POS_CENTER);
+    gtk_window_set_resizable(GTK_WINDOW(loadingWindow), FALSE);
+    
+    // Create new box to hold the loading widgets
+    loadingContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10); 
+    gtk_widget_set_halign(loadingContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(loadingContainer, GTK_ALIGN_CENTER);
+    
+    // Create loading screen
+    create_loading_screen(GTK_BOX(loadingContainer));
+    
+    // Display loading screen
+    gtk_container_add(GTK_CONTAINER(loadingWindow), loadingContainer);
+    gtk_widget_show_all(loadingWindow);
+
+    // Timing for loading screen
+    g_timeout_add(1000, quitLoadingScreen, loadingWindow);
+}
+
+void initialise_main_window(void) {
+    // Set up the window
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+    gtk_container_set_border_width(GTK_CONTAINER(window), 0);
+    gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1000);
+    gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
+
+}
+
+void set_up_main_window(void) {
+    iconContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_halign(iconContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(iconContainer, GTK_ALIGN_CENTER);
+
+    create_sound_mode(GTK_BOX(iconContainer));
+
+    
+    // Create background image 
+    create_background();
+ 
+    // Create the 12 lights and pack it into 
+    hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 45);
+    gtk_widget_set_halign(hBoxLights, GTK_ALIGN_END);
+    gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
+
+    // Banana icon
+    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("images/icon.png", 256, 256,NULL);
+    gtk_window_set_icon(GTK_WINDOW(window), pIcon);
+
+    // Create new vertical box to hold the widgets
+	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 195);
+    gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(widgetContainer, GTK_ALIGN_CENTER);
+
+    // Create new vertical box with 1 pixel between elements as default.
+    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 65);
+    gtk_widget_set_halign(vBoxRadioButtons, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(vBoxRadioButtons, GTK_ALIGN_CENTER);
+
+    // Create new vertical box for volume control
+    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 40);
+    gtk_widget_set_halign(vBoxVolumeControl, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
+
+    // Create new box to hold the control widgets (radio buttons and sound)
+    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1000);
+    gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
+
+     // Create the radio buttons and pack the into vBoxRadioButtons.
+    create_radio_buttons(GTK_BOX(vBoxRadioButtons));
+
+    // Create the volume control and pack it into vBoxVolumeControl
+    create_volume_control(GTK_BOX(vBoxVolumeControl));
+
+    // Create the 12 lights and pack it into hBoxLights
+    create_twelve_lights(GTK_BOX(hBoxLights));
+
+    // When the window is closed exit the program.
+    g_signal_connect(window, "destroy", 
+                       G_CALLBACK(gtk_main_quit), NULL);
+
+    // Add the boxes to the window.
+    gtk_container_add(GTK_CONTAINER(controlContainer), vBoxRadioButtons);
+    gtk_container_add(GTK_CONTAINER(controlContainer), vBoxVolumeControl);
+    gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
+    // Layout of widgets over background image aligned
+	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 215, 320);
+    gtk_layout_put(GTK_LAYOUT(layout), iconContainer, 665, 150);
+    gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 80, 690);
+	gtk_container_add(GTK_CONTAINER(window), layout);
+
+    // Windows startup sound
+    pthread_create(&threadStartupSound, NULL, playStartupSound, NULL);
+}
+
 void create_background(void) {
     layout = gtk_layout_new(NULL, NULL);
     background = gtk_image_new_from_file("images/background.png");
