@@ -173,6 +173,8 @@ void create_volume_control(GtkBox *vBox) {
     vc = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, VOLUME_MIN, 
                                   VOLUME_MAX, VOLUME_STEP);
 
+    gtk_range_set_value(vc, DEFAULT_START_VOLUME);
+
     g_object_set(vc, "width-request", VOLUME_CONTROL_WIDTH, NULL);
 
     // Create label for loading screen
