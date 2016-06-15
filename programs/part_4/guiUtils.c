@@ -38,91 +38,113 @@ void create_twelve_lights(GtkBox *hBox) {
 void turn_light_on(int pin) {
     switch (pin) {
         case 0:
-            light0 = gtk_image_new_from_file("images/on.png");
+            light0 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light0);
             break;
         case 1:
-            light1 = gtk_image_new_from_file("images/on.png");
+            light1 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light1);
             break;
         case 2:
-            light2 = gtk_image_new_from_file("images/on.png");
+            light2 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light2);
             break;
         case 3:
-            light3 = gtk_image_new_from_file("images/on.png");
+            light3 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light3);
             break;
         case 4:
-            light4 = gtk_image_new_from_file("images/on.png");
+            light4 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light4);
             break;
         case 5:
-            light5 = gtk_image_new_from_file("images/on.png");
+            light5 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light5);
             break;
         case 6:
-            light6 = gtk_image_new_from_file("images/on.png");
+            light6 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light6);
             break;
         case 7:
-            light7 = gtk_image_new_from_file("images/on.png");
+            light7 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light7);
             break;
         case 8:
-            light8 = gtk_image_new_from_file("images/on.png");
+            light8 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light8);
             break;
         case 9:
-            light9 = gtk_image_new_from_file("images/on.png");
+            light9 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light9);
             break;
         case 10:
-            light10 = gtk_image_new_from_file("images/on.png");
+            light10 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light10);
             break;
         case 11:
-            light11 = gtk_image_new_from_file("images/on.png");
+            light11 = gtk_image_new_from_file("Images/on.png");
+            gtk_widget_queue_draw(light11);
             break;
-        default: 
+        default:
             // Should not reach this stage if correct pin is selected
             break;
     }
-    gtk_widget_show_all(window);
 }
 
 void turn_light_off(int pin) {
     switch (pin) {
         case 0:
-            light0 = gtk_image_new_from_file("images/off.png");
+            light0 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light0);
             break;
         case 1:
-            light1 = gtk_image_new_from_file("images/off.png");
+            light1 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light1);
             break;
         case 2:
-            light2 = gtk_image_new_from_file("images/off.png");
+            light2 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light2);
             break;
         case 3:
-            light3 = gtk_image_new_from_file("images/off.png");
+            light3 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light3);
             break;
         case 4:
-            light4 = gtk_image_new_from_file("images/off.png");
+            light4 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light4);
             break;
         case 5:
-            light5 = gtk_image_new_from_file("images/off.png");
+            light5 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light5);
             break;
         case 6:
-            light6 = gtk_image_new_from_file("images/off.png");
+            light6 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light6);
             break;
         case 7:
-            light7 = gtk_image_new_from_file("images/off.png");
+            light7 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light7);
             break;
         case 8:
-            light8 = gtk_image_new_from_file("images/off.png");
+            light8 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light8);
             break;
         case 9:
-            light9 = gtk_image_new_from_file("images/off.png");
+            light9 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light9);
             break;
         case 10:
-            light10 = gtk_image_new_from_file("images/off.png");
+            light10 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light10);
             break;
         case 11:
-            light11 = gtk_image_new_from_file("images/off.png");
+            light11 = gtk_image_new_from_file("Images/off.png");
+            gtk_widget_queue_draw(light11);
             break;
-        default: 
+        default:
             // Should not reach this stage if correct pin is selected
             break;
     }
-    gtk_widget_show_all(window);
 }
 
 void create_loading_screen(GtkBox *vBox) {
@@ -139,7 +161,7 @@ void create_loading_screen(GtkBox *vBox) {
 
 void create_radio_buttons(GtkBox *vBox) {
     // Create radio buttons with their labels (No labels). The first one's 
-    // group is unspecified and the others are placed into the same group as rb1.
+    // group is unspecified and the others are placed into the same group as rb1
     rb1 = gtk_radio_button_new_with_label(NULL, RB1_LABEL);
     rb2 = gtk_radio_button_new_with_label_from_widget
             (GTK_RADIO_BUTTON(rb1), RB2_LABEL);
@@ -173,11 +195,12 @@ void create_volume_control(GtkBox *vBox) {
     vc = gtk_scale_new_with_range(GTK_ORIENTATION_HORIZONTAL, VOLUME_MIN, 
                                   VOLUME_MAX, VOLUME_STEP);
 
+    // Set default start volume to 70
     gtk_range_set_value(vc, DEFAULT_START_VOLUME);
 
     g_object_set(vc, "width-request", VOLUME_CONTROL_WIDTH, NULL);
 
-    // Create label for loading screen
+    // Create empty label for alignment purposes
     loadingLabel = gtk_label_new(NULL);
 
     // Set tooltip for the volume control
@@ -193,7 +216,6 @@ void create_volume_control(GtkBox *vBox) {
 }
 
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
-
     // Need this check as function is also called for the deselected button.
     if (!gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         return;
