@@ -42,7 +42,7 @@ void create_twelve_lights(GtkBox *hBox) {
 }
 
 void turn_light_on(int pin) {
-    printf("Function on called with the %n pin.", pin);
+    printf("Function on called with the %n pin.\n", pin);
     switch (pin) {
         case 0:
             light0 = gtk_image_new_from_file("images/on.png");
@@ -99,7 +99,7 @@ void turn_light_on(int pin) {
 }
 
 void turn_light_off(int pin) {
-    printf("Function off called with the %n pin.", pin);
+    printf("Function off called with the %n pin.\n", pin);
     switch (pin) {
         case 0:
             light0 = gtk_image_new_from_file("images/off.png");
