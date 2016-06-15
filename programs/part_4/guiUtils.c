@@ -45,90 +45,112 @@ void turn_light_on(int pin) {
     switch (pin) {
         case 0:
             light0 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light0);
             break;
         case 1:
             light1 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light1);
             break;
         case 2:
             light2 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light2);
             break;
         case 3:
             light3 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light3);
             break;
         case 4:
             light4 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light4);
             break;
         case 5:
             light5 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light5);
             break;
         case 6:
             light6 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light6);
             break;
         case 7:
             light7 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light7);
             break;
         case 8:
             light8 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light8);
             break;
         case 9:
             light9 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light9);
             break;
         case 10:
             light10 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light10);
             break;
         case 11:
             light11 = gtk_image_new_from_file("images/on.png");
+            gtk_widget_queue_draw(light11);
             break;
-        default: 
+        default:
             // Should not reach this stage if correct pin is selected
             break;
     }
-    gtk_widget_show_all(window);
 }
 
 void turn_light_off(int pin) {
     switch (pin) {
         case 0:
             light0 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light0);
             break;
         case 1:
             light1 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light1);
             break;
         case 2:
             light2 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light2);
             break;
         case 3:
             light3 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light3);
             break;
         case 4:
             light4 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light4);
             break;
         case 5:
             light5 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light5);
             break;
         case 6:
             light6 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light6);
             break;
         case 7:
             light7 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light7);
             break;
         case 8:
             light8 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light8);
             break;
         case 9:
             light9 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light9);
             break;
         case 10:
             light10 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light10);
             break;
         case 11:
             light11 = gtk_image_new_from_file("images/off.png");
+            gtk_widget_queue_draw(light11);
             break;
-        default: 
+        default:
             // Should not reach this stage if correct pin is selected
             break;
     }
-    gtk_widget_show_all(window);
 }
 
 void create_loading_screen(GtkBox *vBox) {
