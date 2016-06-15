@@ -6,17 +6,11 @@
 #define MAX_DIGITS_NUMBER_OF_MODES 15
 
 pthread_t threadPython;
-pthread_t threadStartupSound;
 pthread_t threadGui;
 pthread_t threadInstrLoop;
 
 int previous_instrument;
 int current_instrument;
-
-void *playStartupSound(void *pInstrument) {
-    system("aplay sounds/startup.wav");
-    return 0;
-}
 
 void *runPythonScript(void *pInstrument) {
     //int newInstrument = *((int *) pInstrument);
@@ -53,12 +47,6 @@ sudo awk '{print $2}' | sudo xargs kill -9");*/
             sleep(2);
         }
     }
-}
-
-gboolean quitLoadingScreen(gpointer data) {
-    gtk_widget_destroy((GtkWidget *)data);
-    gtk_widget_show_all(window);
-    return (FALSE);
 }
 
 int main(void) {

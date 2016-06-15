@@ -26,6 +26,12 @@ void run_loading_screen(void) {
     g_timeout_add(1000, quitLoadingScreen, loadingWindow);
 }
 
+gboolean quitLoadingScreen(gpointer data) {
+    gtk_widget_destroy((GtkWidget *)data);
+    gtk_widget_show_all(window);
+    return (FALSE);
+}
+
 void initialise_main_window(void) {
     // Set up the window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -107,6 +113,11 @@ void create_background(void) {
     layout = gtk_layout_new(NULL, NULL);
     background = gtk_image_new_from_file("images/background.png");
     gtk_layout_put(GTK_LAYOUT(layout), background, 0, 0);
+}
+
+void *playStartupSound(void *pInstrument) {
+    system("aplay sounds/startup.wav");
+    return 0;
 }
 
 void create_sound_mode(GtkBox *hBox) {
