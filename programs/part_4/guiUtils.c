@@ -17,7 +17,7 @@ void run_loading_screen(void) {
     
     // Create loading screen
     create_loading_screen(GTK_BOX(loadingContainer));
-    
+ 
     // Display loading screen
     gtk_container_add(GTK_CONTAINER(loadingWindow), loadingContainer);
     gtk_widget_show_all(loadingWindow);
@@ -27,13 +27,14 @@ void run_loading_screen(void) {
 }
 
 gboolean quitLoadingScreen(gpointer data) {
-    gtk_widget_destroy((GtkWidget *)data);
+    // Destroy loading screen and display main gui window
+    gtk_widget_destroy((GtkWidget *) data);
     gtk_widget_show_all(window);
     return (FALSE);
 }
 
 void initialise_main_window(void) {
-    // Set up the window
+    // Set up the main gui window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
     gtk_container_set_border_width(GTK_CONTAINER(window), 0);
@@ -42,32 +43,30 @@ void initialise_main_window(void) {
 
 }
 
-void set_up_main_window(void) {
+void set_up_main_window(void) {    
+    // Create background image 
+    create_background();
+
+    // Create banana icon 
+    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("images/icon.png", 256, 256,NULL);
+    gtk_window_set_icon(GTK_WINDOW(window), pIcon);
+ 
+    // Create horizontal box for current sound mode icon 
     iconContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_widget_set_halign(iconContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(iconContainer, GTK_ALIGN_CENTER);
 
-    create_sound_mode(GTK_BOX(iconContainer));
-
-    
-    // Create background image 
-    create_background();
- 
-    // Create the 12 lights and pack it into 
+    // Create horizontal box for the 12 lights 
     hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 45);
     gtk_widget_set_halign(hBoxLights, GTK_ALIGN_END);
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
-
-    // Banana icon
-    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("images/icon.png", 256, 256,NULL);
-    gtk_window_set_icon(GTK_WINDOW(window), pIcon);
 
     // Create new vertical box to hold the widgets
 	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 195);
     gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(widgetContainer, GTK_ALIGN_CENTER);
 
-    // Create new vertical box with 1 pixel between elements as default.
+    // Create new vertical box for the radio buttons
     vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 65);
     gtk_widget_set_halign(vBoxRadioButtons, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxRadioButtons, GTK_ALIGN_CENTER);
@@ -82,8 +81,12 @@ void set_up_main_window(void) {
     gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
 
-     // Create the radio buttons and pack the into vBoxRadioButtons.
+     // Create the radio buttons and pack them into vBoxRadioButtons.
     create_radio_buttons(GTK_BOX(vBoxRadioButtons));
+    
+    // Set up current sound mode icon and pack it into iconContainer
+    create_sound_mode(GTK_BOX(iconContainer));
+
 
     // Create the volume control and pack it into vBoxVolumeControl
     create_volume_control(GTK_BOX(vBoxVolumeControl));
@@ -105,7 +108,7 @@ void set_up_main_window(void) {
     gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 80, 690);
 	gtk_container_add(GTK_CONTAINER(window), layout);
 
-    // Windows startup sound
+    // Play windows startup sound when gui is opened
     pthread_create(&threadStartupSound, NULL, playStartupSound, NULL);
 }
 
