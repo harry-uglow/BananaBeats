@@ -49,6 +49,8 @@ enum Instrument {
 // Declare widgets as global variables
 GtkWidget *loadingWindow;
 GtkWidget *window;
+GtkWidget *layout;
+GtkWidget *background;
 GtkWidget *controlContainer;
 GtkWidget *widgetContainer;
 GtkWidget *loadingContainer;
@@ -75,17 +77,19 @@ GtkWidget *light8;
 GtkWidget *light9;
 GtkWidget *light10;
 GtkWidget *light11;
+GtkWidget *drumsIcon;
+GtkWidget *pianoIcon;
+GtkWidget *marioIcon;
+GtkWidget *iconContainer;
 
 // Declare animation for the loading gif
 GdkPixbufAnimation *animation;
-
-// Declare number to indicate whether loading finished
-int finishedLoading;
 
 // Declare volume as variable
 gdouble currentVolume;
 PyObject *pyFunCall;
 
+void create_background(void);
 void create_twelve_lights(GtkBox *hBox);
 void turn_light_on(int pin);
 void turn_light_off(int pin);

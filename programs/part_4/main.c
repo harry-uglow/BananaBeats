@@ -62,9 +62,6 @@ gboolean quitLoadingScreen(gpointer data) {
 }
 
 int main(void) {
-	GtkWidget *image;
-    GtkWidget *layout;
-
 	// Initialise GTK+
     gtk_init(0, NULL);
 	 
@@ -84,11 +81,12 @@ int main(void) {
 
     // Create loading screen
     create_loading_screen(GTK_BOX(loadingContainer));
-
+    
+    // Display loading screen
     gtk_container_add(GTK_CONTAINER(loadingWindow), loadingContainer);
     gtk_widget_show_all(loadingWindow);
 
-    // Enter the main loop
+    // Timing for loading screen
     g_timeout_add(100, quitLoadingScreen, loadingWindow);
 
     // Set up the window
@@ -98,16 +96,13 @@ int main(void) {
     gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1000);
     gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
 
-	layout = gtk_layout_new(NULL, NULL);
-
-    image = gtk_image_new_from_file("images/background.png");
-    gtk_layout_put(GTK_LAYOUT(layout), image, 0, 0);
-    
+    // Create background image 
+    create_background();
+ 
     // Create the 12 lights and pack it into 
     hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 50);
     gtk_widget_set_halign(hBoxLights, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
-
 
     // Banana icon
     GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("images/icon.png", 256, 256,NULL);

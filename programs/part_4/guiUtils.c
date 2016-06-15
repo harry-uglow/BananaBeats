@@ -1,5 +1,11 @@
 #include "guiUtils.h"
 
+void create_background(void) {
+    layout = gtk_layout_new(NULL, NULL);
+    background = gtk_image_new_from_file("images/background.png");
+    gtk_layout_put(GTK_LAYOUT(layout), background, 0, 0);
+}
+
 void create_twelve_lights(GtkBox *hBox) {
     // All lights turned off at first
     for(int i = 0; i < 12; i++) {
