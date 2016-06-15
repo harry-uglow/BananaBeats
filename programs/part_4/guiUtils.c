@@ -246,6 +246,7 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 
 gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
     printf("Drawing\n");
+    return TRUE;
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
