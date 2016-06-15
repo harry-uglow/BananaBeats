@@ -98,5 +98,6 @@ void create_radio_buttons(GtkBox *vBox);
 void create_volume_control(GtkBox *vBox);
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window);
 void adjust_volume(GtkScale *vc, gpointer window);
+gboolean toggle_light(GtkWigdet *widget, GdkEventExpose *event);
 
 #endif //PART_4_GUIUTILS_H
