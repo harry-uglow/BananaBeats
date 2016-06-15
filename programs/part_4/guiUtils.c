@@ -38,40 +38,40 @@ void create_twelve_lights(GtkBox *hBox) {
 void turn_light_on(int pin) {
     switch (pin) {
         case 0:
-            light0 = gtk_image_new_from_file("Images/on.png");
+            light0 = gtk_image_new_from_file("images/on.png");
             break;
         case 1:
-            light1 = gtk_image_new_from_file("Images/on.png");
+            light1 = gtk_image_new_from_file("images/on.png");
             break;
         case 2:
-            light2 = gtk_image_new_from_file("Images/on.png");
+            light2 = gtk_image_new_from_file("images/on.png");
             break;
         case 3:
-            light3 = gtk_image_new_from_file("Images/on.png");
+            light3 = gtk_image_new_from_file("images/on.png");
             break;
         case 4:
-            light4 = gtk_image_new_from_file("Images/on.png");
+            light4 = gtk_image_new_from_file("images/on.png");
             break;
         case 5:
-            light5 = gtk_image_new_from_file("Images/on.png");
+            light5 = gtk_image_new_from_file("images/on.png");
             break;
         case 6:
-            light6 = gtk_image_new_from_file("Images/on.png");
+            light6 = gtk_image_new_from_file("images/on.png");
             break;
         case 7:
-            light7 = gtk_image_new_from_file("Images/on.png");
+            light7 = gtk_image_new_from_file("images/on.png");
             break;
         case 8:
-            light8 = gtk_image_new_from_file("Images/on.png");
+            light8 = gtk_image_new_from_file("images/on.png");
             break;
         case 9:
-            light9 = gtk_image_new_from_file("Images/on.png");
+            light9 = gtk_image_new_from_file("images/on.png");
             break;
         case 10:
-            light10 = gtk_image_new_from_file("Images/on.png");
+            light10 = gtk_image_new_from_file("images/on.png");
             break;
         case 11:
-            light11 = gtk_image_new_from_file("Images/on.png");
+            light11 = gtk_image_new_from_file("images/on.png");
             break;
         default: 
             // Should not reach this stage if correct pin is selected
@@ -83,40 +83,40 @@ void turn_light_on(int pin) {
 void turn_light_off(int pin) {
     switch (pin) {
         case 0:
-            light0 = gtk_image_new_from_file("Images/off.png");
+            light0 = gtk_image_new_from_file("images/off.png");
             break;
         case 1:
-            light1 = gtk_image_new_from_file("Images/off.png");
+            light1 = gtk_image_new_from_file("images/off.png");
             break;
         case 2:
-            light2 = gtk_image_new_from_file("Images/off.png");
+            light2 = gtk_image_new_from_file("images/off.png");
             break;
         case 3:
-            light3 = gtk_image_new_from_file("Images/off.png");
+            light3 = gtk_image_new_from_file("images/off.png");
             break;
         case 4:
-            light4 = gtk_image_new_from_file("Images/off.png");
+            light4 = gtk_image_new_from_file("images/off.png");
             break;
         case 5:
-            light5 = gtk_image_new_from_file("Images/off.png");
+            light5 = gtk_image_new_from_file("images/off.png");
             break;
         case 6:
-            light6 = gtk_image_new_from_file("Images/off.png");
+            light6 = gtk_image_new_from_file("images/off.png");
             break;
         case 7:
-            light7 = gtk_image_new_from_file("Images/off.png");
+            light7 = gtk_image_new_from_file("images/off.png");
             break;
         case 8:
-            light8 = gtk_image_new_from_file("Images/off.png");
+            light8 = gtk_image_new_from_file("images/off.png");
             break;
         case 9:
-            light9 = gtk_image_new_from_file("Images/off.png");
+            light9 = gtk_image_new_from_file("images/off.png");
             break;
         case 10:
-            light10 = gtk_image_new_from_file("Images/off.png");
+            light10 = gtk_image_new_from_file("images/off.png");
             break;
         case 11:
-            light11 = gtk_image_new_from_file("Images/off.png");
+            light11 = gtk_image_new_from_file("images/off.png");
             break;
         default: 
             // Should not reach this stage if correct pin is selected
@@ -127,7 +127,7 @@ void turn_light_off(int pin) {
 
 void create_loading_screen(GtkBox *vBox) {
     // Set up the loading gif
-    animation = gdk_pixbuf_animation_new_from_file("Images/hexLoader.gif", NULL);
+    animation = gdk_pixbuf_animation_new_from_file("images/hexLoader.gif", NULL);
     loadingGif = gtk_image_new_from_animation(animation);
 
     // Set up tooltips

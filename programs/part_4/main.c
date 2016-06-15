@@ -100,7 +100,7 @@ int main(void) {
 
 	layout = gtk_layout_new(NULL, NULL);
 
-    image = gtk_image_new_from_file("Images/background.png");
+    image = gtk_image_new_from_file("images/background.png");
     gtk_layout_put(GTK_LAYOUT(layout), image, 0, 0);
     
     // Create the 12 lights and pack it into 
@@ -110,7 +110,7 @@ int main(void) {
 
 
     // Banana icon
-    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("Images/icon.png", 256, 256,NULL);
+    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("images/icon.png", 256, 256,NULL);
     gtk_window_set_icon(GTK_WINDOW(window), pIcon);
 
     // Create new vertical box to hold the widgets
