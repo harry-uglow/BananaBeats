@@ -252,8 +252,8 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 }
 
 gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
-    printf("Drawing\n");
-    gtk_widget_show_all(widget);
+    // Function is needed to force GUI thread to update but looks as though it
+    // does nothing.
     return TRUE;
 }
 
