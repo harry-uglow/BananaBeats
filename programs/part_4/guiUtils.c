@@ -13,7 +13,7 @@ void create_sound_mode(GtkBox *hBox) {
     marioIcon = gtk_image_new_from_file("images/mario.png");
 
     // Set default icon to drums
-    currentIcon = (GtkImage *) drumsIcon;   
+    currentIcon = drumsIcon;   
 
     gtk_box_pack_start(hBox, currentIcon, TRUE, TRUE, DEFAULT_PADDING);
 }
@@ -235,17 +235,17 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
         case 'D' :
             instrument = DRUMS;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
-            gtk_image_set_from_file(currentIcon, "images/drums.png");
+            gtk_image_set_from_file(GTK_IMAGE(currentIcon), "images/drums.png");
             break;
         case 'P' :
             instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
-            gtk_image_set_from_file(currentIcon, "images/piano.png");
+            gtk_image_set_from_file(GTK_IMAGE(currentIcon), "images/piano.png");
             break;
         case 'M' :
             instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
-            gtk_image_set_from_file(currentIcon, "images/mario.png");
+            gtk_image_set_from_file(GTK_IMAGE(currentIcon), "images/mario.png");
             break;
         default:
             printf("Somethings gone wrong\n");

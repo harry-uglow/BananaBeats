@@ -80,7 +80,7 @@ GtkWidget *light11;
 GtkWidget *drumsIcon;
 GtkWidget *pianoIcon;
 GtkWidget *marioIcon;
-GtkImage *currentIcon;
+GtkWidget *currentIcon;
 GtkWidget *iconContainer;
 
 // Declare animation for the loading gif
