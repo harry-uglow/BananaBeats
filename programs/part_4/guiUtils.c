@@ -62,22 +62,22 @@ void set_up_main_window(void) {
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
 
     // Create new vertical box to hold the widgets
-	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 195);
+	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 200);
     gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(widgetContainer, GTK_ALIGN_CENTER);
 
     // Create new vertical box for the radio buttons
-    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 65);
+    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 50);
     gtk_widget_set_halign(vBoxRadioButtons, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxRadioButtons, GTK_ALIGN_CENTER);
 
     // Create new vertical box for volume control
-    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 40);
+    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 80);
     gtk_widget_set_halign(vBoxVolumeControl, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
 
     // Create new box to hold the control widgets (radio buttons and sound)
-    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 1000);
+    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 915);
     gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
 
@@ -308,7 +308,6 @@ void create_radio_buttons(GtkBox *vBox) {
     gtk_widget_override_color(rb1, GTK_STATE_FLAG_ACTIVE, yellow);
     gtk_widget_override_color(rb2, GTK_STATE_FLAG_ACTIVE , yellow);
     gtk_widget_override_color(rb3, GTK_STATE_FLAG_ACTIVE, yellow);
-
 
     // Set tooltips for the radio buttons
     gtk_widget_set_tooltip_text(rb1, RB1_TOOLTIP);
