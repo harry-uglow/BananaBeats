@@ -90,7 +90,9 @@ GdkPixbufAnimation *animation;
 gdouble currentVolume;
 PyObject *pyFunCall;
 
+
 void create_background(void);
+void create_sound_mode(GtkBox *hBox);
 void create_twelve_lights(GtkBox *hBox);
 void turn_light_on(int pin);
 void turn_light_off(int pin);

@@ -6,6 +6,18 @@ void create_background(void) {
     gtk_layout_put(GTK_LAYOUT(layout), background, 0, 0);
 }
 
+void create_sound_mode(GtkBox *hBox) {
+    // Set up image icons for current sound mode
+    drumsIcon = gtk_image_new_from_file("images/drums.png");
+    pianoIcon = gtk_image_new_from_file("images/piano.png");
+    marioIcon = gtk_image_new_from_file("images/mario.png");
+
+    // Set default icon to drums
+    currentIcon = drumsIcon;   
+
+    gtk_box_pack_start(hBox, currentIcon, TRUE, TRUE, DEFAULT_PADDING);
+}
+
 void create_twelve_lights(GtkBox *hBox) {
     //Set images
     light0 = gtk_image_new_from_file("images/off.png");
