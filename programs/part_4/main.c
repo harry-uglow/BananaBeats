@@ -35,15 +35,19 @@ int main(void) {
 //	if(fscanf(pyPipe, "%d", &test) != 1) {
 //            continue;
 //        }
-        char inputString[4];
+        char inputString[9];
         fgets(inputString, 100, pyPipe);
         //fflush(pyPipe);
-        char action = inputString[0]; // either 't' touched or 'r' released
-        // If this is some other junk console output, skip this iteration
-        if((action != 't' && action != 'r') || !isdigit(inputString[1])) {
+        if(!inputString || !*inputString || !*(inputString + 5)) {
             continue;
         }
-        char *inputStringAfterFirstLetter = inputString + 1;
+
+        char action = inputString[5];// either 't' touched or 'r' released
+        // If this is some other junk console output, skip this iteration
+        //if((action != 't' && action != 'r') || !isdigit(inputString[6])) {
+        //    continue;
+        //}
+        char *inputStringAfterFirstLetter = inputString + 6;
         int pin = atoi(inputStringAfterFirstLetter);
         printf("%d\n", pin);
         if (action == 't') {
