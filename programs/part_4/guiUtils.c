@@ -23,7 +23,7 @@ void run_loading_screen(void) {
     gtk_widget_show_all(loadingWindow);
 
     // Timing for loading screen
-    g_timeout_add(1000, quitLoadingScreen, loadingWindow);
+    g_timeout_add(6000, quitLoadingScreen, loadingWindow);
 }
 
 gboolean quitLoadingScreen(gpointer data) {
@@ -40,7 +40,6 @@ void initialise_main_window(void) {
     gtk_container_set_border_width(GTK_CONTAINER(window), 0);
     gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1000);
     gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
-
 }
 
 void set_up_main_window(void) {    
@@ -87,7 +86,6 @@ void set_up_main_window(void) {
     // Set up current sound mode icon and pack it into iconContainer
     create_sound_mode(GTK_BOX(iconContainer));
 
-
     // Create the volume control and pack it into vBoxVolumeControl
     create_volume_control(GTK_BOX(vBoxVolumeControl));
 
@@ -102,6 +100,7 @@ void set_up_main_window(void) {
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxRadioButtons);
     gtk_container_add(GTK_CONTAINER(controlContainer), vBoxVolumeControl);
     gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
+    
     // Layout of widgets over background image aligned
 	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 215, 320);
     gtk_layout_put(GTK_LAYOUT(layout), iconContainer, 665, 150);
@@ -177,8 +176,6 @@ void create_twelve_lights(GtkBox *hBox) {
     gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING);
 
-// TODO: The line below makes the first light icon disappear, is it needed???
-//    g_signal_connect(G_OBJECT(light0), "draw", G_CALLBACK(toggle_light), window);
     printf("Lights created\n");
 }
 
@@ -387,12 +384,6 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             printf("Somethings gone wrong\n");
             break;
     }
-}
-
-gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
-    // Function is needed to force GUI thread to update but looks as though it
-    // does nothing.
-    return TRUE;
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
