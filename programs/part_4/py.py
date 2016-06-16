@@ -8,9 +8,10 @@ import signal
 
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
 
-p = subprocess.call(['./main'], stdin = PIPE, close_fds=True)
+print('strt')
+p = subprocess.Popen(['./main'], stdin = subprocess.PIPE, close_fds=True, shell=True)
 # Maybe add shell=True if it doesn't work
-
+print('mon')
 monitorInputs()
 
 def monitorInputs():
@@ -31,6 +32,7 @@ def monitorInputs():
             pin_bit = 1 << i
             if current_touched & pin_bit and not last_touched & pin_bit:
                 p.stdin.write('t' + i + '\n')
+                print('t' + i)
                 p.stdin.flush()
                 print('Pin ', i, ' touched') # Get rid of this?
             if not current_touched & pin_bit and last_touched & pin_bit:

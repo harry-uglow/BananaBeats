@@ -13,10 +13,10 @@ int previous_instrument;
 int current_instrument;
 
 void *runPythonScript(void *pInstrument) {
-    //int newInstrument = *((int *) pInstrument);
+    int newInstrument = *((int *) pInstrument);
     char *scriptAddress = "auxPython.py";
     char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
-    //sprintf(systemCall, "sudo python %s %d", scriptAddress, newInstrument);
+    sprintf(systemCall, "sudo python %s %d", scriptAddress, newInstrument);
     printf("%s\n", systemCall);
     system(systemCall);
     return 0;
@@ -27,8 +27,8 @@ void *runPythonScript(void *pInstrument) {
 void *runGtkLoop(void *parameter) {
     gtk_main();
     system("aplay sounds/shutdown.wav");
-   /* system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
-sudo awk '{print $2}' | sudo xargs kill -9");*/
+    system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");
     exit(0);
 }
 
@@ -38,8 +38,8 @@ void *instrLoop(void *parameter) {
         // If there is a change
         if (current_instrument != previous_instrument) {
             // Stop Python process
-            /*system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
-sudo awk '{print $2}' | sudo xargs kill -9");*/
+            system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");
             pthread_kill(threadPython, SIGQUIT);
             // Create new Python process
             pthread_create(&threadPython, NULL, runPythonScript, &current_instrument);
