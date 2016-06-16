@@ -410,5 +410,6 @@ void runPythonScript(void) {
     char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
     sprintf(systemCall, "sudo python %s %d", scriptAddress, instrument);
     printf("%s\n", systemCall);
-    pyPipe = popen(systemCall, 'r');
+    char *r = "r";
+    pyPipe = popen(systemCall, r);
 }
