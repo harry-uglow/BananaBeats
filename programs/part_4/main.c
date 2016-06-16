@@ -32,7 +32,7 @@ int main(void) {
 
     while (1) {
         char inputString[4];
-        scanf("%s\n", inputString);
+        fscanf(pyPipe, "%s\n", inputString);
         char action = inputString[0]; // either 't' touched or 'r' released
         char *inputStringAfterFirstLetter = inputString + 1;
         int pin = atoi(inputStringAfterFirstLetter);
