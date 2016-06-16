@@ -80,10 +80,11 @@ int main(void) {
         int pin = atoi(inputStringAfterFirstLetter);
         printf("%d\n", pin);
         if (action == 't') {
-            turn_light_on(pin);printf("turn on %d\n", pin);
+            turn_light_on(pin);
         } else {
             // Else it must be released
             turn_light_off(pin);
         }
+        usleep(300);
     }
 }

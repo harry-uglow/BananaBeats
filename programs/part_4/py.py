@@ -3,8 +3,15 @@ import threading
 import sys
 import time
 import pygame
+import os
+import signal
 
 import python.adafruit_libraries.Adafruit_MPR121.MPR121 as MPR121
+
+p = subprocess.call(['./main'], stdin = PIPE, close_fds=True)
+# Maybe add shell=True if it doesn't work
+
+monitorInputs()
 
 def monitorInputs():
     # Create MPR121 instance
@@ -23,19 +30,12 @@ def monitorInputs():
         for i in range(12):
             pin_bit = 1 << i
             if current_touched & pin_bit and not last_touched & pin_bit:
-                p.stdin.write('t' + i)
-                print('Pin ', i, ' touched')
+                p.stdin.write('t' + i + '\n')
+                p.stdin.flush()
+                print('Pin ', i, ' touched') # Get rid of this?
             if not current_touched & pin_bit and last_touched & pin_bit:
-                p.stdin.write('r' + i)
+                p.stdin.write('r' + i + '\n')
+                p.stdin.flush() # Get rid of this?
                 print('Pin ', i, ' released')
         last_touched = current_touched
-        time.sleep(0.01) 
-
-
-
-
-t = threading.Thread(target = monitorInputs)
-t.daemon = True
-t.start()
-
-p = subprocess.call(['./main'], stdin=subprocess.PIPE)
+        time.sleep(0.1)
