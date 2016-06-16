@@ -32,7 +32,7 @@ int main(void) {
 
     while (1) {
         char inputString[4];
-        fscanf(pyPipe, "%s\n", inputString);
+        fscanf(pyPipe, "*input%s", inputString);
         fflush(pyPipe);
         char action = inputString[0]; // either 't' touched or 'r' released
         // If this is some other junk console output, skip this iteration
