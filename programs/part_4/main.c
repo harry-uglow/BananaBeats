@@ -10,8 +10,8 @@
 void *runGtkLoop(void *parameter) {
     gtk_main();
     system("aplay sounds/shutdown.wav");
-   /* system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
-sudo awk '{print $2}' | sudo xargs kill -9");*/
+    system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");
     exit(0);
 }
 
