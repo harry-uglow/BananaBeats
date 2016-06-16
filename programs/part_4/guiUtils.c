@@ -409,7 +409,8 @@ void runPythonScript(void) {
     char *scriptAddress = "auxPython.py";
     char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
     sprintf(systemCall, "sudo python %s %d", scriptAddress, instrument);
-    printf("%s\n", systemCall);
+    // printf("%s\n", systemCall);
     char *r = "r";
     pyPipe = popen(systemCall, r);
+    printf("Pipe set up\n");
 }
