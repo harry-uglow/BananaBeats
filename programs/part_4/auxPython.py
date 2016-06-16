@@ -35,8 +35,12 @@ while True:
         if current_touched & pin_bit and not last_touched & pin_bit:
             sounds[i].play()
 	    touched(i) # This will be used to interact with the GUI in future
+            sys.stdout.write("inputt" + str(i) + '\n')
+            sys.stdout.flush()
 	if not current_touched & pin_bit and last_touched & pin_bit:
 	    released(i) # This will be used to interact with the GUI in future
+            sys.stdout.write("inputr" + str(i) + '\n')
+            sys.stdout.flush()
     last_touched = current_touched
     time.sleep(0.01) 
 

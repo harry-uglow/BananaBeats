@@ -31,8 +31,12 @@ int main(void) {
     runPythonScript();
 
     while (1) {
+//	char test;
+//	if(fscanf(pyPipe, "%d", &test) != 1) {
+//            continue;
+//        }
         char inputString[4];
-        fscanf(pyPipe, "*input%s\n", inputString);
+        fgets(inputString, 100, pyPipe);
         //fflush(pyPipe);
         char action = inputString[0]; // either 't' touched or 'r' released
         // If this is some other junk console output, skip this iteration
