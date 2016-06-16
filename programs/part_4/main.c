@@ -2,9 +2,6 @@
 #include "guiUtils.h"
 #include <pthread.h>
 #include <signal.h>
-
-#define MAX_DIGITS_NUMBER_OF_MODES 15
-
 // gtk_main has been put into a separate function so that it can 
 // be called as a separate thread.
 void *runGtkLoop(void *parameter) {

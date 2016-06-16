@@ -37,6 +37,8 @@
 #define RADIO_BUTTON_SPACING 1
 #define VOLUME_CONTROL_SPACING 1
 #define DEFAULT_START_VOLUME 70
+#define MAX_DIGITS_NUMBER_OF_MODES 15
+
 
 
 // Enum for the type of Instrument currently selected
