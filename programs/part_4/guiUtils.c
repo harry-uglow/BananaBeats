@@ -359,6 +359,7 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
         return;
     }
 
+    changePyProgram();
     // Get the button's label and set the sound mode as appropriate.
     const gchar *label = gtk_button_get_label(GTK_BUTTON(widget));
     switch(*label) {
@@ -401,7 +402,7 @@ void changePyProgram(void) {
 sudo awk '{print $2}' | sudo xargs kill -9");*/
     pthread_kill(threadPython, SIGQUIT);
     // Create new Python process
-    pthread_create(&threadPython, NULL, runPythonScript, &instrument);
+    runPythonScript();
 }
 
 void runPythonScript(void) {
