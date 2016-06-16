@@ -94,6 +94,12 @@ PyObject *pyFunCall;
 // Declare pthread as global variable
 pthread_t threadStartupSound;
 
+pthread_t threadPython;
+pthread_t threadGui;
+pthread_t threadInstrLoop;
+
+FILE *pyPipe;
+
 
 void run_loading_screen(void);
 gboolean quitLoadingScreen(gpointer data);
@@ -111,5 +117,7 @@ void create_volume_control(GtkBox *vBox);
 void toggle_sound_mode(GtkRadioButton *widget, gpointer window);
 void adjust_volume(GtkScale *vc, gpointer window);
 gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event);
+void changePyProgram(void);
+void runPythonScript(void);
 
 #endif //PART_4_GUIUTILS_H

@@ -394,3 +394,20 @@ void adjust_volume(GtkScale *vc, gpointer window) {
     sprintf(volumeCmd, "%s%d%%", volumeCmdPre, (int) currentVolume);
     system(volumeCmd);
 }
+
+void changePyProgram(void) {
+        // Stop Python process
+        /*system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+sudo awk '{print $2}' | sudo xargs kill -9");*/
+    pthread_kill(threadPython, SIGQUIT);
+    // Create new Python process
+    pthread_create(&threadPython, NULL, runPythonScript, &instrument);
+}
+
+void runPythonScript(void) {
+    char *scriptAddress = "auxPython.py";
+    char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
+    sprintf(systemCall, "sudo python %s %d", scriptAddress, instrument);
+    printf("%s\n", systemCall);
+    pyPipe = popen(systemCall, 'r');
+}
