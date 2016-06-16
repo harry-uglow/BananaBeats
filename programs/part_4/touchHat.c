@@ -9,8 +9,8 @@
  */
 static PyObject *py_touched(PyObject *self, PyObject *args) {
     int pin; // Pin number touched (0-11)
+    printf("%p", pyPipe);
     PyArg_ParseTuple(args, "i", &pin);
-    printf("t%d\n", pin);
     return Py_BuildValue("");
 }
 
