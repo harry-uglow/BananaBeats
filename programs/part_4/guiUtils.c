@@ -1,21 +1,137 @@
 #include "guiUtils.h"
 
+void run_loading_screen(void) {
+    // Create loading window
+    loadingWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title (GTK_WINDOW (loadingWindow), "Loading...");
+    gtk_container_set_border_width (GTK_CONTAINER (loadingWindow), 0);
+    gtk_widget_set_size_request (loadingWindow, 400, 300);
+    gtk_window_set_decorated(GTK_WINDOW (loadingWindow), FALSE);
+    gtk_window_set_position(GTK_WINDOW(loadingWindow), GTK_WIN_POS_CENTER);
+    gtk_window_set_resizable(GTK_WINDOW(loadingWindow), FALSE);
+    
+    // Create new box to hold the loading widgets
+    loadingContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10); 
+    gtk_widget_set_halign(loadingContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(loadingContainer, GTK_ALIGN_CENTER);
+    
+    // Create loading screen
+    create_loading_screen(GTK_BOX(loadingContainer));
+ 
+    // Display loading screen
+    gtk_container_add(GTK_CONTAINER(loadingWindow), loadingContainer);
+    gtk_widget_show_all(loadingWindow);
+
+    // Timing for loading screen
+    g_timeout_add(1000, quitLoadingScreen, loadingWindow);
+}
+
+gboolean quitLoadingScreen(gpointer data) {
+    // Destroy loading screen and display main gui window
+    gtk_widget_destroy((GtkWidget *) data);
+    gtk_widget_show_all(window);
+    return (FALSE);
+}
+
+void initialise_main_window(void) {
+    // Set up the main gui window
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+    gtk_container_set_border_width(GTK_CONTAINER(window), 0);
+    gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1000);
+    gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
+
+}
+
+void set_up_main_window(void) {    
+    // Create background image 
+    create_background();
+
+    // Create banana icon 
+    GdkPixbuf *pIcon = gdk_pixbuf_new_from_file_at_size("images/icon.png", 256, 256,NULL);
+    gtk_window_set_icon(GTK_WINDOW(window), pIcon);
+ 
+    // Create horizontal box for current sound mode icon 
+    iconContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_halign(iconContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(iconContainer, GTK_ALIGN_CENTER);
+
+    // Create horizontal box for the 12 lights 
+    hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 45);
+    gtk_widget_set_halign(hBoxLights, GTK_ALIGN_END);
+    gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
+
+    // Create new vertical box to hold the widgets
+	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 200);
+    gtk_widget_set_halign(widgetContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(widgetContainer, GTK_ALIGN_CENTER);
+
+    // Create new vertical box for the radio buttons
+    vBoxRadioButtons = gtk_box_new(GTK_ORIENTATION_VERTICAL, 50);
+    gtk_widget_set_halign(vBoxRadioButtons, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(vBoxRadioButtons, GTK_ALIGN_CENTER);
+
+    // Create new vertical box for volume control
+    vBoxVolumeControl = gtk_box_new(GTK_ORIENTATION_VERTICAL, 80);
+    gtk_widget_set_halign(vBoxVolumeControl, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(vBoxVolumeControl, GTK_ALIGN_CENTER);
+
+    // Create new box to hold the control widgets (radio buttons and sound)
+    controlContainer = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 915);
+    gtk_widget_set_halign(controlContainer, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(controlContainer, GTK_ALIGN_CENTER);
+
+     // Create the radio buttons and pack them into vBoxRadioButtons.
+    create_radio_buttons(GTK_BOX(vBoxRadioButtons));
+    
+    // Set up current sound mode icon and pack it into iconContainer
+    create_sound_mode(GTK_BOX(iconContainer));
+
+
+    // Create the volume control and pack it into vBoxVolumeControl
+    create_volume_control(GTK_BOX(vBoxVolumeControl));
+
+    // Create the 12 lights and pack it into hBoxLights
+    create_twelve_lights(GTK_BOX(hBoxLights));
+
+    // When the window is closed exit the program.
+    g_signal_connect(window, "destroy", 
+                       G_CALLBACK(gtk_main_quit), NULL);
+
+    // Add the boxes to the window.
+    gtk_container_add(GTK_CONTAINER(controlContainer), vBoxRadioButtons);
+    gtk_container_add(GTK_CONTAINER(controlContainer), vBoxVolumeControl);
+    gtk_container_add(GTK_CONTAINER(widgetContainer), hBoxLights);
+    // Layout of widgets over background image aligned
+	gtk_layout_put(GTK_LAYOUT(layout), controlContainer, 215, 320);
+    gtk_layout_put(GTK_LAYOUT(layout), iconContainer, 665, 150);
+    gtk_layout_put(GTK_LAYOUT(layout), widgetContainer, 80, 690);
+	gtk_container_add(GTK_CONTAINER(window), layout);
+
+    // Play windows startup sound when gui is opened
+    pthread_create(&threadStartupSound, NULL, playStartupSound, NULL);
+}
+
 void create_background(void) {
     layout = gtk_layout_new(NULL, NULL);
     background = gtk_image_new_from_file("images/background.png");
     gtk_layout_put(GTK_LAYOUT(layout), background, 0, 0);
 }
 
+void *playStartupSound(void *pInstrument) {
+    system("aplay sounds/startup.wav");
+    return 0;
+}
+
 void create_sound_mode(GtkBox *hBox) {
-    // Set up image icons for current sound mode
+    // Set up image icon for default current sound mode
     drumsIcon = gtk_image_new_from_file("images/drums.png");
-    pianoIcon = gtk_image_new_from_file("images/piano.png");
-    marioIcon = gtk_image_new_from_file("images/mario.png");
 
     // Set default icon to drums
-    currentIcon = drumsIcon;   
+    currentSoundMode = drumsIcon;   
 
-    gtk_box_pack_start(hBox, currentIcon, TRUE, TRUE, DEFAULT_PADDING);
+    // Pack the current sound mode image into hBox
+    gtk_box_pack_start(hBox, currentSoundMode, TRUE, TRUE, DEFAULT_PADDING);
 }
 
 void create_twelve_lights(GtkBox *hBox) {
@@ -61,7 +177,8 @@ void create_twelve_lights(GtkBox *hBox) {
     gtk_box_pack_start(hBox, light10, TRUE, TRUE, DEFAULT_PADDING);
     gtk_box_pack_start(hBox, light11, TRUE, TRUE, DEFAULT_PADDING);
 
-    g_signal_connect(G_OBJECT(light0), "draw", G_CALLBACK(toggle_light), NULL);
+// TODO: The line below makes the first light icon disappear, is it needed???
+//    g_signal_connect(G_OBJECT(light0), "draw", G_CALLBACK(toggle_light), window);
     printf("Lights created\n");
 }
 
@@ -176,6 +293,22 @@ void create_radio_buttons(GtkBox *vBox) {
     rb3 = gtk_radio_button_new_with_label_from_widget
             (GTK_RADIO_BUTTON(rb1), RB3_LABEL);
 
+    PangoFontDescription *font;
+    GdkRGBA defaultColor = {1, 1, 1, 1};
+    GdkRGBA selectedColor = {1, 1, 0, 1};
+    GdkRGBA *white = &defaultColor;
+    GdkRGBA *yellow = &selectedColor;
+    font = pango_font_description_from_string("Montserrat 30");
+    gtk_widget_override_font(rb1, font);
+    gtk_widget_override_font(rb2, font);
+    gtk_widget_override_font(rb3, font);
+    gtk_widget_override_color(rb1, GTK_STATE_FLAG_NORMAL, white);
+    gtk_widget_override_color(rb2, GTK_STATE_FLAG_NORMAL , white);
+    gtk_widget_override_color(rb3, GTK_STATE_FLAG_NORMAL, white);
+    gtk_widget_override_color(rb1, GTK_STATE_FLAG_ACTIVE, yellow);
+    gtk_widget_override_color(rb2, GTK_STATE_FLAG_ACTIVE , yellow);
+    gtk_widget_override_color(rb3, GTK_STATE_FLAG_ACTIVE, yellow);
+
     // Set tooltips for the radio buttons
     gtk_widget_set_tooltip_text(rb1, RB1_TOOLTIP);
     gtk_widget_set_tooltip_text(rb2, RB2_TOOLTIP);
@@ -204,7 +337,7 @@ void create_volume_control(GtkBox *vBox) {
                                   VOLUME_MAX, VOLUME_STEP);
 
     // Set default start volume to 70
-    gtk_range_set_value(vc, DEFAULT_START_VOLUME);
+    gtk_range_set_value(GTK_RANGE(vc), DEFAULT_START_VOLUME);
 
     g_object_set(vc, "width-request", VOLUME_CONTROL_WIDTH, NULL);
 
@@ -235,17 +368,20 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
         case 'D' :
             instrument = DRUMS;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
-            gtk_image_set_from_file(currentIcon, "images/drums.png");
+            // Change current sound mode image to drums
+            gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/drums.png");
             break;
         case 'P' :
             instrument = PIANO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
-            gtk_image_set_from_file(currentIcon, "images/piano.png");
+            // Change current sound mode image to piano
+            gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/piano.png");
             break;
         case 'M' :
             instrument = MARIO;
             gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
-            gtk_image_set_from_file(currentIcon, "images/mario.png");
+            // Change current sound mode image to mario 
+            gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/mario.png");
             break;
         default:
             printf("Somethings gone wrong\n");
@@ -254,9 +390,8 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
 }
 
 gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event) {
-    printf("Drawing\n");
-    gtk_image_set_from_file(GTK_IMAGE(widget), "images/on.png");
-    gtk_widget_queue_draw(widget);
+    // Function is needed to force GUI thread to update but looks as though it
+    // does nothing.
     return TRUE;
 }
 

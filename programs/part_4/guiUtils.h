@@ -77,10 +77,11 @@ GtkWidget *light8;
 GtkWidget *light9;
 GtkWidget *light10;
 GtkWidget *light11;
+GtkWidget *light12;
 GtkWidget *drumsIcon;
 GtkWidget *pianoIcon;
 GtkWidget *marioIcon;
-GtkImage *currentIcon;
+GtkWidget *currentSoundMode;
 GtkWidget *iconContainer;
 
 // Declare animation for the loading gif
@@ -90,7 +91,15 @@ GdkPixbufAnimation *animation;
 gdouble currentVolume;
 PyObject *pyFunCall;
 
+// Declare pthread as global variable
+pthread_t threadStartupSound;
 
+
+void run_loading_screen(void);
+gboolean quitLoadingScreen(gpointer data);
+void initialise_main_window(void);
+void set_up_main_window(void);
+void *playStartupSound(void *pInstrument);
 void create_background(void);
 void create_sound_mode(GtkBox *hBox);
 void create_twelve_lights(GtkBox *hBox);
