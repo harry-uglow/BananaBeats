@@ -34,6 +34,10 @@ int main(void) {
         char inputString[4];
         fscanf(pyPipe, "%s\n", inputString);
         char action = inputString[0]; // either 't' touched or 'r' released
+        // If this is some other junk console output, skip this iteration
+        if((action != 't' && action != 'r') || !isdigit(inputString[1])) {
+            continue;
+        }
         char *inputStringAfterFirstLetter = inputString + 1;
         int pin = atoi(inputStringAfterFirstLetter);
         printf("%d\n", pin);
