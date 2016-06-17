@@ -39,7 +39,7 @@ void initialise_main_window(void) {
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
     gtk_container_set_border_width(GTK_CONTAINER(window), 0);
     gtk_window_set_default_size(GTK_WINDOW(window), 1920, 1000);
-    gtk_window_set_title(GTK_WINDOW(window), "Instrument: Drums");
+    gtk_window_set_title(GTK_WINDOW(window), "BananaBeats");
 }
 
 void set_up_main_window(void) {    
@@ -365,20 +365,17 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
     switch(*label) {
         case 'D' :
             instrument = DRUMS;
-            gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB1);
             // Change current sound mode image to drums
             gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/drums.png");
             break;
         case 'P' :
             instrument = PIANO;
-            gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB2);
             // Change current sound mode image to piano
             gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/piano.png");
             break;
         case 'M' :
             instrument = MARIO;
-            gtk_window_set_title(GTK_WINDOW(window), WIN_TITLE_RB3);
-            // Change current sound mode image to mario 
+            // Change current sound mode image to mario
             gtk_image_set_from_file(GTK_IMAGE(currentSoundMode), "images/mario.png");
             break;
         default:
