@@ -59,7 +59,7 @@ void set_up_main_window(void) {
     hBoxLights = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 45);
     gtk_widget_set_halign(hBoxLights, GTK_ALIGN_END);
     gtk_widget_set_valign(hBoxLights, GTK_ALIGN_CENTER);
-    gtk_box_set_homogeneous(hBoxLights, TRUE);
+    gtk_box_set_homogeneous(GTK_BOX(hBoxLights), TRUE);
 
     // Create new vertical box to hold the widgets
 	widgetContainer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 200);
