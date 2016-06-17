@@ -35,7 +35,7 @@ int main(void) {
 //	if(fscanf(pyPipe, "%d", &test) != 1) {
 //            continue;
 //        }
-        char *inputString;
+        char inputString[9];
         fgets(inputString, 100, pyPipe);
         //fflush(pyPipe);
         if(!inputString || !*inputString || !*(inputString + 5)) {
