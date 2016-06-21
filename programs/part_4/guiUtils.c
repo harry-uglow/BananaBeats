@@ -396,9 +396,10 @@ void adjust_volume(GtkScale *vc, gpointer window) {
 }
 
 void changePyProgram(void) {
-        // Stop Python process
-        system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
+    // Stop Python process
+        // system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
 sudo awk '{print $2}' | sudo xargs kill -9");
+    pclose(pyPipe);
     // Create new Python process
     runPythonScript();
 }
