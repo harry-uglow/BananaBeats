@@ -36,7 +36,6 @@ while True:
         if current_touched & pin_bit and not last_touched & pin_bit:
             sys.stdout.write("inputt" + str(i) + '\n')
             sys.stdout.flush()
-            sounds[i].set_volume(volume)
             sounds[i].play()
             touched(i)
         if not current_touched & pin_bit and last_touched & pin_bit:

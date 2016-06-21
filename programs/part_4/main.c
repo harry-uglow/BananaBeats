@@ -38,7 +38,7 @@ int main(void) {
         char inputString[9];
         fgets(inputString, 100, pyPipe);
         //fflush(pyPipe);
-        if(!inputString || !*inputString || !*(inputString + 5)) {
+        if(!*inputString || !*(inputString + 5)) {
             continue;
         }
 
