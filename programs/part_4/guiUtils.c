@@ -124,11 +124,8 @@ void *playStartupSound(void *pInstrument) {
 }
 
 void create_sound_mode(GtkBox *hBox) {
-    // Set up image icon for default current sound mode
-    drumsIcon = gtk_image_new_from_file("images/drums.png");
-
     // Set default icon to drums
-    currentSoundMode = drumsIcon;   
+    currentSoundMode = gtk_image_new_from_file("images/drums.png");
 
     // Pack the current sound mode image into hBox
     gtk_box_pack_start(hBox, currentSoundMode, TRUE, TRUE, DEFAULT_PADDING);
