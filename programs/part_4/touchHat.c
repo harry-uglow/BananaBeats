@@ -7,11 +7,11 @@
  * This function is called when a pin is touched. It takes as an argument the
  * number of the pin which was touched. It will be used for future GUI functions
  */
-/*static PyObject *py_touched(PyObject *self, PyObject *args) {
+static PyObject *py_touched(PyObject *self, PyObject *args) {
     int pin; // Pin number touched (0-11)
     PyArg_ParseTuple(args, "i", &pin);
     return Py_BuildValue("");
-}*/
+}
 
 // Given pad number and instrument mode number, returns address of sound file
 static PyObject *py_getSoundsFromInstrument(PyObject *self, PyObject *args) {
@@ -26,11 +26,11 @@ static PyObject *py_getSoundsFromInstrument(PyObject *self, PyObject *args) {
  * This function is called when a touched pin is released with the number of the
  * pin concerened. It will be used for future GUI functions
  */
-/*static PyObject *py_released(PyObject* self, PyObject* args) {
+static PyObject *py_released(PyObject* self, PyObject* args) {
     int pin; // Pin number released (0-11)
     PyArg_ParseTuple(args, "i", &pin);
     return Py_BuildValue("");
-}*/
+}
 
 /**
  * Initialise the map of sound files

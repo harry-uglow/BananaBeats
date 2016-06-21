@@ -34,11 +34,13 @@ while True:
     for i in range(12):
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
-            sounds[i].set_volume(volume)
-            sounds[i].play()
             sys.stdout.write("inputt" + str(i) + '\n')
             sys.stdout.flush()
+            sounds[i].set_volume(volume)
+            sounds[i].play()
+            touched(i)
 	if not current_touched & pin_bit and last_touched & pin_bit:
+        released(i)
         sys.stdout.write("inputr" + str(i) + '\n')
         sys.stdout.flush()
     last_touched = current_touched
