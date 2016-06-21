@@ -39,10 +39,10 @@ while True:
             sounds[i].set_volume(volume)
             sounds[i].play()
             touched(i)
-	if not current_touched & pin_bit and last_touched & pin_bit:
-        released(i)
-        sys.stdout.write("inputr" + str(i) + '\n')
-        sys.stdout.flush()
+        if not current_touched & pin_bit and last_touched & pin_bit:
+            released(i)
+            sys.stdout.write("inputr" + str(i) + '\n')
+            sys.stdout.flush()
     last_touched = current_touched
     time.sleep(0.01) 
 
