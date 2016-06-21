@@ -29,7 +29,7 @@ for pin in range(12):
 # Main loop to play the corroect sound every time a pin is touched
 last_touched = device.touched()
 while True:
-    volume = getVolume()
+    # volume = getVolume()
     current_touched = device.touched()
     for i in range(12):
         pin_bit = 1 << i

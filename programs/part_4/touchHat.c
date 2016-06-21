@@ -48,8 +48,8 @@ static PyObject *py_getVolume(PyObject *self, PyObject *args) {
   * Array of methods for integration with Python script
   */
 static PyMethodDef touchHat_methods[] = {
-    //{"touched", py_touched, METH_VARARGS},
-    //{"released", py_released, METH_VARARGS},
+    {"touched", py_touched, METH_VARARGS},
+    {"released", py_released, METH_VARARGS},
     {"getSoundsFromInstrument", py_getSoundsFromInstrument, METH_VARARGS},
     {"initSounds", py_initSounds, METH_VARARGS},
     {"getVolume", py_getVolume, METH_VARARGS},
