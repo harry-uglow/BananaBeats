@@ -42,6 +42,11 @@ int main(void) {
             continue;
         }
 
+        printf("%s\n", inputString);
+        if(strcmp(inputString, "input")) {
+            continue;
+        }
+
         char action = inputString[5];// either 't' touched or 'r' released
         // If this is some other junk console output, skip this iteration
         //if((action != 't' && action != 'r') || !isdigit(inputString[6])) {
