@@ -102,6 +102,8 @@ pthread_t threadInstrLoop;
 
 FILE *pyPipe;
 
+int isChangingIns;
+
 
 void run_loading_screen(void);
 gboolean quitLoadingScreen(gpointer data);

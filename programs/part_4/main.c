@@ -29,6 +29,7 @@ int main(void) {
     pthread_create(&threadGui, NULL, runGtkLoop, NULL);
     // pthread_create(&threadPython, NULL, runPythonScript, &instrument);
     runPythonScript();
+    isChangingIns = 0;
 
     while (1) {
 //	char test;
@@ -38,12 +39,12 @@ int main(void) {
         char inputString[9];
         fgets(inputString, 100, pyPipe);
         //fflush(pyPipe);
-        if(!inputString || !*inputString || !*(inputString + 5)) {
+        if(isChangingIns || !*inputString || !*(inputString + 5)) {
             continue;
         }
 
         printf("%s\n", inputString);
-        if(strcmp(inputString, "input")) {
+        if(strncmp(inputString, "input", 5)) {
             continue;
         }
 

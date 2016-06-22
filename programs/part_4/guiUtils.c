@@ -360,6 +360,7 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
         return;
     }
 
+    isChangingIns = 1;
     // Get the button's label and set the sound mode as appropriate.
     const gchar *label = gtk_button_get_label(GTK_BUTTON(widget));
     switch(*label) {
@@ -383,7 +384,9 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             break;
     }
     printf("Sound changed.\n");
+    gtk_window_show_all(GTK_WINDOW(window));
     changePyProgram();
+    isChangingIns = 0;
 }
 
 void adjust_volume(GtkScale *vc, gpointer window) {
