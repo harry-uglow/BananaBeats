@@ -384,7 +384,7 @@ void toggle_sound_mode(GtkRadioButton *widget, gpointer window) {
             break;
     }
     printf("Sound changed.\n");
-    gtk_window_show_all(GTK_WINDOW(window));
+    gtk_widget_show_all(window);
     changePyProgram();
     isChangingIns = 0;
 }
