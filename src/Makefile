@@ -1,53 +1,34 @@
 CC      = gcc
-CFLAGS  = -Wall -g -D_POSIX_SOURCE -D_BSD_SOURCE -std=c99 -pedantic
+CFLAGS  = -Wall -std=c99 -pedantic -g
+THREAD_FLAGS = -lpthread
+GTK_FLAGS = $$(pkg-config --cflags --libs gtk+-3.0)
+PYTHON_FLAGS = -shared -I/usr/include/python2.7/ -lpython2.7 -fPIC -rdynamic
 
 .SUFFIXES: .c .o .h
-
 .PHONY: all clean
 
-all: assemble emulate
+all: main.o touchHat.so
+	$(CC) -g -o main main.o guiUtils.o $(GTK_FLAGS) $(THREAD_FLAGS) -lpython2.7
 
-###***--- Emulator dependencies ---***###
+main.o: guiUtils.o
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c main.c -o main.o
 
-emulate: emulate.o emulator/pipeline.o emulator/executeInstructions.o \
-	emulator/utils.o
-emulate.o: emulate.c
-pipeline.o: pipeline.c
-executeInstructions.o: executeInstructions.c
-utils.o: utils.c
+touchHat.so: touchHat.o initialiser.o symbolTable.o
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) touchHat.o initialiser.o symbolTable.o -o touchHat.so
 
-emulate.c: pipeline.h
-pipeline.c: pipeline.h
-executeInstructions.c: executeInstructions.h
-utils.c: utils.h
-pipeline.h: executeInstructions.h
-executeInstructions.h: utils.h
-utils.h: emulator/defs.h
+touchHat.o:
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c touchHat.c -o touchHat.o
 
+guiUtils.o:
+	$(CC) $(CFLAGS) $(PYTHON_FLAGS) $(GTK_FLAGS) -c guiUtils.c -o guiUtils.o
 
-###***--- Assembler dependencies ---***###
+initialiser.o:
+	$(CC) $(CFLAGS) -fPIC -c initialiser.c -o initialiser.o
 
-assemble: assemble.o assembler/utils.o assembler/encodeInstructions.o \
-	assembler/getFormat.o assembler/symbolTable.o
-assemble.o: assemble.c
-utils.o: utils.c
-encodeInstructions.o: encodeInstructions.c
-getFormat.o: getFormat.c
-symbolTable.o: symbolTable.c
-
-assemble.c: utils.h utils.c
-utils.c: utils.h
-encodeInstructions.c: encodeInstructions.h
-getFormat.c: getFormat.h
-symbolTable.c: symbolTable.h
-utils.h: encodeInstructions.h
-encodeInstructions.h: getFormat.h
-getFormat.h: assembler/defs.h assembler/symbolTable.h
-
+symbolTable.o:
+	$(CC) $(CFLAGS) -fPIC -c symbolTable.c -o symbolTable.o
 
 clean:
+	rm main
 	rm -rf $(wildcard *.o)
-	rm -rf $(wildcard emulator/*.o)
-	rm -rf $(wildcard assembler/*.o)
-	rm -f assemble
-	rm -f emulate
+	rm -rf $(wildcard *.so)
