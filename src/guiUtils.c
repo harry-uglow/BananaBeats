@@ -181,7 +181,8 @@ void create_twelve_lights(GtkBox *hBox) {
 }
 
 void turn_light_on(int pin) {
-    printf("Function on called with the %d pin.\n", pin);
+    printf("Turning on.\n");
+    number_of_ons++;
     switch (pin) {
         case 0:
             gtk_image_set_from_file(GTK_IMAGE(light0), "images/on.png");
@@ -223,10 +224,12 @@ void turn_light_on(int pin) {
             // Should not reach this stage if correct pin is selected
             break;
     }
+    printf("Turned on.\n");
 }
 
 void turn_light_off(int pin) {
-    printf("Function off called with the %d pin.\n", pin);
+    number_of_offs++;
+    printf("Turning off.\n");
     switch (pin) {
         case 0:
             gtk_image_set_from_file(GTK_IMAGE(light0), "images/off.png");
@@ -268,6 +271,7 @@ void turn_light_off(int pin) {
             // Should not reach this stage if correct pin is selected
             break;
     }
+    printf("Turned off.\n");
 }
 
 void create_loading_screen(GtkBox *vBox) {
@@ -399,6 +403,7 @@ void adjust_volume(GtkScale *vc, gpointer window) {
 }
 
 void changePyProgram(void) {
+    pclose(pyPipe);
         // Stop Python process
         system("sudo ps aux | sudo grep python | sudo grep -v \"grep python\" | \
 sudo awk '{print $2}' | sudo xargs kill -9");
@@ -408,7 +413,7 @@ sudo awk '{print $2}' | sudo xargs kill -9");
 
 void runPythonScript(void) {
     char *scriptAddress = "auxPython.py";
-    char systemCall[strlen(scriptAddress) + MAX_DIGITS_NUMBER_OF_MODES];
+    char systemCall[64];
     sprintf(systemCall, "sudo python %s %d", scriptAddress, instrument);
     // printf("%s\n", systemCall);
     char *r = "r";

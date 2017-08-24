@@ -36,7 +36,7 @@ int main(void) {
 //	if(fscanf(pyPipe, "%d", &test) != 1) {
 //            continue;
 //        }
-        char inputString[9];
+        char inputString[16];
         fgets(inputString, 100, pyPipe);
         //fflush(pyPipe);
         if(isChangingIns || !*inputString || !*(inputString + 5)) {
@@ -58,9 +58,11 @@ int main(void) {
         printf("%d\n", pin);
         if (action == 't') {
             turn_light_on(pin);
-        } else {
+        } else if (action == 'r'){
             // Else it must be released
             turn_light_off(pin);
+        } else {
+            printf("Invalid call in pipe. \n");
         }
     }
 }

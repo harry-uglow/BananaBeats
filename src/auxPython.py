@@ -26,7 +26,7 @@ for pin in range(12):
     sounds[pin] = pygame.mixer.Sound(soundfile)
     sounds[pin].set_volume(1)
 
-# Main loop to play the corroect sound every time a pin is touched
+# Main loop to play the correct sound every time a pin is touched
 last_touched = device.touched()
 while True:
     current_touched = device.touched()
@@ -34,11 +34,11 @@ while True:
         pin_bit = 1 << i
         if current_touched & pin_bit and not last_touched & pin_bit:
             sounds[i].play()
-	    touched(i) # This will be used to interact with the GUI in future
+            touched(i) # This will be used to interact with the GUI in future
             sys.stdout.write("inputt" + str(i) + '\n')
             sys.stdout.flush()
-	if not current_touched & pin_bit and last_touched & pin_bit:
-	    released(i) # This will be used to interact with the GUI in future
+        if not current_touched & pin_bit and last_touched & pin_bit:
+            released(i) # This will be used to interact with the GUI in future
             sys.stdout.write("inputr" + str(i) + '\n')
             sys.stdout.flush()
     last_touched = current_touched

@@ -79,7 +79,6 @@ GtkWidget *light8;
 GtkWidget *light9;
 GtkWidget *light10;
 GtkWidget *light11;
-GtkWidget *light12;
 GtkWidget *drumsIcon;
 GtkWidget *pianoIcon;
 GtkWidget *marioIcon;
@@ -123,5 +122,9 @@ void adjust_volume(GtkScale *vc, gpointer window);
 gboolean toggle_light(GtkWidget *widget, GdkEventExpose *event);
 void changePyProgram(void);
 void runPythonScript(void);
+
+// DEBUGGING VARIABLES
+int number_of_ons = 0;
+int number_of_offs = 0;
 
 #endif //PART_4_GUIUTILS_H
