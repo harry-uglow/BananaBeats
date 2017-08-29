@@ -124,7 +124,7 @@ void changePyProgram(void);
 void runPythonScript(void);
 
 // DEBUGGING VARIABLES
-int number_of_ons = 0;
-int number_of_offs = 0;
+int number_of_ons;
+int number_of_offs;
 
 #endif //PART_4_GUIUTILS_H
